@@ -1,0 +1,12 @@
+composer create-project --prefer-dist laravel/laravel:^9.0 zella
+git init
+git remote add origin https://github.com/cyberneticstvm/zella.git
+git remote set-url origin git@github.com:cyberneticstvm/zella.git
+git add .
+git commit -m "Initial Commit"
+git push -u origin main OR git push origin HEAD:main
+
+
+
+php artisan vendor:publish --tag=laravel-errors
+
