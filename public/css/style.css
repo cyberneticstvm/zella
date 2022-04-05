@@ -1,0 +1,25 @@
+.text-right{
+    text-align: right !important;
+}
+.form-label{
+    font-weight: 600;
+}
+.form-control{
+    border-radius: 0;
+    border-color: #dee2e6;
+}
+.btn{
+    border-radius: 0;
+}
+.req{
+    font-weight: 700;
+    color: red;
+}
+.table.dataTable.table-striped>tbody>tr.odd{
+    background-color: #92ddb340 !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+    background-color: transparent !important;
+    border-radius: 0;
+    border: 1px solid #00bdaa;
+}
