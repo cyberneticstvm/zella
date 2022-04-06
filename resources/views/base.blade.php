@@ -47,13 +47,13 @@
                     </div>
                     <div class="dropdown mx-lg-3 mx-1">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle after-none" data-bs-toggle="dropdown">
-                            <img src="/images/profile_av.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                            <img src="/public/images/profile_av.png" alt="mdo" width="32" height="32" class="rounded-circle">
                         </a>
                         <div class="dropdown-menu dropdown-menu-end border-0 shadow">
                             <div class="card border-0 w240">
                                 <div class="card-body border-bottom">
                                     <div class="d-flex">
-                                        <img class="avatar rounded-circle" src="/images/profile_av.png" alt="">
+                                        <img class="avatar rounded-circle" src="/public/images/profile_av.png" alt="">
                                         <div class="flex-fill ms-3">
                                             <p class="mb-0"><span class="fw-bold">Chris Morise</span></p>
                                             <small class="text-muted">chris.fox@gamil.com</small>
