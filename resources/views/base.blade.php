@@ -8,17 +8,17 @@
     <meta name="description" content="Zella Boutique UAE">
     <meta name="keyword" content="Zella Boutique UAE">
     <title>:: ZELLA ::</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="public/image/x-icon"> <!-- Favicon-->
 
     <!-- project css file  -->
-    <link rel="stylesheet" href="/css/dataTables.min.css">
-    <link rel="stylesheet" href="/css/select2.min.css">
-    <link rel="stylesheet" href="/css/al.style.min.css">
-    <link rel="stylesheet" href="/datepicker/pickadate.css">
-    <link rel="stylesheet" href="/datepicker/daterangepicker.css">
+    <link rel="stylesheet" href="/public/css/dataTables.min.css">
+    <link rel="stylesheet" href="/public/css/select2.min.css">
+    <link rel="stylesheet" href="/public/css/al.style.min.css">
+    <link rel="stylesheet" href="/public/datepicker/pickadate.css">
+    <link rel="stylesheet" href="/public/datepicker/daterangepicker.css">
     
     <!-- project layout css file -->
-    <link rel="stylesheet" href="/css/layout.q.min.css">
+    <link rel="stylesheet" href="/public/css/layout.q.min.css">
 
     <!-- custom css file -->
     <link rel="stylesheet" href="/css/style.css">
@@ -233,11 +233,11 @@
                         </div>
                         <div class="bg-images">
                             <ul class="list-unstyled d-flex justify-content-between">
-                                <li class="sidebar-img-1 sidebar-img-active"><a class="rounded sidebar-img" id="img-1" href="#"><img src="/images/sidebar-bg/sidebar-1.jpg" alt="" /></a></li>
-                                <li class="sidebar-img-2"><a class="rounded sidebar-img" id="img-2" href="#"><img src="/images/sidebar-bg/sidebar-2.jpg" alt="" /></a></li>
-                                <li class="sidebar-img-3"><a class="rounded sidebar-img" id="img-3" href="#"><img src="/images/sidebar-bg/sidebar-3.jpg" alt="" /></a></li>
-                                <li class="sidebar-img-4"><a class="rounded sidebar-img" id="img-4" href="#"><img src="/images/sidebar-bg/sidebar-4.jpg" alt="" /></a></li>
-                                <li class="sidebar-img-5"><a class="rounded sidebar-img" id="img-5" href="#"><img src="/images/sidebar-bg/sidebar-5.jpg" alt="" /></a></li>
+                                <li class="sidebar-img-1 sidebar-img-active"><a class="rounded sidebar-img" id="img-1" href="#"><img src="/public/images/sidebar-bg/sidebar-1.jpg" alt="" /></a></li>
+                                <li class="sidebar-img-2"><a class="rounded sidebar-img" id="img-2" href="#"><img src="/public/images/sidebar-bg/sidebar-2.jpg" alt="" /></a></li>
+                                <li class="sidebar-img-3"><a class="rounded sidebar-img" id="img-3" href="#"><img src="/public/images/sidebar-bg/sidebar-3.jpg" alt="" /></a></li>
+                                <li class="sidebar-img-4"><a class="rounded sidebar-img" id="img-4" href="#"><img src="/public/images/sidebar-bg/sidebar-4.jpg" alt="" /></a></li>
+                                <li class="sidebar-img-5"><a class="rounded sidebar-img" id="img-5" href="#"><img src="/public/images/sidebar-bg/sidebar-5.jpg" alt="" /></a></li>
                             </ul>
                         </div>
                     </div>
@@ -311,13 +311,13 @@
 </div>
 
 <!-- Jquery Core Js -->
-<script src="/bundles/libscripts.bundle.js"></script>
-<script src="/js/template.js"></script>
-<script src="/bundles/select2.bundle.js"></script>
-<script src="/bundles/dataTables.bundle.js"></script>
-<script src="/datepicker/picker.js"></script>
-<script src="/datepicker/picker.date.js"></script>
-<script src="/datepicker/picker.time.js"></script>
+<script src="/public/bundles/libscripts.bundle.js"></script>
+<script src="/public/js/template.js"></script>
+<script src="/public/bundles/select2.bundle.js"></script>
+<script src="/public/bundles/dataTables.bundle.js"></script>
+<script src="/public/datepicker/picker.js"></script>
+<script src="/public/datepicker/picker.date.js"></script>
+<script src="/public/datepicker/picker.time.js"></script>
 
 <!-- Plugin Js -->
 

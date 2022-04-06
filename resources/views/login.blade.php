@@ -11,9 +11,9 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
 
     <!-- project css file  -->
-    <link rel="stylesheet" href="/css/al.style.min.css">
+    <link rel="stylesheet" href="public/css/al.style.min.css">
     <!-- project layout css file -->
-    <link rel="stylesheet" href="/css/layout.a.min.css">
+    <link rel="stylesheet" href="public/css/layout.a.min.css">
 </head>
 
 <body>
@@ -263,7 +263,7 @@
 </div>
 
 <!-- Jquery Core Js -->
-<script src="/bundles/libscripts.bundle.js"></script>
+<script src="public/bundles/libscripts.bundle.js"></script>
 
 <script>
     $(function(){
