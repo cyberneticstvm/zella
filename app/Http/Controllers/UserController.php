@@ -40,8 +40,8 @@ class UserController extends Controller
     public function logout() {
         Session::flush();
         Auth::logout();
-        return redirect()->away('https://erp.zellaboutiqueuae.com');
-        //return redirect()->route('login')->with('success','User logged out successfully');
+        //return redirect()->away('https://erp.zellaboutiqueuae.com');
+        return redirect()->route('login')->with('success','User logged out successfully');
     }
     /**
      * Show the form for creating a new resource.
