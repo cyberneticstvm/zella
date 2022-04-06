@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::post('/', 'App\Http\Controllers\UserController@login')->name('user.login');
 
-Route::group(['middleware' => ['auth', 'disable_back_btn']], function(){
+Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/logout/', 'App\Http\Controllers\UserController@logout');
     Route::get('/dash/', function () {
