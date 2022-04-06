@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Hash;
@@ -21,6 +23,25 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
+    public function login(Request $request){
+        /*echo "reached here";
+        die;*/
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        $credentials = $request->only('username', 'password');
+        if (Auth::attempt($credentials)){
+            return view('dash');
+        }
+        return redirect()->route('login')->withErrors('Login details are not valid');
+    }
+
+    public function logout() {
+        Session::flush();
+        Auth::logout();  
+        return Redirect('/');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -72,7 +93,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('user.edit',compact('user'));
     }
 
     /**
@@ -84,7 +106,22 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $items = $request->get('branch_id');
+        $this->validate($request, [
+            'name' => 'required',
+            'username' => 'required|unique:users,username,'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
+        ]);
+        $input = $request->all();
+        if(!empty($input['password'])){ 
+            $input['password'] = Hash::make($input['password']);
+        }else{
+            $input = Arr::except($input,array('password'));    
+        }
+        $user = User::find($id);
+        $user->update($input);
+        return redirect()->route('user.index')
+                        ->with('success','User updated successfully');
     }
 
     /**
@@ -95,6 +132,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::find($id)->delete();
+        return redirect()->route('user.index')
+                        ->with('success','User deleted successfully');
     }
 }

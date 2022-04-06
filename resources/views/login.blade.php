@@ -27,14 +27,18 @@
         <div class="body">
             <div class="login-form custom_scroll">
                 <!-- Form -->
-                <form class="row g-3">
+                <form class="row g-3" action="{{ route('user.login') }}" method="post">
+                    @csrf
                     <div class="col-12 text-center mb-4">
                         <h1>Welcome to <span class="text-gradient fw-bold">ZELLA</span></h1>
                         <span>Way to access our CRM.</span>
                     </div>
                     <div class="col-12">
                         <label class="form-label">Username</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" required="required">
+                        <input type="text" class="form-control form-control-lg" placeholder="Username" name="username">
+                        @error('username')
+                        <small class="text-danger">{{ $errors->first('username') }}</small>
+                        @enderror
                     </div>
                     <div class="col-12">
                         <div class="form-label">
@@ -43,10 +47,20 @@
                             </span>
                         </div>
                         <input type="password" name="password" class="form-control form-control-lg" placeholder="***************">
+                        @error('password')
+                        <small class="text-danger">{{ $errors->first('password') }}</small>
+                        @enderror
                     </div>
                     <div class="col-12 text-center mt-4">
-                        <button type="submit" class="btn btn-lg px-4 btn-dark lift text-uppercase">SIGN IN</button>
+                        <button type="submit" class="btn btn-login px-4 btn-dark lift text-uppercase">SIGN IN</button>
                     </div>
+                    @if (count($errors) > 0)
+                    <div role="alert" class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
+                    </div>
+                    @endif
                 </form>
                 <!-- End Form -->
             </div>
@@ -251,6 +265,15 @@
 <!-- Jquery Core Js -->
 <script src="/bundles/libscripts.bundle.js"></script>
 
+<script>
+    $(function(){
+        "use strict";
+        $('form').submit(function(){
+            $(".btn-login").attr("disabled", true);
+            $(".btn-login").html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>&nbsp;Loading...");
+        });
+    })
+</script>
 <!-- Jquery Page Js -->
 
 </body>
