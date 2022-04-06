@@ -40,7 +40,8 @@ class UserController extends Controller
     public function logout() {
         Session::flush();
         Auth::logout();  
-        return Redirect('/');
+        return redirect()->route('login')
+                        ->with('success','User loged out successfully');
     }
     /**
      * Show the form for creating a new resource.
