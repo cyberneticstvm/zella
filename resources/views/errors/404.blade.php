@@ -3,7 +3,6 @@
 @section('title', __('Not Found'))
 @section('code', '404')
 @extends("base")
-
 @section("content")
 <!-- Body: Header -->
 <div class="body-header d-flex py-3">
