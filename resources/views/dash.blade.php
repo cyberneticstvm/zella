@@ -20,7 +20,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-
+                        <h5>Zella Boutique Dashboard</h5>
                     </div>
                 </div> <!-- .Card End -->
             </div>
