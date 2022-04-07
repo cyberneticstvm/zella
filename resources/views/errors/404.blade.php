@@ -1,3 +1,7 @@
+@extends('errors::minimal')
+
+@section('title', __('Not Found'))
+@section('code', '404')
 @extends("base")
 @section("content")
 <!-- Body: Header -->
@@ -19,7 +23,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <h3>Oops! Something is wrong.</h3>
+                        <h3>Oops! Something is wrong. {{ $exception->getMessage() }}</h3>
                     </div>
                 </div> <!-- .Card End -->
             </div>
