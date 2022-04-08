@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">User Register</h1>
+                <h1 class="fs-4 mt-1 mb-0">Collection Register</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -20,22 +20,21 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <div class="text-right"><a href="/user/create/"><i class="fa fa-plus text-primary"></i></a></div>
+                        <div class="text-right"><a href="/collection/create/"><i class="fa fa-plus text-primary"></i></a></div>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Name</th><th>Username</th><th>Email</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Collection Name</th><th>Description</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
-                        @foreach($users as $user)
+                        @foreach($collections as $collection)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td><a class='btn btn-link' href="{{ route('user.edit', $user->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                            <td>{{ $collection->name }}</td>
+                            <td>{{ $collection->description }}</td>
+                            <td><a class='btn btn-link' href="{{ route('collection.edit', $collection->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
-                                <form method="post" action="{{ route('user.delete', $user->id) }}">
+                                <form method="post" action="{{ route('collection.delete', $collection->id) }}">
                                     @csrf 
                                     @method("DELETE")
-                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this User?');"><i class="fa fa-trash text-danger"></i></button>
+                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this Collection?');"><i class="fa fa-trash text-danger"></i></button>
                                 </form>
                             </td>
                         </tr>

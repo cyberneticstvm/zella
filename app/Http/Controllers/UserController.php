@@ -24,8 +24,6 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-        /*echo "reached here";
-        die;*/
         $request->validate([
             'username' => 'required',
             'password' => 'required',

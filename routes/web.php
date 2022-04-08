@@ -36,4 +36,22 @@ Route::group(['middleware' => ['auth']], function(){
     Route::put('/user/{id}/edit/', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::delete('/user/{id}/delete/', 'App\Http\Controllers\UserController@destroy')->name('user.delete');
     // end user //
+
+    // collection //
+    Route::get('/collection/', 'App\Http\Controllers\CollectionController@index')->name('collection.index');
+    Route::get('/collection/create/', 'App\Http\Controllers\CollectionController@create')->name('collection.create');
+    Route::post('/collection/create/', 'App\Http\Controllers\CollectionController@store')->name('collection.create');
+    Route::get('/collection/{id}/edit/', 'App\Http\Controllers\CollectionController@edit')->name('collection.edit');
+    Route::put('/collection/{id}/edit/', 'App\Http\Controllers\CollectionController@update')->name('collection.update');
+    Route::delete('/collection/{id}/delete/', 'App\Http\Controllers\CollectionController@destroy')->name('collection.delete');
+    // end collection //
+
+    // product //
+    Route::get('/product/', 'App\Http\Controllers\ProductController@index')->name('product.index');
+    Route::get('/product/create/', 'App\Http\Controllers\ProductController@create')->name('product.create');
+    Route::post('/product/create/', 'App\Http\Controllers\ProductController@store')->name('product.create');
+    Route::get('/product/{id}/edit/', 'App\Http\Controllers\ProductController@edit')->name('product.edit');
+    Route::put('/product/{id}/edit/', 'App\Http\Controllers\ProductController@update')->name('product.update');
+    Route::delete('/product/{id}/delete/', 'App\Http\Controllers\ProductController@destroy')->name('product.delete');
+    // end product //
 });
