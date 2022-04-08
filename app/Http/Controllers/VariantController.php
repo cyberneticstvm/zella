@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Collection;
+use App\Models\Variant;
 use DB;
 
-class CollectionController extends Controller
+class VariantController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,9 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        $collections = Collection::orderBy('name','ASC')->get();
-        return view('collection.index', compact('collections'));
+        //$variants = Variant::where('parent', '>', '0')->orderBy('name','ASC')->get();
+        $variants = DB::table('variants as v1')->join('variants as v2', 'v1.id', '=', 'v2.parent')->select('v2.id', 'v1.name as parent', 'v2.name as child', 'v2.description')->get();
+        return view('variant.index', compact('variants'));
     }
 
     /**
@@ -26,7 +27,8 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        //
+        $variants = Variant::where('parent', '=', '0')->orderBy('id','ASC')->pluck('name','id');
+        return view('variant.create', compact('variants'));
     }
 
     /**
@@ -38,12 +40,13 @@ class CollectionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:collections,name',
+            'name' => 'required|unique:variants,name',
+            'parent' => 'required',
         ]);
         $input = $request->all();
-        $collection = Collection::create($input);
-        return redirect()->route('collection.index')
-                        ->with('success','Collection created successfully');
+        $variant = Variant::create($input);
+        return redirect()->route('variant.index')
+                        ->with('success','Variant created successfully');
     }
 
     /**
@@ -65,8 +68,9 @@ class CollectionController extends Controller
      */
     public function edit($id)
     {
-        $collection = Collection::find($id);
-        return view('collection.edit', compact('collection'));
+        $variant = Variant::find($id);
+        $variants = Variant::where('parent', '=', '0')->orderBy('id','ASC')->pluck('name','id');
+        return view('variant.edit', compact('variant', 'variants'));
     }
 
     /**
@@ -79,13 +83,14 @@ class CollectionController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:collections,name,'.$id,
+            'name' => 'required|unique:variants,name,'.$id,
+            'parent' => 'required',
         ]);
         $input = $request->all();
-        $collection = Collection::find($id);
-        $collection->update($input);
-        return redirect()->route('collection.index')
-                        ->with('success','Collection updated successfully');
+        $variant = Variant::find($id);
+        $variant->update($input);
+        return redirect()->route('variant.index')
+                        ->with('success','Variant updated successfully');
     }
 
     /**
@@ -96,8 +101,8 @@ class CollectionController extends Controller
      */
     public function destroy($id)
     {
-        Collection::find($id)->delete();
-        return redirect()->route('collection.index')
-                        ->with('success','Collection deleted successfully');
+        Variant::find($id)->delete();
+        return redirect()->route('variant.index')
+                        ->with('success','Variant deleted successfully');
     }
 }

@@ -39,12 +39,23 @@ Route::group(['middleware' => ['auth']], function(){
 
     // collection //
     Route::get('/collection/', 'App\Http\Controllers\CollectionController@index')->name('collection.index');
-    Route::get('/collection/create/', 'App\Http\Controllers\CollectionController@create')->name('collection.create');
+    Route::get('/collection/create/', function () {
+        return view('collection.create');
+    });
     Route::post('/collection/create/', 'App\Http\Controllers\CollectionController@store')->name('collection.create');
     Route::get('/collection/{id}/edit/', 'App\Http\Controllers\CollectionController@edit')->name('collection.edit');
     Route::put('/collection/{id}/edit/', 'App\Http\Controllers\CollectionController@update')->name('collection.update');
     Route::delete('/collection/{id}/delete/', 'App\Http\Controllers\CollectionController@destroy')->name('collection.delete');
     // end collection //
+
+    // variant //
+    Route::get('/variant/', 'App\Http\Controllers\VariantController@index')->name('variant.index');
+    Route::get('/variant/create/', 'App\Http\Controllers\VariantController@create')->name('variant.create');
+    Route::post('/variant/create/', 'App\Http\Controllers\VariantController@store')->name('variant.create');
+    Route::get('/variant/{id}/edit/', 'App\Http\Controllers\VariantController@edit')->name('variant.edit');
+    Route::put('/variant/{id}/edit/', 'App\Http\Controllers\VariantController@update')->name('variant.update');
+    Route::delete('/variant/{id}/delete/', 'App\Http\Controllers\VariantController@destroy')->name('variant.delete');
+    // end variant //
 
     // product //
     Route::get('/product/', 'App\Http\Controllers\ProductController@index')->name('product.index');

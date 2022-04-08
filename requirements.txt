@@ -10,3 +10,5 @@ git push -u origin main OR git push origin HEAD:main
 
 php artisan vendor:publish --tag=laravel-errors
 
+composer require laravelcollective/html
+

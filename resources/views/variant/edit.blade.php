@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Edit Collection</h1>
+                <h1 class="fs-4 mt-1 mb-0">Edit Variant Attribute</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -20,20 +20,27 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <form method="post" action="{{ route('collection.update', $collection->id) }}">
+                        <form method="post" action="{{ route('variant.update', $variant->id) }}">
                             @csrf
                             @method("PUT")
                             <div class="row g-3">
-                                <div class="col-sm-4">
-                                    <label for="TextInput" class="form-label">Collection Name <span class="req">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Collection Name" value="{{ $collection->name }}" required="required" name="name">
+                                <div class="col-sm-3">
+                                    <label for="TextInput" class="form-label">Attribute Name <span class="req">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Attribute Name" value="{{ $variant->name }}" required="required" name="name">
                                     @error('name')
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="TextInput" class="form-label">Variant <span class="req">*</span></label>
+                                    {{ Form::select('parent', $variants, $variant->parent, ['class' => 'form-control']) }}
+                                    @error('parent')
+                                    <small class="text-danger">{{ $errors->first('parent') }}</small>
                                     @enderror
                                 </div>                            
                                 <div class="col-sm-6">
                                     <label for="TextInput" class="form-label">Description</label>
-                                    <input type="text" class="form-control" placeholder="Description" name="description" value="{{ $collection->description }}">
+                                    <input type="text" class="form-control" placeholder="Description" name="description" value="{{ $variant->description }}">
                                     @error('description')
                                     <small class="text-danger">{{ $errors->first('description') }}</small>
                                     @enderror
