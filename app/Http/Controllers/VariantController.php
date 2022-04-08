@@ -27,7 +27,7 @@ class VariantController extends Controller
      */
     public function create()
     {
-        $variants = Variant::where('parent', '=', '0')->orderBy('id','ASC')->pluck('name','id');
+        $variants = Variant::where('parent', '=', '0')->orderBy('id','ASC')->get();
         return view('variant.create', compact('variants'));
     }
 
@@ -69,7 +69,7 @@ class VariantController extends Controller
     public function edit($id)
     {
         $variant = Variant::find($id);
-        $variants = Variant::where('parent', '=', '0')->orderBy('id','ASC')->pluck('name','id');
+        $variants = Variant::where('parent', '=', '0')->orderBy('id','ASC')->get();
         return view('variant.edit', compact('variant', 'variants'));
     }
 

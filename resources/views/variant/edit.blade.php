@@ -33,7 +33,12 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="TextInput" class="form-label">Variant <span class="req">*</span></label>
-                                    {{ Form::select('parent', $variants, $variant->parent, ['class' => 'form-control']) }}
+                                    <select name='parent' class='form-control' required='required'>
+                                        <option value=''>Select</option>
+                                        @foreach($variants as $var)
+                                            <option value="{{ $var->id }}" {{ ($variant->parent == $var->id) ? "selected='selected'" : '' }}>{{ $var->name }}</option>
+                                        @endforeach
+                                    </select>
                                     @error('parent')
                                     <small class="text-danger">{{ $errors->first('parent') }}</small>
                                     @enderror
