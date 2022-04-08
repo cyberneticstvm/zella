@@ -65,4 +65,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::put('/product/{id}/edit/', 'App\Http\Controllers\ProductController@update')->name('product.update');
     Route::delete('/product/{id}/delete/', 'App\Http\Controllers\ProductController@destroy')->name('product.delete');
     // end product //
+
+    // suppler //
+    Route::get('/supplier/', 'App\Http\Controllers\SupplierController@index')->name('supplier.index');
+    Route::get('/supplier/create/', function () {
+        return view('supplier.create');
+    });
+    Route::post('/supplier/create/', 'App\Http\Controllers\SupplierController@store')->name('supplier.create');
+    Route::get('/supplier/{id}/edit/', 'App\Http\Controllers\SupplierController@edit')->name('supplier.edit');
+    Route::put('/supplier/{id}/edit/', 'App\Http\Controllers\SupplierController@update')->name('supplier.update');
+    Route::delete('/supplier/{id}/delete/', 'App\Http\Controllers\SupplierController@destroy')->name('supplier.delete');
+    // end supplier //
 });

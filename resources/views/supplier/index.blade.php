@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Product Register</h1>
+                <h1 class="fs-4 mt-1 mb-0">Supplier Register</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -20,24 +20,23 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <div class="text-right"><a href="/product/create/"><i class="fa fa-plus text-primary"></i></a></div>
+                        <div class="text-right"><a href="/supplier/create/"><i class="fa fa-plus text-primary"></i></a></div>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Product Name</th><th>Collection</th><th>SKU</th><th>Selling Price</th><th>Description</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Supplier Name</th><th>Contact</th><th>Email</th><th>Address</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
-                        @foreach($products as $product)
+                        @foreach($suppliers as $supplier)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ $product->collection_name }}</td>
-                            <td>{{ $product->sku }}</td>
-                            <td>{{ $product->selling_price }}</td>
-                            <td>{{ $product->description }}</td>
-                            <td><a class='btn btn-link' href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                            <td>{{ $supplier->name }}</td>
+                            <td>{{ $supplier->contact_number }}</td>
+                            <td>{{ $supplier->email }}</td>
+                            <td>{{ $supplier->address }}</td>
+                            <td><a class='btn btn-link' href="{{ route('supplier.edit', $supplier->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
-                                <form method="post" action="{{ route('product.delete', $product->id) }}">
+                                <form method="post" action="{{ route('supplier.delete', $supplier->id) }}">
                                     @csrf 
                                     @method("DELETE")
-                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this Product?');"><i class="fa fa-trash text-danger"></i></button>
+                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this Supplier?');"><i class="fa fa-trash text-danger"></i></button>
                                 </form>
                             </td>
                         </tr>
