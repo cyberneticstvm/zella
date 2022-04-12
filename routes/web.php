@@ -76,4 +76,17 @@ Route::group(['middleware' => ['auth']], function(){
     Route::put('/supplier/{id}/edit/', 'App\Http\Controllers\SupplierController@update')->name('supplier.update');
     Route::delete('/supplier/{id}/delete/', 'App\Http\Controllers\SupplierController@destroy')->name('supplier.delete');
     // end supplier //
+
+    // purchase //
+    Route::get('/purchase/', 'App\Http\Controllers\PurchaseController@index')->name('purchase.index');
+    Route::get('/purchase/create/', 'App\Http\Controllers\PurchaseController@create')->name('purchase.create');
+    Route::post('/purchase/create/', 'App\Http\Controllers\PurchaseController@store')->name('purchase.save');
+    Route::get('/purchase/{id}/edit/', 'App\Http\Controllers\PurchaseController@edit')->name('purchase.edit');
+    Route::put('/purchase/{id}/edit/', 'App\Http\Controllers\PurchaseController@update')->name('purchase.update');
+    Route::delete('/purchase/{id}/delete/', 'App\Http\Controllers\PurchaseController@destroy')->name('purchase.delete');
+    // end purchase //
+
+    // helper //
+    Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
+    // end helper //
 });

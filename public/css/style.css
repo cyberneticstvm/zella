@@ -23,3 +23,6 @@
     border-radius: 0;
     border: 1px solid #00bdaa;
 }
+.form-control:disabled, .form-control[readonly]{
+    background-color: transparent !important;
+}
