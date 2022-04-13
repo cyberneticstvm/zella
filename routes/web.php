@@ -86,6 +86,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/purchase/{id}/delete/', 'App\Http\Controllers\PurchaseController@destroy')->name('purchase.delete');
     // end purchase //
 
+    // sales //
+    Route::get('/sales/', 'App\Http\Controllers\SalesController@index')->name('sales.index');
+    Route::get('/sales/create/', 'App\Http\Controllers\SalesController@create')->name('sales.create');
+    Route::post('/sales/create/', 'App\Http\Controllers\SalesController@store')->name('sales.save');
+    Route::get('/sales/{id}/edit/', 'App\Http\Controllers\SalesController@edit')->name('sales.edit');
+    Route::put('/sales/{id}/edit/', 'App\Http\Controllers\SalesController@update')->name('sales.update');
+    Route::delete('/sales/{id}/delete/', 'App\Http\Controllers\SalesController@destroy')->name('sales.delete');
+    // end sales //
+
     // helper //
     Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
     // end helper //
