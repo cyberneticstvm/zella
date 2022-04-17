@@ -29,10 +29,32 @@ $(function(){
     });
 
     $(".addPurchaseRow").click(function(){
-        $(".tblPurchase tbody").append("<tr><td><select class='form-control form-control-md select2 selProduct' name='product[]' required='required'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right' placeholder='0' name='qty[]' required='required'></td><td><input type='number' class='form-control text-right' placeholder='0.00' name='price[]' required='required'></td><td><input type='number' class='form-control text-right' placeholder='0.00' name='total[]' required='required'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");
+        $(".tblPurchase tbody").append("<tr><td><select class='form-control form-control-md select2 selProduct' name='product[]' required='required'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' name='qty[]' required='required'></td><td><input type='number' class='form-control text-right price' placeholder='0.00' name='price[]' required='required'></td><td><input type='number' class='form-control text-right total' placeholder='0.00' name='total[]' required='required'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");
         $('.selProduct').select2();
         bindDDL('product', 'selProduct');
     })
+
+    $(document).on('change', '.selProduct', function(){
+        var pid = $(this).val();
+        var qty = $(this).parent().parent().find('.qty');
+        var price = $(this).parent().parent().find('.price');
+        var total = $(this).parent().parent().find('.total');
+        $.ajax({
+            type: 'GET',
+            url: '/helper/product/'+pid,
+            success: function( response ) {
+                qty.val('1');
+                price.val(response.selling_price);
+                total.val(response.selling_price);
+            }
+        });
+    });
+    $(document).on('change', '.qty, .price', function(){
+        var qty = $(this).parent().parent().find('.qty').val();
+        var price = $(this).parent().parent().find('.price').val();
+        var total = $(this).parent().parent().find('.total');
+        total.val(qty*price);
+    });
 });
 
 function bindDDL(type, ddl){

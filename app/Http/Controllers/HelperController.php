@@ -11,4 +11,9 @@ class HelperController extends Controller
         $products = DB::table('products')->selectRaw("id, CONCAT_WS(' - ', name, sku) AS name")->get();
         return response()->json($products);
     }
+
+    public function getproduct($id){
+        $product = DB::table('products')->find($id);
+        return response()->json($product);
+    }
 }

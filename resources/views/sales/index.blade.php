@@ -32,7 +32,7 @@
                             <td>{{ $sale->contact_number }}</td>
                             <td>{{ $sale->address }}</td>
                             <td>{{ date('d/M/Y', strtotime($sale->sold_date)) }}</td>
-                            <td><a class='btn btn-link' href="/"><i class="fa fa-file-o text-info"></i></a></td>
+                            <td><a class='btn btn-link' href="/sales-invoice/{{ $sale->id }}" target="_blank"><i class="fa fa-file-o text-info"></i></a></td>
                             <td><a class='btn btn-link' href="{{ route('sales.edit', $sale->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
                                 <form method="post" action="{{ route('sales.delete', $sale->id) }}">

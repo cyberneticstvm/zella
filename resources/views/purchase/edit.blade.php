@@ -37,14 +37,14 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label for="TextInput" class="form-label">Invoice Number</label>
+                                    <label for="TextInput" class="form-label">Invoice Number <span class="req">*</span></label>
                                     <input type="text" class="form-control" placeholder="Invoice Number" name="invoice_number" value="{{ $purchase->invoice_number }}">
                                     @error('invoice_number')
                                     <small class="text-danger">{{ $errors->first('invoice_number') }}</small>
                                     @enderror
                                 </div>                            
                                 <div class="col-sm-3">
-                                    <label class="form-label">Order Date<sup class="text-danger">*</sup></label>
+                                    <label class="form-label">Order Date <span class="req">*</span></label>
                                     <fieldset class="form-icon-group left-icon position-relative">
                                         <input type="text" value="{{ ($purchase->order_date) ? date('d/M/Y', strtotime($purchase->order_date)) : '' }}" name="order_date" class="form-control form-control-md dtpicker" placeholder="dd/mm/yyyy">
                                         <div class="form-icon position-absolute">
@@ -59,7 +59,7 @@
                                     @enderror
                                 </div>                                
                                 <div class="col-sm-3">
-                                    <label class="form-label">Delivery Date<sup class="text-danger">*</sup></label>
+                                    <label class="form-label">Delivery Date <span class="req">*</span></label>
                                     <fieldset class="form-icon-group left-icon position-relative">
                                         <input type="text" value="{{ ($purchase->delivery_date) ? date('d/M/Y', strtotime($purchase->order_date)) : '' }}" name="delivery_date" class="form-control form-control-md dtpicker" placeholder="dd/mm/yyyy">
                                         <div class="form-icon position-absolute">
@@ -71,6 +71,24 @@
                                     </fieldset>
                                     @error('delivery_date')
                                     <small class="text-danger">{{ $errors->first('delivery_date') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
+                                    <select class="form-control form-control-md" name="payment_mode" required="required">
+                                        <option value="">Select</option>
+                                        <option value="cash" {{ ($purchase->payment_mode == 'cash') ? 'selected' : '' }}>Cash</option>
+                                        <option value="card"  {{ ($purchase->payment_mode == 'card') ? 'selected' : '' }}>Card</option>
+                                    </select>
+                                    @error('payment_mode')
+                                    <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="TextInput" class="form-label">Purchase Notes </label>
+                                    <input type="text" class="form-control form-control-md" name="purchase_note" placeholder="Purchase Notes" value="{{ $purchase->purchase_note }}" />
+                                    @error('purchase_note')
+                                    <small class="text-danger">{{ $errors->first('purchase_note') }}</small>
                                     @enderror
                                 </div>                                
                             </div>
@@ -92,9 +110,9 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td><input type="number" class="form-control text-right" placeholder="0" name="qty[]" value="{{ $pdetails->qty }}" required='required'></td>
-                                                <td><input type="number" class="form-control text-right" value="{{ $pdetails->price }}" placeholder="0.00" name="price[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right" value="{{ $pdetails->total }}"placeholder="0.00" name="total[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right qty" placeholder="0" name="qty[]" value="{{ $pdetails->qty }}" required='required'></td>
+                                                <td><input type="number" class="form-control text-right price" value="{{ $pdetails->price }}" placeholder="0.00" name="price[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right total" value="{{ $pdetails->total }}"placeholder="0.00" name="total[]" required='required'></td>
                                                 <td class="text-center">
                                                     @if($c > 1)
                                                     <a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a>
@@ -103,6 +121,9 @@
                                             </tr>
                                         @endforeach
                                         </tbody>
+                                        <tfoot>
+                                            <tr><td colspan="3" class="text-right">Other Expenses</td><td><input type="number" class="form-control text-right" placeholder="0.00" value="{{ $purchase->other_expense }}" name="other_expense"></td></tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

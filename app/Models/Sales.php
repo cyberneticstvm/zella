@@ -15,5 +15,8 @@ class Sales extends Model
         'address',
         'sold_date',
         'created_by',
+        'payment_mode',
+        'sales_note',
+        'discount',
     ];
 }

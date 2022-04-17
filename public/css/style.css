@@ -26,3 +26,6 @@
 .form-control:disabled, .form-control[readonly]{
     background-color: transparent !important;
 }
+.table>:not(:first-child) {
+    border-top: 1.2px solid currentColor;
+}

@@ -24,28 +24,28 @@
                             @csrf
                             <div class="row g-3">
                                 <div class="col-sm-4">
-                                    <label for="TextInput" class="form-label">Customer Name</label>
+                                    <label for="TextInput" class="form-label">Customer Name <span class="req">*</span></label>
                                     <input type="text" class="form-control" placeholder="Customer Name" name="customer_name" value="{{ old('customer_name') }}">
                                     @error('customer_name')
                                     <small class="text-danger">{{ $errors->first('customer_name') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="TextInput" class="form-label">Contact Number</label>
+                                    <label for="TextInput" class="form-label">Contact Number <span class="req">*</span></label>
                                     <input type="text" class="form-control" placeholder="Contact Number" name="contact_number" value="{{ old('contact_number') }}">
                                     @error('contact_number')
                                     <small class="text-danger">{{ $errors->first('contact_number') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-sm-5">
-                                    <label for="TextInput" class="form-label">Customer Address</label>
+                                    <label for="TextInput" class="form-label">Customer Address <span class="req">*</span></label>
                                     <input type="text" class="form-control" placeholder="Customer Address" name="address" value="{{ old('address') }}">
                                     @error('address')
                                     <small class="text-danger">{{ $errors->first('address') }}</small>
                                     @enderror
                                 </div>                            
                                 <div class="col-sm-3">
-                                    <label class="form-label">Sales Date<sup class="text-danger">*</sup></label>
+                                    <label class="form-label">Sales Date <span class="req">*</span></label>
                                     <fieldset class="form-icon-group left-icon position-relative">
                                         <input type="text" value="{{ date('d/M/Y') }}" name="sold_date" class="form-control form-control-md dtpicker" placeholder="dd/mm/yyyy">
                                         <div class="form-icon position-absolute">
@@ -57,6 +57,24 @@
                                     </fieldset>
                                     @error('order_date')
                                     <small class="text-danger">{{ $errors->first('order_date') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
+                                    <select class="form-control form-control-md" name="payment_mode" required="required">
+                                        <option value="">Select</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="card">Card</option>
+                                    </select>
+                                    @error('payment_mode')
+                                    <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-7">
+                                    <label for="TextInput" class="form-label">Sales Note </label>
+                                    <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Sales Notes"/>
+                                    @error('sales_note')
+                                    <small class="text-danger">{{ $errors->first('sales_note') }}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -75,12 +93,15 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td><input type="number" class="form-control text-right" placeholder="0" name="qty[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right" placeholder="0.00" name="price[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right" placeholder="0.00" name="total[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right qty" placeholder="0" name="qty[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right price" placeholder="0.00" name="price[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right total" placeholder="0.00" name="total[]" required='required'></td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
+                                        <tfoot>
+                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right" placeholder="0.00" name="discount"></td></tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

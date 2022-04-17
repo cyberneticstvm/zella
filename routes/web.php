@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,5 +98,10 @@ Route::group(['middleware' => ['auth']], function(){
 
     // helper //
     Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
+    Route::get('/helper/product/{id}', 'App\Http\Controllers\HelperController@getproduct');
     // end helper //
+
+    // pdf //
+    Route::get('/sales-invoice/{id}/', [PDFController::class, 'salesinvoice']);
+    // end pdf //
 });

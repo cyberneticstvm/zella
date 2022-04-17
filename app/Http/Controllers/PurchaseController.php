@@ -45,6 +45,7 @@ class PurchaseController extends Controller
             'invoice_number' => 'required',
             'order_date' => 'required',
             'delivery_date' => 'required',
+            'payment_mode' => 'required',
         ]);
         $input = $request->all();
         $input['order_date'] = (!empty($request->order_date)) ? Carbon::createFromFormat('d/M/Y', $request['order_date'])->format('Y-m-d') : NULL;
@@ -106,6 +107,7 @@ class PurchaseController extends Controller
             'invoice_number' => 'required',
             'order_date' => 'required',
             'delivery_date' => 'required',
+            'payment_mode' => 'required',
         ]);
         $input = $request->all();
         $input['order_date'] = (!empty($request->order_date)) ? Carbon::createFromFormat('d/M/Y', $request['order_date'])->format('Y-m-d') : NULL;

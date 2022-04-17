@@ -14,5 +14,8 @@ class Purchase extends Model
         'invoice_number',
         'order_date',
         'delivery_date',
+        'payment_mode',
+        'purchase_note',
+        'other_expense',
     ];
 }
