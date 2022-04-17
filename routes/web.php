@@ -96,6 +96,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/sales/{id}/delete/', 'App\Http\Controllers\SalesController@destroy')->name('sales.delete');
     // end sales //
 
+    // settings //
+    Route::get('/settings/vat/', 'App\Http\Controllers\SettingsController@getvat')->name('settings.vat');
+    Route::post('/settings/vat/{id}', 'App\Http\Controllers\SettingsController@updatevat')->name('vat.update');
+    // settings //
+
     // helper //
     Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
     Route::get('/helper/product/{id}', 'App\Http\Controllers\HelperController@getproduct');
@@ -104,4 +109,5 @@ Route::group(['middleware' => ['auth']], function(){
     // pdf //
     Route::get('/sales-invoice/{id}/', [PDFController::class, 'salesinvoice']);
     // end pdf //
+
 });
