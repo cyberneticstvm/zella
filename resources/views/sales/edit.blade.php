@@ -101,7 +101,7 @@
                                                 <td><input type="number" class="form-control text-right price" value="{{ $sale->price }}" placeholder="0.00" name="price[]" required='required'></td>
                                                 <td><input type="number" class="form-control text-right total" value="{{ $sale->total }}" placeholder="0.00" name="total[]" required='required'></td>
                                                 <td>
-                                                    @if($c > 1)
+                                                    @if($c > 1 && $sale->is_return == 0)
                                                     <a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a>
                                                     @endif
                                                 </td>

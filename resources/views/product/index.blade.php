@@ -22,7 +22,7 @@
                     <div class="card-body p-4">
                         <div class="text-right"><a href="/product/create/"><i class="fa fa-plus text-primary"></i></a></div>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Product Name</th><th>Collection</th><th>SKU</th><th>Selling Price</th><th>Description</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Product Name</th><th>Collection</th><th>SKU</th><th>Selling Price</th><th>Description</th><th>VAT</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
                         @foreach($products as $product)
                         <tr>
@@ -32,6 +32,13 @@
                             <td>{{ $product->sku }}</td>
                             <td>{{ $product->selling_price }}</td>
                             <td>{{ $product->description }}</td>
+                            <td>
+                                @if($product->vat_applicable == 1)
+                                    <i class="fa fa-check text-success"></i>
+                                @else
+                                    <i class="fa fa-close text-danger">b</i>
+                                @endif
+                            </td>
                             <td><a class='btn btn-link' href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
                                 <form method="post" action="{{ route('product.delete', $product->id) }}">

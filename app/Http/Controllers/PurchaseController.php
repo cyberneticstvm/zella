@@ -73,9 +73,22 @@ class PurchaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function fetch(Request $request)
     {
-        //
+        $this->validate($request, [
+            'invoice_number' => 'required',
+        ]);
+        $id = $request->invoice_number;
+        $purchase = Purchase::find($id);
+        $purchases = DB::table('purchase_details as pu')->leftJoin('products as p', 'pu.product', '=', 'p.id')->select('pu.id', 'pu.qty', 'pu.price', 'pu.total', 'pu.is_return', 'p.name')->where('purchase_id', $id)->get();
+        return view('purchase.return', compact('purchase', 'purchases'));
+    }
+
+    public function updatereturn(Request $request){
+        $val = $request->val;
+        $id = $request->id;
+        DB::table('purchase_details')->where('id', $id)->update(['is_return' => $val]);
+        echo "Record updated successfully.";
     }
 
     /**

@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = DB::table('products as p')->leftJoin('collections as c', 'p.collection', '=', 'c.id')->select('p.id', 'p.name', 'p.sku', 'p.selling_price', 'p.description', 'c.name as collection_name')->orderBy('p.name','ASC')->get();
+        $products = DB::table('products as p')->leftJoin('collections as c', 'p.collection', '=', 'c.id')->select('p.id', 'p.name', 'p.sku', 'p.selling_price', 'p.description', 'p.vat_applicable', 'c.name as collection_name')->orderBy('p.name','ASC')->get();
         return view('product.index', compact('products'));
     }
 

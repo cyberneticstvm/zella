@@ -72,9 +72,22 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function fetch(Request $request)
     {
-        //
+        $this->validate($request, [
+            'invoice_number' => 'required',
+        ]);
+        $id = $request->invoice_number;
+        $sale = Sales::find($id);
+        $sales = DB::table('sales_details as s')->leftJoin('products as p', 's.product', '=', 'p.id')->select('s.id', 's.qty', 's.price', 's.total', 's.is_return', 'p.name')->where('sales_id', $id)->get();
+        return view('sales.return', compact('sale', 'sales'));
+    }
+
+    public function updatereturn(Request $request){
+        $val = $request->val;
+        $id = $request->id;
+        DB::table('sales_details')->where('id', $id)->update(['is_return' => $val]);
+        echo "Record updated successfully.";
     }
 
     /**

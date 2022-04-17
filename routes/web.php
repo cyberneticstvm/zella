@@ -85,6 +85,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/purchase/{id}/edit/', 'App\Http\Controllers\PurchaseController@edit')->name('purchase.edit');
     Route::put('/purchase/{id}/edit/', 'App\Http\Controllers\PurchaseController@update')->name('purchase.update');
     Route::delete('/purchase/{id}/delete/', 'App\Http\Controllers\PurchaseController@destroy')->name('purchase.delete');
+
+    Route::get('/purchase/return/', function () {
+        return view('purchase.return');
+    });
+    Route::post('/purchase/return/', 'App\Http\Controllers\PurchaseController@fetch')->name('preturn.fetch');
+    Route::put('/purchase/return/update/', 'App\Http\Controllers\PurchaseController@updatereturn')->name('purchase.updatereturn');
     // end purchase //
 
     // sales //
@@ -94,6 +100,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sales/{id}/edit/', 'App\Http\Controllers\SalesController@edit')->name('sales.edit');
     Route::put('/sales/{id}/edit/', 'App\Http\Controllers\SalesController@update')->name('sales.update');
     Route::delete('/sales/{id}/delete/', 'App\Http\Controllers\SalesController@destroy')->name('sales.delete');
+
+    Route::get('/sales/return/', function () {
+        return view('sales.return');
+    });
+    Route::post('/sales/return/', 'App\Http\Controllers\SalesController@fetch')->name('sreturn.fetch');
+    Route::put('/sales/return/update/', 'App\Http\Controllers\SalesController@updatereturn')->name('sales.updatereturn');
     // end sales //
 
     // settings //

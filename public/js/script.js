@@ -49,11 +49,31 @@ $(function(){
             }
         });
     });
+
     $(document).on('change', '.qty, .price', function(){
         var qty = $(this).parent().parent().find('.qty').val();
         var price = $(this).parent().parent().find('.price').val();
         var total = $(this).parent().parent().find('.total');
         total.val(qty*price);
+    });
+
+    $(document).on('click', '.chkReturn', function(){
+        var val = $(this).is(':checked') ? 1 : 0;
+        var id = $(this).closest('tr').attr('id');
+        var url = $(this).closest('form').attr('action');
+        var c = confirm("Are you sure want to update this record?")
+        if(c){
+            $.ajax({
+                type: 'PUT',
+                url: url,
+                data: {val: val, id: id},
+                success: function( response ) {
+                    alert(response)
+                }
+            });
+        }else{
+            return false;
+        }
     });
 });
 

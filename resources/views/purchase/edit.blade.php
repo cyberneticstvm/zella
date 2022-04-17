@@ -114,7 +114,7 @@
                                                 <td><input type="number" class="form-control text-right price" value="{{ $pdetails->price }}" placeholder="0.00" name="price[]" required='required'></td>
                                                 <td><input type="number" class="form-control text-right total" value="{{ $pdetails->total }}"placeholder="0.00" name="total[]" required='required'></td>
                                                 <td class="text-center">
-                                                    @if($c > 1)
+                                                    @if($c > 1 && $pdetails->is_return == 0)
                                                     <a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a>
                                                     @endif
                                                 </td>

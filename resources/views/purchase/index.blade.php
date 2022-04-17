@@ -22,11 +22,12 @@
                     <div class="card-body p-4">
                         <div class="text-right"><a href="/purchase/create/"><i class="fa fa-plus text-primary"></i></a></div>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Supplier Name</th><th>Invoice Number</th><th>Order Date</th><th>Delivery Date</th><th>View</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Zella Invoice</th><th>Supplier Name</th><th>Supplier Invoice</th><th>Order Date</th><th>Delivery Date</th><th>View</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
                         @foreach($purchases as $purchase)
                         <tr>
                             <td>{{ ++$i }}</td>
+                            <td>{{ $purchase->id }}</td>
                             <td>{{ $purchase->name }}</td>
                             <td>{{ $purchase->invoice_number }}</td>
                             <td>{{ $purchase->odate }}</td>
