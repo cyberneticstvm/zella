@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use QrCode;
 use PDF;
 use DB;
-use QrCode;
 
 class PDFController extends Controller
 {
