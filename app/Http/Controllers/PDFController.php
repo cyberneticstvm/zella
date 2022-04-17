@@ -10,7 +10,8 @@ use DB;
 class PDFController extends Controller
 {
     public function salesinvoice(){
-        $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate('https://zellaboutiqueuae.com'));         
+        //$qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate('https://zellaboutiqueuae.com'));
+        $qrcode = '';         
         $pdf = PDF::loadView('/pdf/sales-invoice', compact('qrcode'));
         return $pdf->stream('sales-invoice.pdf', array("Attachment"=>0));
     }
