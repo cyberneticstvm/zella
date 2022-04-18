@@ -34,7 +34,7 @@
             @php $c = 1; $tot = 0; @endphp
             @foreach($sales as $row)
             @php
-                $vat_percentage = ($row->vat_applicable == 1 && $settings->vat_percentage > 0) ? $settings->vat_percentage : 0;
+                $vat_percentage = $row->vat_percentage;
                 $vat_amount = ($vat_percentage > 0) ? ($row->total*$vat_percentage)/100 : 0;
                 $tot += $row->total+$vat_amount;
             @endphp

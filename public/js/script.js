@@ -35,7 +35,7 @@ $(function(){
     })
 
     $(document).on('change', '.selProduct', function(){
-        var pid = $(this).val();
+        var pid = $(this).val(); var discount = $(".discount").val();
         var qty = $(this).parent().parent().find('.qty');
         var price = $(this).parent().parent().find('.price');
         var total = $(this).parent().parent().find('.total');
@@ -46,6 +46,7 @@ $(function(){
                 qty.val('1');
                 price.val(response.selling_price);
                 total.val(response.selling_price);
+                calculateTotal(discount);
             }
         });
     });
@@ -54,7 +55,13 @@ $(function(){
         var qty = $(this).parent().parent().find('.qty').val();
         var price = $(this).parent().parent().find('.price').val();
         var total = $(this).parent().parent().find('.total');
-        total.val(qty*price);
+        total.val(qty*price); var discount = $(".discount").val();
+        calculateTotal(discount);
+    });
+
+    $(document).on('change', '.discount', function(){
+        var discount = $(this).val();
+        calculateTotal(discount);
     });
 
     $(document).on('click', '.chkReturn', function(){
@@ -88,4 +95,13 @@ function bindDDL(type, ddl){
         });
         $('.'+ddl).select2({data:xdata});
     });
+}
+
+function calculateTotal(discount){
+    var tot = 0;
+    $("table .total").each(function () {
+        tot += Number($(this).val());               
+    });
+    tot = tot - discount;
+    $(".tbt").text(tot.toFixed(2));
 }

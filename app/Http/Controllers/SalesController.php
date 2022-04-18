@@ -9,6 +9,11 @@ use DB;
 
 class SalesController extends Controller
 {
+    private $settings;
+
+    public function __construct(){
+        $this->settings = DB::table('settings')->find(1);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +23,11 @@ class SalesController extends Controller
     {
         $sales = Sales::get();
         return view('sales.index', compact('sales'));
+    }
+
+    public function getSalesReturns(){
+        $sreturns = Sales::leftJoin('sales_details as sd', 'sales.id', '=', 'sd.sales_id')->select('sales.id', DB::Raw("DATE_FORMAT(sales.sold_date, '%d/%b/%Y') AS sdate"), 'sales.customer_name', 'sales.contact_number', 'sales.address', 'sales.payment_mode')->where('sd.is_return', '=', 1)->orderBy('sales.sold_date','DESC')->get();
+        return view('sales.return', compact('sreturns'));
     }
 
     /**
@@ -53,11 +63,14 @@ class SalesController extends Controller
         if($input['product']):
             for($i=0; $i<count($input['product']); $i++):
                 if($input['product'][$i] > 0):
+                    $product = DB::table('products')->find($input['product'][$i]);
+                    $vat_percentage = ($this->settings->vat_percentage > 0 && $product->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
                     DB::table('sales_details')->insert([
                         'sales_id' => $sales->id,
                         'product' => $input['product'][$i],
                         'qty' => $input['qty'][$i],
                         'price' => $input['price'][$i],
+                        'vat_percentage' => $vat_percentage,
                         'total' => $input['total'][$i],
                     ]);
                 endif;
@@ -78,9 +91,9 @@ class SalesController extends Controller
             'invoice_number' => 'required',
         ]);
         $id = $request->invoice_number;
-        $sale = Sales::find($id);
+        $sale = Sales::find($id); $sreturns = [];
         $sales = DB::table('sales_details as s')->leftJoin('products as p', 's.product', '=', 'p.id')->select('s.id', 's.qty', 's.price', 's.total', 's.is_return', 'p.name')->where('sales_id', $id)->get();
-        return view('sales.return', compact('sale', 'sales'));
+        return view('sales.return', compact('sale', 'sales', 'sreturns'));
     }
 
     public function updatereturn(Request $request){
@@ -130,11 +143,14 @@ class SalesController extends Controller
         if($input['product']):
             for($i=0; $i<count($input['product']); $i++):
                 if($input['product'][$i] > 0):
+                    $product = DB::table('products')->find($input['product'][$i]);
+                    $vat_percentage = ($this->settings->vat_percentage > 0 && $product->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
                     DB::table('sales_details')->insert([
                         'sales_id' => $sales->id,
                         'product' => $input['product'][$i],
                         'qty' => $input['qty'][$i],
                         'price' => $input['price'][$i],
+                        'vat_percentage' => $vat_percentage,
                         'total' => $input['total'][$i],
                     ]);
                 endif;

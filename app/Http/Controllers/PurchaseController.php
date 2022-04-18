@@ -20,6 +20,11 @@ class PurchaseController extends Controller
         return view('purchase.index', compact('purchases'));
     }
 
+    public function getPurchaseReturns(){
+        $preturns = Purchase::leftJoin('purchase_details as pd', 'purchases.id', '=', 'pd.purchase_id')->leftJoin('suppliers as s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->where('pd.is_return', '=', 1)->orderBy('purchases.created_at','DESC')->get();
+        return view('purchase.return', compact('preturns'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -79,9 +84,9 @@ class PurchaseController extends Controller
             'invoice_number' => 'required',
         ]);
         $id = $request->invoice_number;
-        $purchase = Purchase::find($id);
+        $purchase = Purchase::find($id); $preturns = [];
         $purchases = DB::table('purchase_details as pu')->leftJoin('products as p', 'pu.product', '=', 'p.id')->select('pu.id', 'pu.qty', 'pu.price', 'pu.total', 'pu.is_return', 'p.name')->where('purchase_id', $id)->get();
-        return view('purchase.return', compact('purchase', 'purchases'));
+        return view('purchase.return', compact('purchase', 'purchases', 'preturns'));
     }
 
     public function updatereturn(Request $request){

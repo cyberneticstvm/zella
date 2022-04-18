@@ -85,9 +85,9 @@
                                     <table style="width:75%; margin:0 auto;" class="table table-bordered tblPurchase">
                                         <thead><tr><th width='50%'>Product</th><th width='10%'>Qty</th><th width='15%'>Price</th><th width='15%'>Total</th><th class="text-center" width='10%'><a href="javascript:void(0)"><i class="fa fa-plus text-primary addPurchaseRow"></i></a></th></tr></thead>
                                         <tbody>
-                                        @php $c = 0; @endphp
+                                        @php $c = 0; $tot = 0;@endphp
                                         @foreach($sales_details as $sale)
-                                        @php $c++; @endphp
+                                        @php $c++; $tot += $sale->total; @endphp
                                             <tr>
                                                 <td>
                                                     <select class="form-control form-control-md select2 selProduct" name="product[]" required="required">
@@ -109,7 +109,8 @@
                                         @endforeach
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right" placeholder="0.00" value="{{ $sales->discount }}" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" placeholder="0.00" value="{{ $sales->discount }}" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Total before Tax</td><td class="text-success text-right fw-bold tbt">{{ number_format($tot - $sales->discount, 2) }}</td></tr>
                                         </tfoot>
                                     </table>
                                 </div>

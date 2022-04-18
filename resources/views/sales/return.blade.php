@@ -64,6 +64,26 @@
                             </div>
                             @endif
                         </div>
+                        <div class="row mt-5">
+                            <h1 class="fs-4 mb-3">Sales Return Register</h1>
+                            <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
+                                <thead><tr><th>SL No.</th><th>Invoice Number</th><th>Customer Name</th><th>Contact No.</th><th>Address</th><th>Sales Date</th><th>Payment Mode</th></tr></thead>
+                                <tbody>
+                                    @php $c = 1 @endphp
+                                    @foreach($sreturns as $sreturn)
+                                        <tr>
+                                            <td>{{ $c++ }}</td>
+                                            <td>{{ $sreturn->id }}</td>
+                                            <td>{{ $sreturn->customer_name }}</td>
+                                            <td>{{ $sreturn->contact_number }}</td>
+                                            <td>{{ $sreturn->address }}</td>
+                                            <td>{{ $sreturn->sdate }}</td>
+                                            <td>{{ $sreturn->payment_mode }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div> <!-- .Card End -->
             </div>

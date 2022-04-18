@@ -100,7 +100,8 @@
                                             </tr>
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right" placeholder="0.00" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" placeholder="0.00" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Total before Tax</td><td class="text-success text-right fw-bold tbt">0.00</td></tr>
                                         </tfoot>
                                     </table>
                                 </div>

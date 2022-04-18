@@ -64,6 +64,25 @@
                             </div>
                             @endif
                         </div>
+                        <div class="row mt-5">
+                            <h1 class="fs-4 mb-3">Purchase Return Register</h1>
+                            <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
+                                <thead><tr><th>SL No.</th><th>Zella Invoice</th><th>Supplier Invoice</th><th>Supplier</th><th>Order Date</th><th>Delivery Date</th></tr></thead>
+                                <tbody>
+                                    @php $c = 1 @endphp
+                                    @foreach($preturns as $preturn)
+                                        <tr>
+                                            <td>{{ $c++ }}</td>
+                                            <td>{{ $preturn->id }}</td>
+                                            <td>{{ $preturn->invoice_number }}</td>
+                                            <td>{{ $preturn->name }}</td>
+                                            <td>{{ $preturn->odate }}</td>
+                                            <td>{{ $preturn->ddate }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div> <!-- .Card End -->
             </div>

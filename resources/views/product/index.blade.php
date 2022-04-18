@@ -36,7 +36,7 @@
                                 @if($product->vat_applicable == 1)
                                     <i class="fa fa-check text-success"></i>
                                 @else
-                                    <i class="fa fa-close text-danger">b</i>
+                                    <i class="fa fa-close text-danger"></i>
                                 @endif
                             </td>
                             <td><a class='btn btn-link' href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
