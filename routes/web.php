@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ExcelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,5 +118,9 @@ Route::group(['middleware' => ['auth']], function(){
     // pdf //
     Route::get('/sales-invoice/{id}/', [PDFController::class, 'salesinvoice']);
     // end pdf //
+
+    // excel //
+    Route::get('/product/export/', [ExcelController::class, 'productExport'])->name('product-export');
+    // end excel //
 
 });
