@@ -37,7 +37,7 @@ class PurchaseExport implements FromCollection, WithHeadings
         $supplier = (!empty($inputs[2])) ? $inputs[2] : NULL;
         $product = (!empty($inputs[3])) ? $inputs[3] : NULL;
 
-        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw("p.id, p.invoice_number, s.name as sname, DATE_FORMAT(p.order_date, '%d/%b/%Y') as odate, DATE_FORMAT(p.delivery_date, '%d/%b/%Y') as ddate, p.payment_mode, SUM(pd.total)+p.other_expense as total")->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->when(isset($supplier), function($query) use ($request){
+        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw("p.id, p.invoice_number, s.name as sname, DATE_FORMAT(p.order_date, '%d/%b/%Y') as odate, DATE_FORMAT(p.delivery_date, '%d/%b/%Y') as ddate, p.payment_mode, SUM(pd.total)+p.other_expense as total")->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->when(isset($supplier), function($query) use ($request, $supplier){
             return $query->where('p.supplier', $supplier);
         })->when(isset($product), function($query) use ($request, $product){
             return $query->where('pd.product', $product);
