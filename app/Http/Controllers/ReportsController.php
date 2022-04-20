@@ -28,7 +28,7 @@ class ReportsController extends Controller
             return $query->where('p.supplier', $request->supplier);
         })->when(isset($request->product), function($query) use ($request){
             return $query->where('pd.product', $request->product);
-        })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name')->get();
+        })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name', 'p.other_expense')->get();
 
         $suppliers = DB::table('suppliers')->get();
         $products = DB::table('products')->get();
