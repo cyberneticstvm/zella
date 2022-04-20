@@ -41,8 +41,7 @@ class PurchaseExport implements FromCollection, WithHeadings
             return $query->where('p.supplier', $supplier);
         })->when(isset($product), function($query) use ($request){
             return $query->where('pd.product', $product);
-        })->groupBy('p.id')->get();
+        })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name')->get();
         return $purchases;
-        //return Purchase::all();
     }
 }
