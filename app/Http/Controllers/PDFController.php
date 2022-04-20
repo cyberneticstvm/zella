@@ -54,10 +54,10 @@ class PDFController extends Controller
         $supplier = (!empty($inputs[2])) ? $inputs[2] : NULL;
         $product = (!empty($inputs[3])) ? $inputs[3] : NULL;
 
-        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, p.order_date, p.delivery_date, p.payment_mode, s.name as sname, SUM(pd.qty*pd.price) as total')->where('pd.is_return', 1)->whereBetween('p.delivery_date', [$from, $to])->when(isset($request->supplier), function($query) use ($request){
-            return $query->where('p.supplier', $request->supplier);
-        })->when(isset($request->product), function($query) use ($request){
-            return $query->where('pd.product', $request->product);
+        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, p.order_date, p.delivery_date, p.payment_mode, s.name as sname, SUM(pd.qty*pd.price) as total')->where('pd.is_return', 1)->whereBetween('p.delivery_date', [$from, $to])->when(isset($supplier), function($query) use ($request, $supplier){
+            return $query->where('p.supplier', $supplier);
+        })->when(isset($product), function($query) use ($request, $product){
+            return $query->where('pd.product', $product);
         })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name')->get();
 
         $pdf = PDF::loadView('/pdf/purchase-return', compact('purchases', 'inputs'));
@@ -70,8 +70,8 @@ class PDFController extends Controller
         $to = (!empty($inputs[1])) ? Carbon::createFromFormat('d/M/Y', $inputs[1])->format('Y-m-d') : NULL;
         $product = (!empty($inputs[2])) ? $inputs[2] : NULL;
 
-        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, SUM(sd.qty*sd.price) - s.discount AS total")->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
-            return $query->where('sd.product', $request->product);
+        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, SUM(sd.qty*sd.price) - s.discount AS total")->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($product), function($query) use ($request, $product){
+            return $query->where('sd.product', $product);
         })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 's.discount')->get();
 
         $pdf = PDF::loadView('/pdf/sales', compact('sales', 'inputs'));
@@ -84,8 +84,8 @@ class PDFController extends Controller
         $to = (!empty($inputs[1])) ? Carbon::createFromFormat('d/M/Y', $inputs[1])->format('Y-m-d') : NULL;
         $product = (!empty($inputs[2])) ? $inputs[2] : NULL;
 
-        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, SUM(sd.qty*sd.price) AS total")->where('sd.is_return', 1)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
-            return $query->where('sd.product', $request->product);
+        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, SUM(sd.qty*sd.price) AS total")->where('sd.is_return', 1)->whereBetween('s.sold_date', [$from, $to])->when(isset($product), function($query) use ($request, $product){
+            return $query->where('sd.product', $product);
         })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date')->get();
 
         $pdf = PDF::loadView('/pdf/sales-return', compact('sales', 'inputs'));

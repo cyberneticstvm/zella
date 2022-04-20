@@ -39,7 +39,7 @@ class PurchaseExport implements FromCollection, WithHeadings
 
         $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw("p.id, p.invoice_number, s.name as sname, DATE_FORMAT(p.order_date, '%d/%b/%Y') as odate, DATE_FORMAT(p.delivery_date, '%d/%b/%Y') as ddate, p.payment_mode, SUM(pd.total)+p.other_expense as total")->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->when(isset($supplier), function($query) use ($request){
             return $query->where('p.supplier', $supplier);
-        })->when(isset($product), function($query) use ($request){
+        })->when(isset($product), function($query) use ($request, $product){
             return $query->where('pd.product', $product);
         })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name', 'p.other_expense')->get();
         return $purchases;
