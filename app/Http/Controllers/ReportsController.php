@@ -86,7 +86,7 @@ class ReportsController extends Controller
             return $query->where('sd.product', $request->product);
         })->when(isset($request->payment_mode), function($query) use ($request){
             return $query->where('s.payment_mode', $request->payment_mode);
-        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 's.discount', 'sd.vat_percentage')->get();
+        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 's.payment_mode', 's.discount', 'sd.vat_percentage')->get();
 
         $products = DB::table('products')->get();
         return view('reports.sales', compact('products', 'sales', 'inputs'));
