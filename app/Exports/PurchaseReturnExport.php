@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Carbon\Carbon;
 use DB;
 
-class PurchaseExport implements FromCollection, WithHeadings
+class PurchaseReturnExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -37,11 +37,12 @@ class PurchaseExport implements FromCollection, WithHeadings
         $supplier = (!empty($inputs[2])) ? $inputs[2] : NULL;
         $product = (!empty($inputs[3])) ? $inputs[3] : NULL;
 
-        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw("p.id, p.invoice_number, s.name as sname, DATE_FORMAT(p.order_date, '%d/%b/%Y') as odate, DATE_FORMAT(p.delivery_date, '%d/%b/%Y') as ddate, p.payment_mode, SUM(pd.total)+p.other_expense as total")->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->when(isset($supplier), function($query) use ($request){
-            return $query->where('p.supplier', $supplier);
-        })->when(isset($product), function($query) use ($request){
-            return $query->where('pd.product', $product);
-        })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name', 'p.other_expense')->get();
+        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, s.name as sname, p.order_date, p.delivery_date, p.payment_mode, SUM(pd.qty*pd.price) as total')->where('pd.is_return', 1)->whereBetween('p.delivery_date', [$from, $to])->when(isset($request->supplier), function($query) use ($request){
+            return $query->where('p.supplier', $request->supplier);
+        })->when(isset($request->product), function($query) use ($request){
+            return $query->where('pd.product', $request->product);
+        })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name')->get();
+
         return $purchases;
     }
 }

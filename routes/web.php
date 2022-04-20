@@ -108,6 +108,12 @@ Route::group(['middleware' => ['auth']], function(){
     // reports //
     Route::get('/reports/purchase/', 'App\Http\Controllers\ReportsController@showPurchase')->name('reports.purchase');
     Route::post('/reports/purchase/', 'App\Http\Controllers\ReportsController@getPurchase')->name('reports.purchase');
+    Route::get('/reports/purchase-return/', 'App\Http\Controllers\ReportsController@showPurchaseReturn')->name('reports.purchase-return');
+    Route::post('/reports/purchase-return/', 'App\Http\Controllers\ReportsController@getPurchaseReturn')->name('reports.purchase-return');
+    Route::get('/reports/sales/', 'App\Http\Controllers\ReportsController@showSales')->name('reports.sales');
+    Route::post('/reports/sales/', 'App\Http\Controllers\ReportsController@getSales')->name('reports.sales');
+    Route::get('/reports/sales-return/', 'App\Http\Controllers\ReportsController@showSalesReturn')->name('reports.sales-return');
+    Route::post('/reports/sales-return/', 'App\Http\Controllers\ReportsController@getSalesReturn')->name('reports.sales-return');
     // end reports //
 
     // settings //
@@ -124,11 +130,17 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sales-invoice/{id}/', [PDFController::class, 'salesinvoice']);
     Route::get('/product/download/pdf/', [PDFController::class, 'products']);
     Route::post('/purchase/download/pdf/', [PDFController::class, 'purchase'])->name('purchase.pdf');
+    Route::post('/purchase-return/download/pdf/', [PDFController::class, 'purchasereturn'])->name('purchase-return.pdf');
+    Route::post('/sales/download/pdf/', [PDFController::class, 'sales'])->name('sales.pdf');
+    Route::post('/sales-return/download/pdf/', [PDFController::class, 'salesreturn'])->name('sales-return.pdf');
     // end pdf //
 
     // excel //
     Route::get('/product/download/excel/', [ExcelController::class, 'productExport'])->name('product-export');
     Route::post('/purchase/download/excel/', [ExcelController::class, 'purchaseExport'])->name('purchase-export');
+    Route::post('/purchase-return/download/excel/', [ExcelController::class, 'purchaseReturnExport'])->name('purchase-return-export');
+    Route::post('/sales/download/excel/', [ExcelController::class, 'salesExport'])->name('sales-export');
+    Route::post('/sales-return/download/excel/', [ExcelController::class, 'salesReturnExport'])->name('sales-return-export');
     // end excel //
 
 });

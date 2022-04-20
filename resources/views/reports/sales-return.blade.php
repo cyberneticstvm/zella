@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Purchase Report</h1>
+                <h1 class="fs-4 mt-1 mb-0">Sales Return Report</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <form method="post" action="{{ route('reports.purchase') }}">
+                        <form method="post" action="{{ route('reports.sales-return') }}">
                             @csrf
                             <div class="row g-3">
                             <div class="col-sm-3">
@@ -54,23 +54,11 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="TextInput" class="form-label">Supplier</label>
-                                    <select name='supplier' class='form-control select2'>
-                                        <option value=''>Select</option>
-                                        @foreach($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}" {{ ($inputs && $inputs[2] == $supplier->id) ? 'selected' : '' }}>{{ $supplier->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('supplier')
-                                    <small class="text-danger">{{ $errors->first('supplier') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-3">
                                     <label for="TextInput" class="form-label">Product </label>
                                     <select name='product' class='form-control select2'>
                                         <option value=''>Select</option>
                                         @foreach($products as $product)
-                                            <option value="{{ $product->id }}" {{ ($inputs && $inputs[3] == $product->id) ? 'selected' : '' }}>{{ $product->name }}</option>
+                                            <option value="{{ $product->id }}" {{ ($inputs && $inputs[2] == $product->id) ? 'selected' : '' }}>{{ $product->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('product')
@@ -91,13 +79,13 @@
                                         Export
                                     </button>
                                     <div class="dropdown-menu text-muted border-0 shadow" style="max-width: 200px;">
-                                        <form class="export" method="post" action="{{ route('purchase.pdf') }}" target="_blank">
+                                        <form class="export" method="post" action="{{ route('sales-return.pdf') }}" target="_blank">
                                             @csrf
                                             <input type="hidden" name="inputs" value="{{ implode(',', $inputs) }}" />
                                             <button class="btn btn-link" type="submit"><i class="fa fa-file-pdf-o text-danger pdfDownload" data-bs-toggle="tooltip" data-bs-placement="top" title="Export to PDF" aria-hidden="true"> PDF</i></button>
                                         </form>
                                         <div class="dropdown-divider"></div>
-                                        <form class="export" method="post" action="{{ route('purchase-export') }}" target="_blank">
+                                        <form class="export" method="post" action="{{ route('sales-return-export') }}" target="_blank">
                                             @csrf
                                             <input type="hidden" name="inputs" value="{{ implode(',', $inputs) }}" />
                                             <button class="btn btn-link" type="submit"><i class="fa fa-file-excel-o text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Export to Excel" aria-hidden="true"> Excel</i></button>
@@ -106,18 +94,17 @@
                                 </div>
                             </div>
                             @endif
-                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Zella Invoice</th><th>Supplier Invoice</th><th>Supplier Name</th><th>Order Date</th><th>Delivery Date</th><th>Payment Mode</th><th>Invoice Total</th></tr></thead><tbody>
+                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Invoice Number</th><th>Date</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Invoice Total</th></tr></thead><tbody>
                             @php $c = 1; @endphp
-                            @foreach($purchases as $purchase)
+                            @foreach($sales as $sale)
                             <tr>
-                                <td>{{ $c++ }}</td>
-                                <td>{{ $purchase->id }}</td>
-                                <td>{{ $purchase->invoice_number }}</td>
-                                <td>{{ $purchase->sname }}</td>
-                                <td>{{ ($purchase->order_date) ? date('d/M/Y', strtotime($purchase->order_date)) : '' }}</td>
-                                <td>{{ ($purchase->delivery_date) ? date('d/M/Y', strtotime($purchase->delivery_date)) : '' }}</td>
-                                <td>{{ $purchase->payment_mode }}</td>
-                                <td class="text-right">{{ $purchase->total }}</td>
+                                <td>{{ $c++ }}</td>                                
+                                <td>{{ $sale->id }}</td>           
+                                <td>{{ $sale->sdate }}</td>           
+                                <td>{{ $sale->customer_name }}</td>           
+                                <td>{{ $sale->contact_number }}</td>           
+                                <td>{{ $sale->address }}</td>           
+                                <td class="text-right">{{ $sale->total }}</td>           
                             </tr>
                             @endforeach
                             </tbody></table>

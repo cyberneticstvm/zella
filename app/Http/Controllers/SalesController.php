@@ -97,9 +97,13 @@ class SalesController extends Controller
     }
 
     public function updatereturn(Request $request){
+        $today = Carbon::now()->format('Y-m-d');
         $val = $request->val;
         $id = $request->id;
-        DB::table('sales_details')->where('id', $id)->update(['is_return' => $val]);
+        DB::table('sales_details')->where('id', $id)->update([
+            'is_return' => $val,
+            'return_date' => $today
+        ]);
         echo "Record updated successfully.";
         //return redirect()->route('sales.return')->with('success','Record updated successfully');
     }

@@ -19,7 +19,7 @@
     <center>
         <img src="./images/zella-logo-pdf.png" width="25%"/>
         <p>Phone: 0562659619, 0521734496</p>
-        <h5>PURCHASE REPORT</h5>
+        <h5>PURCHASE RETURN REPORT</h5>
         <p>Delivery Date Between {{ $inputs[0] }} and {{ $inputs[1] }}</p>
     </center>
     <table width="100%" class="bordered" cellspacing="0" cellpadding="0">

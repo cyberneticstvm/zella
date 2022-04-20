@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Purchase Report</h1>
+                <h1 class="fs-4 mt-1 mb-0">Purchase Return Report</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <form method="post" action="{{ route('reports.purchase') }}">
+                        <form method="post" action="{{ route('reports.purchase-return') }}">
                             @csrf
                             <div class="row g-3">
                             <div class="col-sm-3">
@@ -91,13 +91,13 @@
                                         Export
                                     </button>
                                     <div class="dropdown-menu text-muted border-0 shadow" style="max-width: 200px;">
-                                        <form class="export" method="post" action="{{ route('purchase.pdf') }}" target="_blank">
+                                        <form class="export" method="post" action="{{ route('purchase-return.pdf') }}" target="_blank">
                                             @csrf
                                             <input type="hidden" name="inputs" value="{{ implode(',', $inputs) }}" />
                                             <button class="btn btn-link" type="submit"><i class="fa fa-file-pdf-o text-danger pdfDownload" data-bs-toggle="tooltip" data-bs-placement="top" title="Export to PDF" aria-hidden="true"> PDF</i></button>
                                         </form>
                                         <div class="dropdown-divider"></div>
-                                        <form class="export" method="post" action="{{ route('purchase-export') }}" target="_blank">
+                                        <form class="export" method="post" action="{{ route('purchase-return-export') }}" target="_blank">
                                             @csrf
                                             <input type="hidden" name="inputs" value="{{ implode(',', $inputs) }}" />
                                             <button class="btn btn-link" type="submit"><i class="fa fa-file-excel-o text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Export to Excel" aria-hidden="true"> Excel</i></button>
