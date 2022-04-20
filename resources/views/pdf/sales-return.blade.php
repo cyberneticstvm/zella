@@ -34,7 +34,7 @@
             <td>{{ $sale->customer_name }}</td>           
             <td>{{ $sale->contact_number }}</td>           
             <td>{{ $sale->address }}</td>           
-            <td class="text-right">{{ $sale->total }}</td>
+            <td class="text-right">{{ number_format($sale->total, 2) }}</td>
             </tr>
             {{ $tot += $sale->total}}           
             @endforeach
