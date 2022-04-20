@@ -105,10 +105,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::put('/sales/return/update/', 'App\Http\Controllers\SalesController@updatereturn')->name('sales.updatereturn');
     // end sales //
 
+    // reports //
+    Route::get('/reports/purchase/', 'App\Http\Controllers\ReportsController@showPurchase')->name('reports.purchase');
+    Route::post('/reports/purchase/', 'App\Http\Controllers\ReportsController@getPurchase')->name('reports.purchase');
+    // end reports //
+
     // settings //
     Route::get('/settings/vat/', 'App\Http\Controllers\SettingsController@getvat')->name('settings.vat');
     Route::post('/settings/vat/{id}', 'App\Http\Controllers\SettingsController@updatevat')->name('vat.update');
-    // settings //
+    // end settings //
 
     // helper //
     Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
@@ -117,10 +122,13 @@ Route::group(['middleware' => ['auth']], function(){
 
     // pdf //
     Route::get('/sales-invoice/{id}/', [PDFController::class, 'salesinvoice']);
+    Route::get('/product/download/pdf/', [PDFController::class, 'products']);
+    Route::post('/purchase/download/pdf/', [PDFController::class, 'purchase'])->name('purchase.pdf');
     // end pdf //
 
     // excel //
-    Route::get('/product/export/', [ExcelController::class, 'productExport'])->name('product-export');
+    Route::get('/product/download/excel/', [ExcelController::class, 'productExport'])->name('product-export');
+    Route::post('/purchase/download/excel/', [ExcelController::class, 'purchaseExport'])->name('purchase-export');
     // end excel //
 
 });

@@ -31,12 +31,13 @@
     <table width="100%" class="bordered" cellspacing="0" cellpadding="0">
         <thead><tr><th>SL No.</th><th width="50%">Item Description</th><th>Qty</th><th>Rate</th><th>VAT%</th><th>VAT Amount</th><th>Amount</th></tr>
         <tbody>
-            @php $c = 1; $tot = 0; @endphp
+            @php $c = 1; $tot = 0; $vat_tot = 0; @endphp
             @foreach($sales as $row)
             @php
                 $vat_percentage = $row->vat_percentage;
                 $vat_amount = ($vat_percentage > 0) ? ($row->total*$vat_percentage)/100 : 0;
                 $tot += $row->total+$vat_amount;
+                $vat_tot += $vat_amount;
             @endphp
             <tr>
                 <td>{{ $c++ }}</td>
@@ -48,11 +49,13 @@
                 <td class="text-right">{{ number_format($row->total+$vat_amount, 2) }}</td>
             </tr>           
             @endforeach
-            <tr><td colspan="6" class="text-right">Total before Discount</td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
+            <tr><td colspan="6" class="text-right">Sub Total</td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
+
+            <tr><td colspan="6" class="text-right">VAT (Included in Sub Total)</td><td class="text-right">{{ number_format($vat_tot, 2) }}</td></tr>
 
             <tr><td colspan="6" class="text-right">Discount</td><td class="text-right">{{ $sale->discount }}</td></tr>
 
-            <tr><td colspan="6" class="text-right">Total after Discount</td><td class="text-right"><b>{{ number_format($tot-$sale->discount, 2) }}</b></td></tr>
+            <tr><td colspan="6" class="text-right">Grand Total</td><td class="text-right"><b>{{ number_format($tot-$sale->discount, 2) }}</b></td></tr>
         </tbody>
     </table>
     <br /><br /><br />
@@ -60,6 +63,7 @@
         <tr><td>Receiver's Sign</td><td class="text-right">Signature</td></tr>
     </table>
     <pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre />
+    <pre /><pre /><pre /><pre /><pre />
     <center><img src="data:image/png;base64, {!! $qrcode !!}"></center>
 </body>
 </html>

@@ -4,29 +4,27 @@ namespace App\Exports;
 
 use App\Models\Product;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
-class ProductExport implements FromQuery, WithHeadings
+class ProductExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-    use Exportable;
-
-    public function __construct($id){
-        $this->id = $id;
-    }
+  
     public function headings():array{
         return[
             'Product Name',
+            'Collection Name',
             'SKU',
             'Selling Price',
             'description',
         ];
     } 
-    public function query()
+    public function collection()
     {
-        return Product::query()->where('id', $this->id);
+        //return Product::query()->where('id', 1);
+        $products = Product::leftJoin('collections', 'products.collection', '=', 'collections.id')->select('products.name as pname', 'collections.name as cname', 'products.sku', 'products.selling_price', 'products.description')->get();
+        return $products;
     }
 }

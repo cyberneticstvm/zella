@@ -101,6 +101,7 @@ class SalesController extends Controller
         $id = $request->id;
         DB::table('sales_details')->where('id', $id)->update(['is_return' => $val]);
         echo "Record updated successfully.";
+        //return redirect()->route('sales.return')->with('success','Record updated successfully');
     }
 
     /**
