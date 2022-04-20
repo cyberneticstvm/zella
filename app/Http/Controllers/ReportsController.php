@@ -8,6 +8,11 @@ use DB;
 
 class ReportsController extends Controller
 {
+    private $settings;
+
+    public function __construct(){
+        $this->settings = DB::table('settings')->find(1);
+    }
     public function showPurchase(){
         $suppliers = DB::table('suppliers')->get();
         $products = DB::table('products')->get();
@@ -77,9 +82,9 @@ class ReportsController extends Controller
         $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request['from_date'])->format('Y-m-d') : NULL;
         $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request['to_date'])->format('Y-m-d') : NULL;
 
-        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, SUM(sd.qty*sd.price) - s.discount AS total")->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
+        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total")->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
             return $query->where('sd.product', $request->product);
-        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 's.discount')->get();
+        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 's.discount', 'sd.vat_percentage')->get();
 
         $products = DB::table('products')->get();
         return view('reports.sales', compact('products', 'sales', 'inputs'));
@@ -100,9 +105,9 @@ class ReportsController extends Controller
         $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request['from_date'])->format('Y-m-d') : NULL;
         $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request['to_date'])->format('Y-m-d') : NULL;
 
-        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, SUM(sd.qty*sd.price) AS total")->where('sd.is_return', 1)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
+        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) ELSE SUM(sd.qty*sd.price) END AS total")->where('sd.is_return', 1)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
             return $query->where('sd.product', $request->product);
-        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date')->get();
+        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 'sd.vat_percentage')->get();
 
         $products = DB::table('products')->get();
         return view('reports.sales-return', compact('products', 'sales', 'inputs'));
