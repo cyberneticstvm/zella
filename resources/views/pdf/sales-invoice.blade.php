@@ -59,5 +59,7 @@
     <table width="100%">
         <tr><td>Receiver's Sign</td><td class="text-right">Signature</td></tr>
     </table>
+    <pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre />
+    <center><img src="data:image/png;base64, {!! $qrcode !!}"></center>
 </body>
 </html>
