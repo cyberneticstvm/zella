@@ -38,9 +38,9 @@ class PDFController extends Controller
         $supplier = (!empty($inputs[2])) ? $inputs[2] : NULL;
         $product = (!empty($inputs[3])) ? $inputs[3] : NULL;
 
-        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, p.order_date, p.delivery_date, p.payment_mode, s.name as sname, SUM(pd.total)+p.other_expense as total')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->when(isset($supplier), function($query) use ($request){
+        $purchases = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, p.order_date, p.delivery_date, p.payment_mode, s.name as sname, SUM(pd.total)+p.other_expense as total')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->when(isset($supplier), function($query) use ($request, $supplier){
             return $query->where('p.supplier', $supplier);
-        })->when(isset($product), function($query) use ($request){
+        })->when(isset($product), function($query) use ($request, $product){
             return $query->where('pd.product', $product);
         })->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name', 'p.other_expense')->get();
         $pdf = PDF::loadView('/pdf/purchase', compact('purchases', 'inputs'));
