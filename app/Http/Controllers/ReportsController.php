@@ -78,12 +78,14 @@ class ReportsController extends Controller
             'from_date' => 'required',
             'to_date' => 'required',
         ]);
-        $inputs = array($request->from_date, $request->to_date, $request->product);
+        $inputs = array($request->from_date, $request->to_date, $request->product, $request->payment_mode);
         $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request['from_date'])->format('Y-m-d') : NULL;
         $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request['to_date'])->format('Y-m-d') : NULL;
 
-        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total")->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
+        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.payment_mode, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total")->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
             return $query->where('sd.product', $request->product);
+        })->when(isset($request->payment_mode), function($query) use ($request){
+            return $query->where('s.payment_mode', $request->payment_mode);
         })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 's.discount', 'sd.vat_percentage')->get();
 
         $products = DB::table('products')->get();

@@ -78,7 +78,7 @@ $(function(){
                 url: url,
                 data: {val: val, id: id},
                 success: function( response ) {
-                    alert(response)
+                    window.location.href = response;
                 }
             });
         }else{

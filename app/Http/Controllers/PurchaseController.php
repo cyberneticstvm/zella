@@ -86,6 +86,9 @@ class PurchaseController extends Controller
         $id = $request->invoice_number;
         $purchase = Purchase::find($id); $preturns = [];
         $purchases = DB::table('purchase_details as pu')->leftJoin('products as p', 'pu.product', '=', 'p.id')->select('pu.id', 'pu.qty', 'pu.price', 'pu.total', 'pu.is_return', 'p.name')->where('purchase_id', $id)->get();
+
+        $preturns = Purchase::leftJoin('purchase_details as pd', 'purchases.id', '=', 'pd.purchase_id')->leftJoin('suppliers as s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->where('pd.is_return', '=', 1)->orderBy('purchases.created_at','DESC')->get();
+        
         return view('purchase.return', compact('purchase', 'purchases', 'preturns'));
     }
 
@@ -97,7 +100,8 @@ class PurchaseController extends Controller
             'is_return' => $val,
             'return_date' => $today
         ]);
-        echo "Record updated successfully.";
+        //echo "Record updated successfully.";
+        echo "/purchase/return/";
     }
 
     /**

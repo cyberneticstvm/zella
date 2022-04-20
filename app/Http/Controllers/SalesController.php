@@ -93,6 +93,9 @@ class SalesController extends Controller
         $id = $request->invoice_number;
         $sale = Sales::find($id); $sreturns = [];
         $sales = DB::table('sales_details as s')->leftJoin('products as p', 's.product', '=', 'p.id')->select('s.id', 's.qty', 's.price', 's.total', 's.is_return', 'p.name')->where('sales_id', $id)->get();
+
+        $sreturns = Sales::leftJoin('sales_details as sd', 'sales.id', '=', 'sd.sales_id')->select('sales.id', DB::Raw("DATE_FORMAT(sales.sold_date, '%d/%b/%Y') AS sdate"), 'sales.customer_name', 'sales.contact_number', 'sales.address', 'sales.payment_mode')->where('sd.is_return', '=', 1)->orderBy('sales.sold_date','DESC')->get();
+        
         return view('sales.return', compact('sale', 'sales', 'sreturns'));
     }
 
@@ -104,7 +107,8 @@ class SalesController extends Controller
             'is_return' => $val,
             'return_date' => $today
         ]);
-        echo "Record updated successfully.";
+        echo "/sales/return/";
+        //echo "Record updated successfully.";
         //return redirect()->route('sales.return')->with('success','Record updated successfully');
     }
 
