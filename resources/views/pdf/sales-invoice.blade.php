@@ -62,7 +62,7 @@
     <table width="100%">
         <tr><td>Receiver's Sign</td><td class="text-right">Signature</td></tr>
     </table>
-    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(200)->generate('http://google.com')) !!} ">
+    <!--<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(200)->generate('http://google.com')) !!} ">-->
     <pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre />
     <pre /><pre /><pre /><pre /><pre />
     <center><img src="data:image/png;base64, {!! $qrcode !!}"></center>
