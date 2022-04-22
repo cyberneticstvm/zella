@@ -24,11 +24,11 @@
                             @csrf
                             <div class="row g-3">
                                 <div class="col-sm-4">
-                                    <label for="TextInput" class="form-label">Product <span class="req">*</span></label>
+                                    <label for="TextInput" class="form-label">Product <span class="req">*</span></label> 
                                     <select class="form-control form-control-md select2 selProduct" name="product" required="required">
                                         <option value="">Select</option>
                                         @foreach($products as $product)
-                                            <option value="{{ $product->id }}">{{ $product->name.' - '.$product->sku }}</option>
+                                            <option value="{{ $product->id }}" {{ ($inputs && $inputs[0] == $product->id) ? 'selected' : '' }}>{{ $product->name.' - '.$product->sku }}</option>
                                         @endforeach
                                     </select>
                                     @error('product')
