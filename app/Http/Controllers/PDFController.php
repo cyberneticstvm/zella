@@ -25,6 +25,15 @@ class PDFController extends Controller
         return $pdf->stream('sales-invoice.pdf', array("Attachment"=>0));
     }
 
+    public function purchaseinvoice($id){
+        $purchase = DB::table('purchases')->find($id);
+        $supplier = DB::table('suppliers')->find($purchase->supplier);
+        $settings = $this->settings; $qrcode =  $this->qrcode;    
+        $purchases = DB::table('purchase_details as pu')->leftJoin('products as p', 'p.id', '=', 'pu.product')->select('pu.qty', 'pu.price', 'pu.total', 'p.name', 'p.vat_applicable')->where('pu.purchase_id', $id)->get();      
+        $pdf = PDF::loadView('/pdf/purchase-invoice', compact('purchase', 'purchases', 'settings', 'qrcode', 'supplier'));
+        return $pdf->stream('purchase-invoice.pdf', array("Attachment"=>0));
+    }
+
     public function products(){
         $products = DB::table('products as p')->leftJoin('collections as c', 'p.collection', '=', 'c.id')->select('p.name as pname', 'p.sku', 'p.selling_price', 'p.description', 'c.name as cname')->get();
         $pdf = PDF::loadView('/pdf/products', compact('products'));

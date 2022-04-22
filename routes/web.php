@@ -129,6 +129,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reports/expense/', 'App\Http\Controllers\ReportsController@getExpense')->name('reports.expense');
     // end reports //
 
+    // search //
+    Route::get('/search/purchase/', 'App\Http\Controllers\SearchController@showPurchase')->name('search.purchase');
+    Route::post('/search/purchase/', 'App\Http\Controllers\SearchController@getPurchase')->name('search.purchase');
+    Route::get('/search/sales/', 'App\Http\Controllers\SearchController@showSales')->name('search.sales');
+    Route::post('/search/sales/', 'App\Http\Controllers\SearchController@getSales')->name('search.sales');
+    Route::get('/search/stock-status/', 'App\Http\Controllers\SearchController@showStockStatus')->name('search.status');
+    Route::post('/search/stock-status/', 'App\Http\Controllers\SearchController@getStockStatus')->name('search.status');
+    // end search //
+
     // settings //
     Route::get('/settings/vat/', 'App\Http\Controllers\SettingsController@getvat')->name('settings.vat');
     Route::post('/settings/vat/{id}', 'App\Http\Controllers\SettingsController@updatevat')->name('vat.update');
@@ -141,6 +150,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     // pdf //
     Route::get('/sales-invoice/{id}/', [PDFController::class, 'salesinvoice']);
+    Route::get('/purchase-invoice/{id}/', [PDFController::class, 'purchaseinvoice']);
     Route::get('/product/download/pdf/', [PDFController::class, 'products']);
     Route::post('/purchase/download/pdf/', [PDFController::class, 'purchase'])->name('purchase.pdf');
     Route::post('/purchase-return/download/pdf/', [PDFController::class, 'purchasereturn'])->name('purchase-return.pdf');

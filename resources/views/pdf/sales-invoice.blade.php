@@ -19,7 +19,7 @@
     <center>
         <img src="./images/zella-logo-pdf.png" width="25%"/>
         <p>Phone: 0562659619, 0521734496</p>
-        <h5>INVOICE</h5>
+        <h5>SALES INVOICE</h5>
     </center>
     <table width="100%">
         <tbody>

@@ -23,7 +23,7 @@
                         <form method="post" action="{{ route('reports.expense') }}">
                             @csrf
                             <div class="row g-3">
-                            <div class="col-sm-3">
+                                <div class="col-sm-3">
                                     <label class="form-label">From Date <span class="req">*</span></label>
                                     <fieldset class="form-icon-group left-icon position-relative">
                                         <input type="text" value="{{ ($inputs) ? $inputs[0] : '' }}" name="from_date" class="form-control form-control-md dtpicker" placeholder="dd/mm/yyyy" required='required'>
