@@ -94,4 +94,18 @@ class PDFController extends Controller
         $pdf = PDF::loadView('/pdf/sales-return', compact('sales', 'inputs'));
         return $pdf->stream('sales-return.pdf', array("Attachment"=>0));
     }
+
+    public function expense(Request $request){
+        $inputs = explode(',', $request->inputs);
+        $from = (!empty($inputs[0])) ? Carbon::createFromFormat('d/M/Y', $inputs[0])->format('Y-m-d') : NULL;
+        $to = (!empty($inputs[1])) ? Carbon::createFromFormat('d/M/Y', $inputs[1])->format('Y-m-d') : NULL;
+        $department = (!empty($inputs[2])) ? $inputs[2] : NULL;
+
+        $expenses = DB::table('expenses')->selectRaw("DATE_FORMAT(expense_Date, '%d/%b/%Y') AS edate, amount, department, description")->whereBetween('expense_date', [$from, $to])->when(isset($department), function($query) use ($department){
+            return $query->where('department', $department);
+        })->get();
+
+        $pdf = PDF::loadView('/pdf/expense', compact('expenses', 'inputs'));
+        return $pdf->stream('expense.pdf', array("Attachment"=>0));
+    }
 }

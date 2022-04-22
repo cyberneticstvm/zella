@@ -79,6 +79,17 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/supplier/{id}/delete/', 'App\Http\Controllers\SupplierController@destroy')->name('supplier.delete');
     // end supplier //
 
+    // expense //
+    Route::get('/expense/', 'App\Http\Controllers\ExpenseController@index')->name('expense.index');
+    Route::get('/expense/create/', function () {
+        return view('expense.create');
+    });
+    Route::post('/expense/create/', 'App\Http\Controllers\ExpenseController@store')->name('expense.save');
+    Route::get('/expense/{id}/edit/', 'App\Http\Controllers\ExpenseController@edit')->name('expense.edit');
+    Route::put('/expense/{id}/edit/', 'App\Http\Controllers\ExpenseController@update')->name('expense.update');
+    Route::delete('/expense/{id}/delete/', 'App\Http\Controllers\ExpenseController@destroy')->name('expense.delete');
+    // end expense //
+
     // purchase //
     Route::get('/purchase/', 'App\Http\Controllers\PurchaseController@index')->name('purchase.index');
     Route::get('/purchase/create/', 'App\Http\Controllers\PurchaseController@create')->name('purchase.create');
@@ -114,6 +125,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reports/sales/', 'App\Http\Controllers\ReportsController@getSales')->name('reports.sales');
     Route::get('/reports/sales-return/', 'App\Http\Controllers\ReportsController@showSalesReturn')->name('reports.sales-return');
     Route::post('/reports/sales-return/', 'App\Http\Controllers\ReportsController@getSalesReturn')->name('reports.sales-return');
+    Route::get('/reports/expense/', 'App\Http\Controllers\ReportsController@showExpense')->name('reports.expense');
+    Route::post('/reports/expense/', 'App\Http\Controllers\ReportsController@getExpense')->name('reports.expense');
     // end reports //
 
     // settings //
@@ -133,6 +146,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/purchase-return/download/pdf/', [PDFController::class, 'purchasereturn'])->name('purchase-return.pdf');
     Route::post('/sales/download/pdf/', [PDFController::class, 'sales'])->name('sales.pdf');
     Route::post('/sales-return/download/pdf/', [PDFController::class, 'salesreturn'])->name('sales-return.pdf');
+    Route::post('/expense/download/pdf/', [PDFController::class, 'expense'])->name('expense.pdf');
     // end pdf //
 
     // excel //
@@ -141,6 +155,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/purchase-return/download/excel/', [ExcelController::class, 'purchaseReturnExport'])->name('purchase-return-export');
     Route::post('/sales/download/excel/', [ExcelController::class, 'salesExport'])->name('sales-export');
     Route::post('/sales-return/download/excel/', [ExcelController::class, 'salesReturnExport'])->name('sales-return-export');
+    Route::post('/expense/download/excel/', [ExcelController::class, 'expenseExport'])->name('expense-export');
     // end excel //
 
 });

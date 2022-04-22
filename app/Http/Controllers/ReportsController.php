@@ -114,4 +114,24 @@ class ReportsController extends Controller
         $products = DB::table('products')->get();
         return view('reports.sales-return', compact('products', 'sales', 'inputs'));
     }
+
+    public function showExpense(){
+        $inputs = []; $expenses = [];
+        return view('reports.expense', compact('inputs', 'expenses'));
+    }
+
+    public function getExpense(Request $request){
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
+        $inputs = array($request->from_date, $request->to_date, $request->department);
+        $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
+        $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
+
+        $expenses = DB::table('expenses')->selectRaw("DATE_FORMAT(expense_Date, '%d/%b/%Y') AS edate, amount, department, description")->whereBetween('expense_date', [$from, $to])->when(isset($request->department), function($query) use ($request){
+            return $query->where('department', $request->department);
+        })->get();
+        return view('reports.expense', compact('expenses', 'inputs'));
+    }
 }

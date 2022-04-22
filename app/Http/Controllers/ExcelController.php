@@ -9,6 +9,7 @@ use App\Exports\PurchaseExport;
 use App\Exports\PurchaseReturnExport;
 use App\Exports\SalesExport;
 use App\Exports\SalesReturnExport;
+use App\Exports\ExpenseExport;
 use DB;
 
 class ExcelController extends Controller
@@ -18,18 +19,22 @@ class ExcelController extends Controller
     }
 
     public function purchaseExport(Request $request){
-        return Excel::download(new purchaseExport($request), 'purchase.xlsx');
+        return Excel::download(new PurchaseExport($request), 'purchase.xlsx');
     }
 
     public function purchaseReturnExport(Request $request){
-        return Excel::download(new purchaseReturnExport($request), 'purchase-return.xlsx');
+        return Excel::download(new PurchaseReturnExport($request), 'purchase-return.xlsx');
     }
 
     public function salesExport(Request $request){
-        return Excel::download(new salesExport($request), 'sales.xlsx');
+        return Excel::download(new SalesExport($request), 'sales.xlsx');
     }
 
     public function salesReturnExport(Request $request){
-        return Excel::download(new salesReturnExport($request), 'sales-return.xlsx');
+        return Excel::download(new SalesReturnExport($request), 'sales-return.xlsx');
+    }
+
+    public function expenseExport(Request $request){
+        return Excel::download(new ExpenseExport($request), 'expense.xlsx');
     }
 }
