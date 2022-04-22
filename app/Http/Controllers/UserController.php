@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Hash;
 use Session;
 use DB;
@@ -17,10 +18,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $sales_this_year, $sales_this_month, $sales_last_month;
+
+    public function __construct(){
+        $this->sales_this_year = DB::table('sales')->whereYear('sold_date', date('Y'))->count('id');
+        $this->sales_this_month = DB::table('sales')->whereMonth('sold_date', date('m'))->whereYear('sold_date', date('Y'))->count('id');
+        $this->sales_last_month = DB::table('sales')->whereMonth('sold_date', Carbon::now()->subMonth()->month)->count('id');
+    }
     public function index()
     {
         $users = User::orderBy('name','ASC')->get();
         return view('user.index', compact('users'));
+    }
+
+    public function dash(){
+        $sales_this_year = $this->sales_this_year;
+        $sales_this_month = $this->sales_this_month;
+        $sales_last_month = $this->sales_last_month;
+        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month'));
     }
 
     public function login(Request $request){
@@ -29,8 +44,11 @@ class UserController extends Controller
             'password' => 'required',
         ]);
         $credentials = $request->only('username', 'password');
-        if (Auth::attempt($credentials)){
-            return view('dash');
+        if (Auth::attempt($credentials)){   
+            $sales_this_year = $this->sales_this_year;        
+            $sales_this_month = $this->sales_this_month;
+            $sales_last_month = $this->sales_last_month;
+            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month'));
         }
         return redirect()->route('login')->withErrors('Login details are not valid');
     }

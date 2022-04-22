@@ -24,9 +24,7 @@ Route::post('/', 'App\Http\Controllers\UserController@login')->name('user.login'
 Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/logout/', 'App\Http\Controllers\UserController@logout');
-    Route::get('/dash/', function () {
-        return view('dash');
-    })->name('dash');
+    Route::get('/dash/', 'App\Http\Controllers\UserController@dash')->name('dash');
 
     // user //
     Route::get('/user/', 'App\Http\Controllers\UserController@index')->name('user.index');
