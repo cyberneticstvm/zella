@@ -48,16 +48,16 @@
                             <i class="fa fa-dollar fa-lg"></i>
                         </div>
                         <div class="flex-fill ms-3">
-                            <div class="fw-bold"><span class="h4 mb-0">{{ $sales_this_year }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
+                            <div class="fw-bold"><span class="h4 mb-0">{{ number_format($revenue_this_year, 2) }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
                             <div class="text-muted small">Total Revenue this Year</div>
                             <div class="mt-3">
-                                <label class="small d-flex justify-content-between">This Month<span class="fw-bold">{{ $sales_this_month }}</span></label>
+                                <label class="small d-flex justify-content-between">This Month<span class="fw-bold">{{ number_format($revenue_this_month, 2) }}</span></label>
                                 <div class="progress mt-1" style="height: 3px;">
                                     <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" style="width: 87%;"></div>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <label class="small d-flex justify-content-between">Last Month<span class="fw-bold">{{ $sales_last_month }}</span></label>
+                                <label class="small d-flex justify-content-between">Last Month<span class="fw-bold">{{ number_format($revenue_last_month, 2) }}</span></label>
                                 <div class="progress mt-1" style="height: 3px;">
                                     <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" style="width: 44%;"></div>
                                 </div>
@@ -73,16 +73,16 @@
                             <i class="fa fa-money fa-lg"></i>
                         </div>
                         <div class="flex-fill ms-3">
-                            <div class="fw-bold"><span class="h4 mb-0">{{ $sales_this_year }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
+                            <div class="fw-bold"><span class="h4 mb-0">{{ $expense_this_year }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
                             <div class="text-muted small">Total Expenses this Year</div>
                             <div class="mt-3">
-                                <label class="small d-flex justify-content-between">This Month<span class="fw-bold">{{ $sales_this_month }}</span></label>
+                                <label class="small d-flex justify-content-between">This Month<span class="fw-bold">{{ $expense_this_month }}</span></label>
                                 <div class="progress mt-1" style="height: 3px;">
                                     <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" style="width: 87%;"></div>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <label class="small d-flex justify-content-between">Last Month<span class="fw-bold">{{ $sales_last_month }}</span></label>
+                                <label class="small d-flex justify-content-between">Last Month<span class="fw-bold">{{ $expense_last_month }}</span></label>
                                 <div class="progress mt-1" style="height: 3px;">
                                     <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" style="width: 44%;"></div>
                                 </div>
@@ -98,16 +98,16 @@
                             <i class="fa fa-gift fa-lg"></i>
                         </div>
                         <div class="flex-fill ms-3">
-                            <div class="fw-bold"><span class="h4 mb-0">{{ $sales_this_year }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
+                            <div class="fw-bold"><span class="h4 mb-0">{{ number_format($purchase_this_year, 2) }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
                             <div class="text-muted small">Total Purchases this Year</div>
                             <div class="mt-3">
-                                <label class="small d-flex justify-content-between">This Month<span class="fw-bold">{{ $sales_this_month }}</span></label>
+                                <label class="small d-flex justify-content-between">This Month<span class="fw-bold">{{ number_format($purchase_this_month, 2) }}</span></label>
                                 <div class="progress mt-1" style="height: 3px;">
                                     <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" style="width: 87%;"></div>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <label class="small d-flex justify-content-between">Last Month<span class="fw-bold">{{ $sales_last_month }}</span></label>
+                                <label class="small d-flex justify-content-between">Last Month<span class="fw-bold">{{ number_format($purchase_last_month, 2) }}</span></label>
                                 <div class="progress mt-1" style="height: 3px;">
                                     <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" style="width: 44%;"></div>
                                 </div>

@@ -18,12 +18,37 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $sales_this_year, $sales_this_month, $sales_last_month;
+    protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month;
 
     public function __construct(){
+        $this->settings = DB::table('settings')->find(1);
+        $vat = $this->settings->vat_percentage;
+
         $this->sales_this_year = DB::table('sales')->whereYear('sold_date', date('Y'))->count('id');
         $this->sales_this_month = DB::table('sales')->whereMonth('sold_date', date('m'))->whereYear('sold_date', date('Y'))->count('id');
-        $this->sales_last_month = DB::table('sales')->whereMonth('sold_date', Carbon::now()->subMonth()->month)->count('id');
+        $this->sales_last_month = DB::table('sales')->whereMonth('sold_date', Carbon::now()->subMonth()->month)->whereYear('sold_date', date('Y'))->count('id');
+
+        $revenue = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->whereYear('s.sold_date', date('Y'))->groupBy('s.id')->get();
+        $this->revenue_this_year = $revenue->sum('total');
+
+        $revenue1 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->whereMonth('s.sold_date', date('m'))->groupBy('s.id')->get();
+        $this->revenue_this_month = $revenue1->sum('total');
+
+        $revenue2 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->whereMonth('s.sold_date', Carbon::now()->subMonth()->month)->whereYear('s.sold_date', date('Y'))->groupBy('s.id')->get();
+        $this->revenue_last_month = $revenue2->sum('total');
+
+        $this->expense_this_year = DB::table('expenses')->whereYear('expense_date', date('Y'))->sum('amount');
+        $this->expense_this_month = DB::table('expenses')->whereMonth('expense_date', date('m'))->whereYear('expense_date', date('Y'))->sum('amount');
+        $this->expense_last_month = DB::table('expenses')->whereMonth('expense_date', Carbon::now()->subMonth()->month)->whereYear('expense_date', date('Y'))->sum('amount');
+
+        $purchase = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->whereYear('p.delivery_date', date('Y'))->groupBy('p.id')->get();
+        $this->purchase_this_year = $purchase->sum('total');
+
+        $purchase1 = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->whereMonth('p.delivery_date', date('m'))->groupBy('p.id')->get();
+        $this->purchase_this_month = $purchase1->sum('total');
+
+        $purchase2 = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->whereMonth('p.delivery_date', Carbon::now()->subMonth()->month)->whereYear('p.delivery_date', date('Y'))->groupBy('p.id')->get();
+        $this->purchase_last_month = $purchase2->sum('total');
     }
     public function index()
     {
@@ -35,7 +60,16 @@ class UserController extends Controller
         $sales_this_year = $this->sales_this_year;
         $sales_this_month = $this->sales_this_month;
         $sales_last_month = $this->sales_last_month;
-        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month'));
+        $revenue_this_year = $this->revenue_this_year;
+        $revenue_this_month = $this->revenue_this_month;
+        $revenue_last_month = $this->revenue_last_month;
+        $expense_this_year = $this->expense_this_year;
+        $expense_this_month = $this->expense_this_month;
+        $expense_last_month = $this->expense_last_month;
+        $purchase_this_year = $this->purchase_this_year;
+        $purchase_this_month = $this->purchase_this_month;
+        $purchase_last_month = $this->purchase_last_month;
+        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month'));
     }
 
     public function login(Request $request){
@@ -48,7 +82,16 @@ class UserController extends Controller
             $sales_this_year = $this->sales_this_year;        
             $sales_this_month = $this->sales_this_month;
             $sales_last_month = $this->sales_last_month;
-            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month'));
+            $revenue_this_year = $this->revenue_this_year;
+            $revenue_this_month = $this->revenue_this_month;
+            $revenue_last_month = $this->revenue_last_month;
+            $expense_this_year = $this->expense_this_year;
+            $expense_this_month = $this->expense_this_month;
+            $expense_last_month = $this->expense_last_month;
+            $purchase_this_year = $this->purchase_this_year;
+            $purchase_this_month = $this->purchase_this_month;
+            $purchase_last_month = $this->purchase_last_month;
+            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month'));
         }
         return redirect()->route('login')->withErrors('Login details are not valid');
     }
