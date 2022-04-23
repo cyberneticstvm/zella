@@ -53,6 +53,7 @@ class PurchaseController extends Controller
             'payment_mode' => 'required',
         ]);
         $input = $request->all();
+        $input['other_expense'] = ($request->other_expense > 0) ? $request->other_expense : 0;
         $input['order_date'] = (!empty($request->order_date)) ? Carbon::createFromFormat('d/M/Y', $request['order_date'])->format('Y-m-d') : NULL;
         $input['delivery_date'] = (!empty($request->delivery_date)) ? Carbon::createFromFormat('d/M/Y', $request['delivery_date'])->format('Y-m-d') : NULL;
         $purchase = Purchase::create($input);
@@ -136,6 +137,7 @@ class PurchaseController extends Controller
             'payment_mode' => 'required',
         ]);
         $input = $request->all();
+        $input['other_expense'] = ($request->other_expense > 0) ? $request->other_expense : 0;
         $input['order_date'] = (!empty($request->order_date)) ? Carbon::createFromFormat('d/M/Y', $request['order_date'])->format('Y-m-d') : NULL;
         $input['delivery_date'] = (!empty($request->delivery_date)) ? Carbon::createFromFormat('d/M/Y', $request['delivery_date'])->format('Y-m-d') : NULL;
         $purchase = Purchase::find($id);
