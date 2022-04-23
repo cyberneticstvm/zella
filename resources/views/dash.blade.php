@@ -16,7 +16,7 @@
 <div class="body d-flex">
     <div class="container">        
         <div class="row">
-            <div class="col-3">
+            <div class="col-sm-3">
                 <div class="card border-0 mb-3">
                     <div class="card-body d-flex align-items-start p-lg-4 p-3">
                         <div class="avatar rounded no-thumbnail">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-sm-3">
                 <div class="card border-0 mb-3">
                     <div class="card-body d-flex align-items-start p-lg-4 p-3">
                         <div class="avatar rounded no-thumbnail">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-sm-3">
                 <div class="card border-0 mb-3">
                     <div class="card-body d-flex align-items-start p-lg-4 p-3">
                         <div class="avatar rounded no-thumbnail">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-sm-3">
                 <div class="card border-0 mb-3">
                     <div class="card-body d-flex align-items-start p-lg-4 p-3">
                         <div class="avatar rounded no-thumbnail">
