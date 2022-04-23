@@ -57,6 +57,7 @@ class SalesController extends Controller
             'payment_mode' => 'required',
         ]);
         $input = $request->all();
+        $input['discount'] = ($request->discount > 0) ? $request->discount : 0;
         $input['sold_date'] = (!empty($request->sold_date)) ? Carbon::createFromFormat('d/M/Y', $request['sold_date'])->format('Y-m-d') : NULL;
         $input['created_by'] = $request->user()->id;
         $sales = Sales::create($input);
@@ -144,7 +145,7 @@ class SalesController extends Controller
         ]);
         $input = $request->all();
         $input['sold_date'] = (!empty($request->sold_date)) ? Carbon::createFromFormat('d/M/Y', $request['sold_date'])->format('Y-m-d') : NULL;
-
+        $input['discount'] = ($request->discount > 0) ? $request->discount : 0;
         $sales = Sales::find($id);
         $input['created_by'] = $sales->getOriginal('created_by');
         $sales->update($input);
