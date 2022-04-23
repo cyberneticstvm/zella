@@ -149,7 +149,7 @@ class ReportsController extends Controller
         $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
         $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
 
-        $sales = DB::table('sales_details AS sd')->leftJoin('products AS pr', 'pr.id', '=', 'sd.product')->leftJoin('sales AS sa', 'sd.sales_id', '=', 'sa.id')->selectRaw("sum(sd.total)-sa.discount AS income, sum(sd.qty)*pr.purchase_price AS expense")->whereBetween('sa.sold_date', [$from, $to])->where('sd.is_return', 0)->groupBy('sd.sales_id', 'sd.product')->get();
+        $sales = DB::table('sales_details AS sd')->leftJoin('products AS pr', 'pr.id', '=', 'sd.product')->leftJoin('sales AS sa', 'sd.sales_id', '=', 'sa.id')->selectRaw("sum(sd.total)-sa.discount AS income, sum(sd.qty)*pr.purchase_price AS expense")->whereBetween('sa.sold_date', [$from, $to])->where('sd.is_return', 0)->groupBy('sd.sales_id', 'sd.product', 'sa.discount', 'pr.purchase_price')->get();
         $expense = 
         $sales_income = $sales->sum('income');
         $purchase_expense = $sales->sum('expense');
