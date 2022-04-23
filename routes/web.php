@@ -125,6 +125,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reports/sales-return/', 'App\Http\Controllers\ReportsController@getSalesReturn')->name('reports.sales-return');
     Route::get('/reports/expense/', 'App\Http\Controllers\ReportsController@showExpense')->name('reports.expense');
     Route::post('/reports/expense/', 'App\Http\Controllers\ReportsController@getExpense')->name('reports.expense');
+    Route::get('/reports/pandl/', 'App\Http\Controllers\ReportsController@showPandL')->name('reports.pandl');
+    Route::post('/reports/pandl/', 'App\Http\Controllers\ReportsController@getPandL')->name('reports.pandl');
     // end reports //
 
     // search //
