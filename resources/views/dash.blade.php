@@ -4,7 +4,7 @@
 <!-- Body: Header -->
 <div class="body-header d-flex py-3">
     <div class="container">
-        <div class="row align-items-center asd">
+        <div class="row align-items-center">
             <div class="col-auto">
                 <h1 class="fs-4 mt-1 mb-0">Dashboard</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
