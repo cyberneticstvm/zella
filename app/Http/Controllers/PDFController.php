@@ -117,4 +117,14 @@ class PDFController extends Controller
         $pdf = PDF::loadView('/pdf/expense', compact('expenses', 'inputs'));
         return $pdf->stream('expense.pdf', array("Attachment"=>0));
     }
+
+    public function pandl(Request $request){
+        $inputs = explode(',', $request->inputs);
+        $from = (!empty($inputs[0])) ? Carbon::createFromFormat('d/M/Y', $inputs[0])->format('Y-m-d') : NULL;
+        $to = (!empty($inputs[1])) ? Carbon::createFromFormat('d/M/Y', $inputs[1])->format('Y-m-d') : NULL;
+        $sales = DB::table('sales_details AS sd')->leftJoin('products AS pr', 'pr.id', '=', 'sd.product')->leftJoin('sales AS sa', 'sd.sales_id', '=', 'sa.id')->selectRaw("sd.sales_id, pr.name, pr.purchase_price as prate, pr.selling_price as srate, sd.qty, sum(sd.total)-sa.discount AS income, sum(sd.qty)*pr.purchase_price AS expense")->whereBetween('sa.sold_date', [$from, $to])->where('sd.is_return', 0)->groupBy('sd.sales_id', 'sd.product', 'pr.name', 'sd.qty', 'pr.purchase_price', 'pr.selling_price', 'sa.discount', 'pr.purchase_price')->get();
+        $expenses = DB::table('expenses')->whereBetween('expense_date', [$from, $to])->sum('amount');
+        $pdf = PDF::loadView('/pdf/pandl', compact('sales', 'inputs'));
+        return $pdf->stream('pandl.pdf', array("Attachment"=>0));
+    }
 }

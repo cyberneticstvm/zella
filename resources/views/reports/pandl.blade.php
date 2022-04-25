@@ -95,6 +95,13 @@
                                     <tr><td colspan="5" class="text-right fw-bold">Net Profit / Loss</td><td colspan="3" class="text-right fw-bold">{{ number_format($ptot - $expenses, 2) }}</td></tr>
                                     </tbody></table>
                                 </div>
+                                <div class="text-right">
+                                    <form class="export" method="post" action="{{ route('pandl.pdf') }}" target="_blank">
+                                        @csrf
+                                        <input type="hidden" name="inputs" value="{{ implode(',', $inputs) }}" />
+                                        <button class="btn btn-link" type="submit"><i class="fa fa-file-pdf-o text-danger pdfDownload" data-bs-toggle="tooltip" data-bs-placement="top" title="Export to PDF" aria-hidden="true"> PDF</i></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

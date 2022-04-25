@@ -157,6 +157,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/sales/download/pdf/', [PDFController::class, 'sales'])->name('sales.pdf');
     Route::post('/sales-return/download/pdf/', [PDFController::class, 'salesreturn'])->name('sales-return.pdf');
     Route::post('/expense/download/pdf/', [PDFController::class, 'expense'])->name('expense.pdf');
+    Route::post('/pandl/download/pdf/', [PDFController::class, 'pandl'])->name('pandl.pdf');
     // end pdf //
 
     // excel //
