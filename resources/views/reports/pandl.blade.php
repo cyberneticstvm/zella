@@ -71,18 +71,22 @@
                                     <small>last update 10 seconds ago</small>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Product Name</th><th>Qty</th><th>Purchase Rate/Qty</th><th>Sales Rate/Qty</th><th>Purchased Price</th><th>Sold Price</th></tr></thead><tbody>
+                                    <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Product Name</th><th>Qty</th><th>Purchase Rate/Qty</th><th>Sales Rate/Qty</th><th>Purchase Total</th><th>Sales Total</th><th>Profit</th></tr></thead><tbody>
+                                    @php $etot = 0; $itot = 0; $ptot = 0; @endphp
                                     @foreach($sales as $record)
                                         <tr>
-                                            <td>{{ $record->sales_id }}</td>
+                                            <td><a href="/sales-invoice/{{ $record->sales_id }}" target="_blank">{{ $record->sales_id }}</a></td>
                                             <td>{{ $record->name }}</td>
                                             <td>{{ $record->qty }}</td>
                                             <td>{{ $record->prate }}</td>
                                             <td>{{ $record->srate }}</td>
                                             <td class="text-right">{{ $record->expense }}</td>
                                             <td class="text-right">{{ $record->income }}</td>
+                                            <td class="text-right">{{ number_format($record->income-$record->expense, 2) }}</td>
                                         </tr>
+                                        {{ $etot += $record->expense }} {{ $itot += $record->income }} {{ $ptot += $record->income-$record->expense }}
                                     @endforeach
+                                    <tr><td colspan="5" class="text-right fw-bold">Total</td><td class="text-right fw-bold">{{ number_format($etot, 2) }}</td><td class="text-right fw-bold">{{ number_format($itot, 2) }}</td><td class="text-right fw-bold">{{ number_format($ptot, 2) }}</td></tr>
                                     </tbody></table>
                                 </div>
                             </div>
