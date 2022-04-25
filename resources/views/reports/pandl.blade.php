@@ -67,7 +67,7 @@
                         <div class="col-sm-12 table-responsive">
                             <div class="card mb-4">
                                 <div class="card-header py-3 bg-transparent border-bottom-0">
-                                    <h6 class="card-title mb-0 pe-3 text-truncate">Profit and Loss summary Report between {{ $inputs[0] }} and {{ $inputs[1] }}</h6>
+                                    <h6 class="card-title mb-0 pe-3 text-truncate">Profit and Loss Detailed Report between {{ $inputs[0] }} and {{ $inputs[1] }}</h6>
                                     <small>last update 10 seconds ago</small>
                                 </div>
                                 <div class="card-body">
@@ -87,6 +87,8 @@
                                         {{ $etot += $record->expense }} {{ $itot += $record->income }} {{ $ptot += $record->income-$record->expense }}
                                     @endforeach
                                     <tr><td colspan="5" class="text-right fw-bold">Total</td><td class="text-right fw-bold">{{ number_format($etot, 2) }}</td><td class="text-right fw-bold">{{ number_format($itot, 2) }}</td><td class="text-right fw-bold">{{ number_format($ptot, 2) }}</td></tr>
+                                    <tr><td colspan="5" class="text-right fw-bold">Expense Total</td><td colspan="3" class="text-right fw-bold">{{ number_format($expenses, 2) }}</td></tr>
+                                    <tr><td colspan="5" class="text-right fw-bold">Net Profit / Loss</td><td colspan="3" class="text-right fw-bold">{{ number_format($ptot - $expenses, 2) }}</td></tr>
                                     </tbody></table>
                                 </div>
                             </div>
