@@ -72,14 +72,16 @@
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Product Name</th><th>Qty</th><th>Purchase Rate/Qty</th><th>Sales Rate/Qty</th><th>Purchase Total</th><th>Sales Total</th><th>Profit</th></tr></thead><tbody>
-                                    @php $etot = 0; $itot = 0; $ptot = 0; @endphp
+                                    @php 
+                                        $etot = 0; $itot = 0; $ptot = 0; 
+                                    @endphp
                                     @foreach($sales as $record)
                                         <tr>
                                             <td><a href="/sales-invoice/{{ $record->sales_id }}" target="_blank">{{ $record->sales_id }}</a></td>
                                             <td>{{ $record->name }}</td>
                                             <td>{{ $record->qty }}</td>
-                                            <td>{{ $record->prate }}</td>
-                                            <td>{{ $record->srate }}</td>
+                                            <td class="text-right">{{ $record->prate }}</td>
+                                            <td class="text-right">{{ $record->srate }}</td>
                                             <td class="text-right">{{ $record->expense }}</td>
                                             <td class="text-right">{{ $record->income }}</td>
                                             <td class="text-right">{{ number_format($record->income-$record->expense, 2) }}</td>
