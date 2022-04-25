@@ -56,8 +56,6 @@
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Department </label>
                                     <select class="form-control form-control-md" name="department">
-                                        <option value="">Select</option>
-                                        <option value="zella" {{ ($inputs && $inputs[2] == 'zella') ? 'selected' : '' }}>Zella</option>
                                         <option value="office" {{ ($inputs && $inputs[2] == 'office') ? 'selected' : '' }}>Office</option>
                                     </select>
                                     @error('department')

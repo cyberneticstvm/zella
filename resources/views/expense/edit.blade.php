@@ -49,8 +49,6 @@
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Department <span class="req">*</span></label>
                                     <select class="form-control form-control-md" name="department" required="required">
-                                        <option value="">Select</option>
-                                        <option value="zella" {{ ($expense->department == 'zella') ? 'selected' : '' }}>Zella</option>
                                         <option value="office" {{ ($expense->department == 'office') ? 'selected' : '' }}>Office</option>
                                     </select>
                                     @error('department')
