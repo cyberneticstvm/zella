@@ -70,7 +70,7 @@
                                     <h6 class="card-title mb-0 pe-3 text-truncate">Profit and Loss summary Report between {{ $inputs[0] }} and {{ $inputs[1] }}</h6>
                                     <small>last update 10 seconds ago</small>
                                 </div>
-                                <table><thead><tr><th>Invoice No.</th><th>Purchase Price</th><th>Selling Price</th></tr></thead><tbody>
+                                <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Purchase Price</th><th>Selling Price</th></tr></thead><tbody>
                                 @foreach($sales as $record)
                                     <tr>
                                         <td>{{ $record->sales_id }}</td>
