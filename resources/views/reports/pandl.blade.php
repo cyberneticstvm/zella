@@ -71,12 +71,14 @@
                                     <small>last update 10 seconds ago</small>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Product Name</th><th>Qty</th><th>Purchase Price</th><th>Selling Price</th></tr></thead><tbody>
+                                    <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Product Name</th><th>Qty</th><th>Purchase Rate/Qty</th><th>Sales Rate/Qty</th><th>Purchased Price</th><th>Sold Price</th></tr></thead><tbody>
                                     @foreach($sales as $record)
                                         <tr>
                                             <td>{{ $record->sales_id }}</td>
                                             <td>{{ $record->name }}</td>
                                             <td>{{ $record->qty }}</td>
+                                            <td>{{ $record->prate }}</td>
+                                            <td>{{ $record->srate }}</td>
                                             <td class="text-right">{{ $record->expense }}</td>
                                             <td class="text-right">{{ $record->income }}</td>
                                         </tr>
