@@ -84,7 +84,7 @@
                                             <td class="text-right">{{ $record->income }}</td>
                                             <td class="text-right">{{ number_format($record->income-$record->expense, 2) }}</td>
                                         </tr>
-                                        {{ $etot += $record->expense }} {{ $itot += $record->income }} {{ $ptot += $record->income-$record->expense }}
+                                        @php $etot += $record->expense; $itot += $record->income; $ptot += $record->income-$record->expense @ndphp
                                     @endforeach
                                     <tr><td colspan="5" class="text-right fw-bold">Total</td><td class="text-right fw-bold">{{ number_format($etot, 2) }}</td><td class="text-right fw-bold">{{ number_format($itot, 2) }}</td><td class="text-right fw-bold">{{ number_format($ptot, 2) }}</td></tr>
                                     <tr><td colspan="5" class="text-right fw-bold">Expense Total</td><td colspan="3" class="text-right fw-bold">{{ number_format($expenses, 2) }}</td></tr>
