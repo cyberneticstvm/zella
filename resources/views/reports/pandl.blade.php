@@ -72,9 +72,6 @@
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Product Name</th><th>Qty</th><th>Purchase Rate/Qty</th><th>Sales Rate/Qty</th><th>Purchase Total</th><th>Sales Total</th><th>Profit</th></tr></thead><tbody>
-                                    @php 
-                                        $etot = 0; $itot = 0; $ptot = 0; 
-                                    @endphp
                                     @foreach($sales as $record)
                                         <tr>
                                             <td><a href="/sales-invoice/{{ $record->sales_id }}" target="_blank">{{ $record->sales_id }}</a></td>

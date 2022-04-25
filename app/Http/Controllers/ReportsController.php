@@ -136,8 +136,8 @@ class ReportsController extends Controller
     }
 
     public function showPandL(){
-        $inputs = []; $expenses = [];
-        return view('reports.pandl', compact('inputs', 'expenses'));
+        $inputs = []; $expenses = []; $etot=0; $itot=0; $ptot=0;
+        return view('reports.pandl', compact('inputs', 'expenses', 'etot', 'itot', 'ptot'));
     }
 
     public function getPandL(Request $request){
@@ -148,9 +148,9 @@ class ReportsController extends Controller
         $inputs = array($request->from_date, $request->to_date);
         $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
         $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
-
+        $etot=0; $itot=0; $ptot=0;
         $sales = DB::table('sales_details AS sd')->leftJoin('products AS pr', 'pr.id', '=', 'sd.product')->leftJoin('sales AS sa', 'sd.sales_id', '=', 'sa.id')->selectRaw("sd.sales_id, pr.name, pr.purchase_price as prate, pr.selling_price as srate, sd.qty, sum(sd.total)-sa.discount AS income, sum(sd.qty)*pr.purchase_price AS expense")->whereBetween('sa.sold_date', [$from, $to])->where('sd.is_return', 0)->groupBy('sd.sales_id', 'sd.product', 'pr.name', 'sd.qty', 'pr.purchase_price', 'pr.selling_price', 'sa.discount', 'pr.purchase_price')->get();
         $expenses = DB::table('expenses')->whereBetween('expense_date', [$from, $to])->sum('amount');
-        return view('reports.pandl', compact('expenses', 'inputs', 'sales'));
+        return view('reports.pandl', compact('expenses', 'inputs', 'sales', 'etot', 'itot', 'ptot'));
     }
 }
