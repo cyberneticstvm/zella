@@ -70,50 +70,15 @@
                                     <h6 class="card-title mb-0 pe-3 text-truncate">Profit and Loss summary Report between {{ $inputs[0] }} and {{ $inputs[1] }}</h6>
                                     <small>last update 10 seconds ago</small>
                                 </div>
-                                <div class="card-body">
-                                    <div>
-                                        <span class="text-muted d-block">Income</span>
-                                        <h4>{{ number_format($sales_income-($purchase_expense+$expenses), 2) }}</h4>
-                                    </div>
-                                    <ul class="list-unstyled">
-                                        <li class="py-2 mb-2">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="text-uppercase">Sales Income</span>
-                                                <span class="text-muted">{{ number_format($sales_income, 2) }}</span>
-                                            </div>
-                                            <div class="progress mt-1" style="height: 3px;">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: 89%;" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </li>
-                                        <li class="py-2 mb-2">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="text-uppercase">Purchase Expenses</span>
-                                                <span class="text-muted">{{ number_format($purchase_expense, 2) }}</span>
-                                            </div>
-                                            <div class="progress mt-1" style="height: 3px;">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 76%;" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </li>
-                                        <li class="py-2 mb-2">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="text-uppercase">Office Expenses</span>
-                                                <span class="text-muted">{{ number_format($expenses, 2) }}</span>
-                                            </div>
-                                            <div class="progress mt-1" style="height: 3px;">
-                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 52%;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </li>
-                                        <li class="py-2 mb-2">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="text-uppercase">Other Expenses</span>
-                                                <span class="text-muted">0.00</span>
-                                            </div>
-                                            <div class="progress mt-1" style="height: 3px;">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 46%;" aria-valuenow="46" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <table><thead><tr><th>Invoice No.</th><th>Purchase Price</th><th>Selling Price</th></tr></thead><tbody>
+                                @foreach($sales as $record)
+                                    <tr>
+                                        <td>{{ $record->sales_id }}</td>
+                                        <td>{{ $record->expense }}</td>
+                                        <td>{{ $record->income }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody></table>
                             </div>
                         </div>
                     </div>
