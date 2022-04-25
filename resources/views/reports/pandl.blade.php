@@ -70,15 +70,19 @@
                                     <h6 class="card-title mb-0 pe-3 text-truncate">Profit and Loss summary Report between {{ $inputs[0] }} and {{ $inputs[1] }}</h6>
                                     <small>last update 10 seconds ago</small>
                                 </div>
-                                <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Purchase Price</th><th>Selling Price</th></tr></thead><tbody>
-                                @foreach($sales as $record)
-                                    <tr>
-                                        <td>{{ $record->sales_id }}</td>
-                                        <td>{{ $record->expense }}</td>
-                                        <td>{{ $record->income }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody></table>
+                                <div class="card-body">
+                                    <table class="table table-bordered"><thead><tr><th>Invoice No.</th><th>Product Name</th><th>Qty</th><th>Purchase Price</th><th>Selling Price</th></tr></thead><tbody>
+                                    @foreach($sales as $record)
+                                        <tr>
+                                            <td>{{ $record->sales_id }}</td>
+                                            <td>{{ $record->name }}</td>
+                                            <td>{{ $record->qty }}</td>
+                                            <td class="text-right">{{ $record->expense }}</td>
+                                            <td class="text-right">{{ $record->income }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody></table>
+                                </div>
                             </div>
                         </div>
                     </div>
