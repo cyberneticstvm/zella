@@ -43,7 +43,7 @@ class SalesExport implements FromCollection, WithHeadings
             return $query->where('sd.product', $product);
         })->when(isset($pmode), function($query) use ($request, $pmode){
             return $query->where('s.payment_mode', $pmode);
-        })->when(isset($pstatus), function($query) use ($request){
+        })->when(isset($pstatus), function($query) use ($request, $pstatus){
             return $query->where('s.payment_status', $pstatus);
         })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.payment_mode', 's.sold_date', 's.discount', 'sd.vat_percentage')->get();
         return $sales;
