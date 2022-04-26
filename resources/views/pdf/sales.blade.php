@@ -40,7 +40,7 @@
             </tr>
             {{ $tot += $sale->total}}           
             @endforeach
-            <tr><td colspan="7" class="text-right"><b>Total</b></td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>
+            <tr><td colspan="8" class="text-right"><b>Total</b></td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>
         </tbody>
     </table>
 </body>
