@@ -87,7 +87,7 @@ class PDFController extends Controller
             return $query->where('s.payment_mode', $pmode);
         })->when(isset($pstatus), function($query) use ($pstatus){
             return $query->where('s.payment_status', $pstatus);
-        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.sold_date', 's.payment_mode', 's.discount', 'sd.vat_percentage')->get();
+        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.sold_date', 's.payment_mode', 's.discount', 'sd.vat_percentage')->get();
 
         $pdf = PDF::loadView('/pdf/sales', compact('sales', 'inputs'));
         return $pdf->stream('sales.pdf', array("Attachment"=>0));
