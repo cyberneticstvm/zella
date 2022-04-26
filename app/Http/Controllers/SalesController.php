@@ -55,6 +55,7 @@ class SalesController extends Controller
             'address' => 'required',
             'sold_date' => 'required',
             'payment_mode' => 'required',
+            'payment_status' => 'required',
         ]);
         $input = $request->all();
         $input['discount'] = ($request->discount > 0) ? $request->discount : 0;
@@ -142,6 +143,7 @@ class SalesController extends Controller
             'address' => 'required',
             'sold_date' => 'required',
             'payment_mode' => 'required',
+            'payment_status' => 'required',
         ]);
         $input = $request->all();
         $input['sold_date'] = (!empty($request->sold_date)) ? Carbon::createFromFormat('d/M/Y', $request['sold_date'])->format('Y-m-d') : NULL;

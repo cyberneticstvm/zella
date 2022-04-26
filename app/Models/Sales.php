@@ -18,5 +18,6 @@ class Sales extends Model
         'payment_mode',
         'sales_note',
         'discount',
+        'payment_status',
     ];
 }

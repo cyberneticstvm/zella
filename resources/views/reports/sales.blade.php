@@ -53,7 +53,7 @@
                                     <small class="text-danger">{{ $errors->first('to_date') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Product </label>
                                     <select name='product' class='form-control select2'>
                                         <option value=''>Select</option>
@@ -71,6 +71,17 @@
                                         <option value="">Select</option>
                                         <option value="cash" {{ ($inputs && $inputs[3] == 'cash') ? 'selected' : '' }}>Cash</option>
                                         <option value="card" {{ ($inputs && $inputs[3] == 'card') ? 'selected' : '' }}>Card</option>
+                                    </select>
+                                    @error('payment_mode')
+                                    <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Payment Status </label>
+                                    <select class="form-control form-control-md" name="payment_status">
+                                        <option value="">Select</option>
+                                        <option value="paid" {{ ($inputs && $inputs[4] == 'paid') ? 'selected' : '' }}>Paid</option>
+                                        <option value="notpaid" {{ ($inputs && $inputs[4] == 'notpaid') ? 'selected' : '' }}>Not Paid</option>
                                     </select>
                                     @error('payment_mode')
                                     <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
@@ -105,7 +116,7 @@
                                 </div>
                             </div>
                             @endif
-                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Invoice Number</th><th>Date</th><th>Payment Mode</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Invoice Total</th></tr></thead><tbody>
+                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Invoice Number</th><th>Date</th><th>Payment Mode</th><th>Payment Status</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Invoice Total</th></tr></thead><tbody>
                             @php $c = 1; @endphp
                             @foreach($sales as $sale)
                             <tr>
@@ -113,6 +124,7 @@
                                 <td>{{ $sale->id }}</td>           
                                 <td>{{ $sale->sdate }}</td>           
                                 <td>{{ $sale->payment_mode }}</td>           
+                                <td>{{ $sale->payment_status }}</td>           
                                 <td>{{ $sale->customer_name }}</td>           
                                 <td>{{ $sale->contact_number }}</td>           
                                 <td>{{ $sale->address }}</td>           

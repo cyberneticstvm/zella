@@ -71,11 +71,22 @@
                                     <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-5">
                                     <label for="TextInput" class="form-label">Sales Note </label>
                                     <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Sales Notes" value="{{ $sales->sales_note }}" />
                                     @error('sales_note')
                                     <small class="text-danger">{{ $errors->first('sales_note') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Payment Status <span class="req">*</span></label>
+                                    <select class="form-control form-control-md" name="payment_status" required="required">
+                                        <option value="">Select</option>
+                                        <option value="paid" {{ ($sales->payment_status == 'paid') ? 'selected' : '' }}>Paid</option>
+                                        <option value="notpaid"  {{ ($sales->payment_status == 'notpaid') ? 'selected' : '' }}>Not Paid</option>
+                                    </select>
+                                    @error('payment_status')
+                                    <small class="text-danger">{{ $errors->first('payment_status') }}</small>
                                     @enderror
                                 </div>
                             </div>
