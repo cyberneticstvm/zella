@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('login');
 })->name('login');
 
+Route::get('/phpinfo/', function () {
+    return view('phpinfo');
+})->name('phpinfo');
+
 Route::post('/', 'App\Http\Controllers\UserController@login')->name('user.login');
 
 Route::group(['middleware' => ['auth']], function(){
