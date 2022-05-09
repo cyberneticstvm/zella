@@ -1,12 +1,16 @@
 <?php
-  $obj = new \ArPHP\I18N\Arabic();
+    $obj = new \ArPHP\I18N\Arabic();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Zella Boutique UAE</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <style>
+    <style type="text/css">
+        @font-face {
+            font-family: 'reemkufi';
+            src: url("{{ storage_path('/fonts/ReemKufi-Regular.ttf') }}") format("truetype");
+        }
         table{
             font-size: 15px;
         }
@@ -18,21 +22,27 @@
             text-align: right;
         }
         .arab{
-            font-family: DejaVu Sans, sans-serif; 
+            font-family: DejaVu Sans, sans-serif;
             direction: rtl;
+            font-weight: normal;
+        }
+        .big{
+            font-size: 2rem;
+            margin-top: -10px;
         }
     </style>
 </head>
 <body>
     <center>
         <img src="./images/zella-logo-pdf.png" width="25%"/>
+        <p class="arab big">{{ $obj->utf8Glyphs('زيلا بوتيك ذ م م') }}</p>
         <p>Phone: 0562659619, 0521734496</p>
-        <h5>INVOICE<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
+        <h5>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
     </center>
     <table width="100%">
         <tbody>
-            <tr><td width="25%">Customer Name:</td><td width="45%">{{ $sale->customer_name }}</td><td width="15%">Invoice No<td><td>{{ $sale->id }}</td></tr>
-            <tr><td>Contact Number:</td><td>{{ $sale->contact_number }}</td><td>Invoice Date<td><td>{{ ($sale->sold_date) ? date('d/M/Y', strtotime($sale->sold_date)) : '' }}</td></tr>
+            <tr><td width="30%">Mr. / Mrs. / <span class="arab">{{ $obj->utf8Glyphs('السيد / السيدة') }}</span> </td><td width="30%">{{ $sale->customer_name }}</td><td width="25%">Invoice No<td><td>{{ $sale->id }}</td></tr>
+            <tr><td>Contact Number:</td><td>{{ $sale->contact_number }}</td><td>Invoice Date / <span class="arab">{{ $obj->utf8Glyphs('تاريخ') }}</span><td><td>{{ ($sale->sold_date) ? date('d/M/Y', strtotime($sale->sold_date)) : '' }}</td></tr>
             <tr><td>Address:</td><td colspan="3">{{ $sale->address }}</td></tr>
         <tbody>
     </table>
@@ -68,7 +78,7 @@
     </table>
     <br /><br /><br />
     <table width="100%">
-        <tr><td>Receiver's Sign</td><td class="text-right">Signature</td></tr>
+        <tr><td>Receiver's Sign</td><td class="text-right">Signature / <span class="arab">{{ $obj->utf8Glyphs('التوقيع') }}</span></td></tr>
     </table>
    <pre /><pre />
     <center><img src="data:image/png;base64, {!! $qrcode !!}"></center>
