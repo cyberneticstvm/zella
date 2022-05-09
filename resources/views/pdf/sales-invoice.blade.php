@@ -1,7 +1,11 @@
+<?php
+  $obj = new \ArPHP\I18N\Arabic();
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Zella Boutique UAE</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
         table{
             font-size: 15px;
@@ -13,13 +17,17 @@
         .text-right{
             text-align: right;
         }
+        .arab{
+            font-family: DejaVu Sans, sans-serif; 
+            direction: rtl;
+        }
     </style>
 </head>
 <body>
     <center>
         <img src="./images/zella-logo-pdf.png" width="25%"/>
         <p>Phone: 0562659619, 0521734496</p>
-        <h5>SALES INVOICE</h5>
+        <h5>INVOICE<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
     </center>
     <table width="100%">
         <tbody>
