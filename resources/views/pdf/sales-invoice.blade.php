@@ -26,7 +26,7 @@
             direction: rtl;
             font-weight: normal;
         }
-        title{
+        .title{
             font-size:  8px;
         }
         .big{
