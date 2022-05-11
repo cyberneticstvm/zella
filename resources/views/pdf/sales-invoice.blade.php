@@ -26,6 +26,9 @@
             direction: rtl;
             font-weight: normal;
         }
+        h5{
+            font-size:  15px;
+        }
         .big{
             font-size: 2rem;
             margin-top: -10px;
