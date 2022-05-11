@@ -27,7 +27,7 @@
             font-weight: normal;
         }
         h5{
-            font-size:  15px;
+            font-size:  10px;
         }
         .big{
             font-size: 2rem;
