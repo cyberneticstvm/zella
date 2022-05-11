@@ -26,11 +26,8 @@
             direction: rtl;
             font-weight: normal;
         }
-        .title{
-            font-size:  8px;
-        }
         .big{
-            font-size: 2rem;
+            font-size: 1.9rem;
             margin-top: -10px;
         }
     </style>
@@ -40,7 +37,7 @@
         <img src="./images/zella-logo-pdf.png" width="25%"/>
         <p class="arab big">{{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة الشخص الواحد ذ.م.م') }}</p>
         <p>Phone: 0562659619, 0521734496</p>
-        <h5>INVOICE&nbsp;&nbsp;<span class="arab title"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
+        <h5>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
     </center>
     <table width="100%">
         <tbody>
@@ -70,13 +67,13 @@
                 <td class="text-right">{{ number_format($row->total+$vat_amount, 2) }}</td>
             </tr>           
             @endforeach
-            <tr><td colspan="6" class="text-right">Sub Total</td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
+            <tr><td colspan="6" class="text-right">Sub Total / <span class="arab">{{ $obj->utf8Glyphs('المجموع الفرعي') }}</span></td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
 
             <tr><td colspan="6" class="text-right">VAT (Included in Sub Total)</td><td class="text-right">{{ number_format($vat_tot, 2) }}</td></tr>
 
             <tr><td colspan="6" class="text-right">Discount</td><td class="text-right">{{ $sale->discount }}</td></tr>
 
-            <tr><td colspan="6" class="text-right">Grand Total</td><td class="text-right"><b>{{ number_format($tot-$sale->discount, 2) }}</b></td></tr>
+            <tr><td colspan="6" class="text-right">Grand Total / <span class="arab">{{ $obj->utf8Glyphs('مجموع الدراهم') }}</span></td><td class="text-right"><b>{{ number_format($tot-$sale->discount, 2) }}</b></td></tr>
         </tbody>
     </table>
     <br /><br /><br />
