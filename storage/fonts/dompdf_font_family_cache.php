@@ -79,7 +79,10 @@ return array (
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'reemkufi' => array(
-    'normal' => $fontDir . '/reemkufi_normal_5afe299ac205d432b7ceb2a6556bc684',
+    'normal' => $fontDir . '/reemkufi_normal_394e2d99e305d1800af19f9a970394b1',
+  ),
+  'notosans' => array(
+    'normal' => $fontDir . '/notosans_normal_394e2d99e305d1800af19f9a970394b1',
   ),
 );
 }; ?>
