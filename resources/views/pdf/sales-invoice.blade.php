@@ -26,8 +26,8 @@
             direction: rtl;
             font-weight: normal;
         }
-        h5{
-            font-size:  10px;
+        title{
+            font-size:  8px;
         }
         .big{
             font-size: 2rem;
@@ -40,7 +40,7 @@
         <img src="./images/zella-logo-pdf.png" width="25%"/>
         <p class="arab big">{{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة الشخص الواحد ذ.م.م') }}</p>
         <p>Phone: 0562659619, 0521734496</p>
-        <h5>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
+        <h5>INVOICE&nbsp;&nbsp;<span class="arab title"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
     </center>
     <table width="100%">
         <tbody>
