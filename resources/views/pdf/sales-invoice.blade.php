@@ -40,7 +40,7 @@
     </center>
     <table width="100%">
         <tbody>
-            <tr><td width="30%">Mr. / Mrs. / <span class="arab">{{ $obj->utf8Glyphs('السيد / السيدة') }}</span> </td><td width="30%">{{ $sale->customer_name }}</td><td width="25%">Invoice No<td><td>{{ $sale->id }}</td></tr>
+            <tr><td width="30%">Mr. / Mrs. <span class="arab">{{ $obj->utf8Glyphs('السيدة') }}</span> / <span class="arab">{{ $obj->utf8Glyphs('السيد') }}</span> </td><td width="30%">{{ $sale->customer_name }}</td><td width="25%">Invoice No<td><td>{{ $sale->id }}</td></tr>
             <tr><td>Contact Number:</td><td>{{ $sale->contact_number }}</td><td>Invoice Date / <span class="arab">{{ $obj->utf8Glyphs('تاريخ') }}</span><td><td>{{ ($sale->sold_date) ? date('d/M/Y', strtotime($sale->sold_date)) : '' }}</td></tr>
             <tr><td>Address:</td><td colspan="3">{{ $sale->address }}</td></tr>
         <tbody>
