@@ -106,14 +106,14 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td><input type="number" class="form-control text-right qty" placeholder="0" name="qty[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right price" placeholder="0.00" name="price[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right total" placeholder="0.00" name="total[]" required='required'></td>
+                                                <td><input type="number" step='any' class="form-control text-right qty" placeholder="0" name="qty[]" required='required'></td>
+                                                <td><input type="number" step='any' class="form-control text-right price" placeholder="0.00" name="price[]" required='required'></td>
+                                                <td><input type="number" step='any' class="form-control text-right total" placeholder="0.00" name="total[]" required='required'></td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Other Expenses</td><td><input type="number" class="form-control text-right" placeholder="0.00" name="other_expense"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Other Expenses</td><td><input type="number" class="form-control text-right" step='any' placeholder="0.00" name="other_expense"></td></tr>
                                         </tfoot>
                                     </table>
                                 </div>
@@ -125,6 +125,35 @@
                                 <div class="col-sm-2"><button type="submit" class="btn btn-submit btn-primary w-100">SAVE</button></div>
                             </div>
                         </form>
+                    </div>
+                </div> <!-- .Card End -->
+                <!-- card: Calendar -->
+                <div class="card mb-2">
+                    <div class="card-body p-4">
+                        <h5 class="text-center">Purchase Register</h5>
+                        <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
+                        <thead><tr><th>SL No.</th><th>Zella Invoice</th><th>Supplier Name</th><th>Supplier Invoice</th><th>Order Date</th><th>Delivery Date</th><th>Invoice</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        @php $i = 0; @endphp
+                        @foreach($purchases as $purchase)
+                        <tr>
+                            <td>{{ ++$i }}</td>
+                            <td>{{ $purchase->id }}</td>
+                            <td>{{ $purchase->name }}</td>
+                            <td>{{ $purchase->invoice_number }}</td>
+                            <td>{{ $purchase->odate }}</td>
+                            <td>{{ $purchase->ddate }}</td>
+                            <td class="text-center"><a class='btn btn-link' href="/purchase-invoice/{{ $purchase->id }}" target="_blank"><i class="fa fa-file-o text-info"></i></a></td>
+                            <td><a class='btn btn-link' href="{{ route('purchase.edit', $purchase->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                            <td>
+                                <form method="post" action="{{ route('purchase.delete', $purchase->id) }}">
+                                    @csrf 
+                                    @method("DELETE")
+                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this Purchase Record?');"><i class="fa fa-trash text-danger"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                        </tbody></table>
                     </div>
                 </div> <!-- .Card End -->
             </div>

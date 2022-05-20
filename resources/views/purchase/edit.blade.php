@@ -110,9 +110,9 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td><input type="number" class="form-control text-right qty" placeholder="0" name="qty[]" value="{{ $pdetails->qty }}" required='required'></td>
-                                                <td><input type="number" class="form-control text-right price" value="{{ $pdetails->price }}" placeholder="0.00" name="price[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right total" value="{{ $pdetails->total }}"placeholder="0.00" name="total[]" required='required'></td>
+                                                <td><input type="number" step='any' class="form-control text-right qty" placeholder="0" name="qty[]" value="{{ $pdetails->qty }}" required='required'></td>
+                                                <td><input type="number" step='any' class="form-control text-right price" value="{{ $pdetails->price }}" placeholder="0.00" name="price[]" required='required'></td>
+                                                <td><input type="number" step='any' class="form-control text-right total" value="{{ $pdetails->total }}"placeholder="0.00" name="total[]" required='required'></td>
                                                 <td class="text-center">
                                                     @if($c > 1 && $pdetails->is_return == 0)
                                                     <a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a>
@@ -122,7 +122,7 @@
                                         @endforeach
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Other Expenses</td><td><input type="number" class="form-control text-right" placeholder="0.00" value="{{ $purchase->other_expense }}" name="other_expense"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Other Expenses</td><td><input type="number" class="form-control text-right" step='any' placeholder="0.00" value="{{ $purchase->other_expense }}" name="other_expense"></td></tr>
                                         </tfoot>
                                     </table>
                                 </div>

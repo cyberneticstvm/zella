@@ -13,10 +13,17 @@ class PurchaseController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * 
      */
+    protected $purchases;
+
+    public function __construct(){
+        $this->purchases = Purchase::leftJoin('suppliers AS s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->orderBy('purchases.id','DESC')->get();        
+    }
+
     public function index()
     {
-        $purchases = Purchase::leftJoin('suppliers AS s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->orderBy('purchases.delivery_date','ASC')->get();
+        $purchases = $this->purchases;
         return view('purchase.index', compact('purchases'));
     }
 
@@ -34,7 +41,8 @@ class PurchaseController extends Controller
     {
         $suppliers = DB::table('suppliers')->get();
         $products = DB::table('products')->get();
-        return view('purchase.create', compact('suppliers', 'products'));
+        $purchases = $this->purchases;
+        return view('purchase.create', compact('suppliers', 'products', 'purchases'));
     }
 
     /**
@@ -70,7 +78,11 @@ class PurchaseController extends Controller
                 endif;
             endfor;
         endif;
-        return redirect()->route('purchase.index')->with('success','Purchase recorded successfully');
+        //return redirect()->route('purchase.index')->with('success','Purchase recorded successfully');
+        $purchases = Purchase::leftJoin('suppliers AS s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->orderBy('purchases.id','desc')->get(); 
+        $suppliers = DB::table('suppliers')->get();
+        $products = DB::table('products')->get();
+        return redirect()->route('purchase.create', ['suppliers' => $suppliers, 'products' => $products, 'purchases' => $purchases])->with('success','Purchase recorded successfully');
     }
 
     /**

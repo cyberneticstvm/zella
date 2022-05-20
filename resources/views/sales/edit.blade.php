@@ -108,9 +108,9 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td><input type="number" class="form-control text-right qty" value="{{ $sale->qty }}" placeholder="0" name="qty[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right price" value="{{ $sale->price }}" placeholder="0.00" name="price[]" required='required'></td>
-                                                <td><input type="number" class="form-control text-right total" value="{{ $sale->total }}" placeholder="0.00" name="total[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right qty" value="{{ $sale->qty }}" placeholder="0" step='any' name="qty[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right price" step='any' value="{{ $sale->price }}" placeholder="0.00" name="price[]" required='required'></td>
+                                                <td><input type="number" step='any' class="form-control text-right total" value="{{ $sale->total }}" placeholder="0.00" name="total[]" required='required'></td>
                                                 <td>
                                                     @if($c > 1 && $sale->is_return == 0)
                                                     <a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a>
@@ -120,7 +120,7 @@
                                         @endforeach
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" placeholder="0.00" value="{{ $sales->discount }}" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" step='any' class="form-control text-right discount" placeholder="0.00" value="{{ $sales->discount }}" name="discount"></td></tr>
                                             <tr><td colspan="3" class="text-right">Total before Tax</td><td class="text-success text-right fw-bold tbt">{{ number_format($tot - $sales->discount, 2) }}</td></tr>
                                         </tfoot>
                                     </table>

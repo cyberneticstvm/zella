@@ -42,10 +42,11 @@
             {{ $tot += $row->total }}           
             @endforeach
             <tr><td colspan="4" class="text-right">Total</td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
+            <tr><td colspan="4" class="text-right">Other Expenses</td><td class="text-right"><b>{{ $purchase->other_expense }}</b></td></tr>
+            <tr><td colspan="4" class="text-right">Grand Total</td><td class="text-right"><b>{{ number_format($tot+$purchase->other_expense, 2) }}</b></td></tr>   
         </tbody>
     </table>
-    <pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre />
-    <pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre /><pre />
+    <pre /><pre /><pre /><pre /><pre /><pre />
     <center><img src="data:image/png;base64, {!! $qrcode !!}"></center>
 </body>
 </html>

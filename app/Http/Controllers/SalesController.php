@@ -21,7 +21,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sales::get();
+        $sales = Sales::orderBy('id', 'desc')->get();
         return view('sales.index', compact('sales'));
     }
 
@@ -38,7 +38,8 @@ class SalesController extends Controller
     public function create()
     {
         $products = DB::table('products')->get();
-        return view('sales.create', compact('products'));
+        $sales = Sales::orderBy('id', 'desc')->get();
+        return view('sales.create', compact('products', 'sales'));
     }
 
     /**
@@ -78,7 +79,9 @@ class SalesController extends Controller
                 endif;
             endfor;
         endif;
-        return redirect()->route('sales.index')->with('success','Sales recorded successfully');
+        $sales = Sales::orderBy('id', 'desc')->get();
+        $products = DB::table('products')->get();
+        return redirect()->route('sales.create', ['sales' => $sales, 'products' => $products])->with('success','Sales recorded successfully');
     }
 
     /**
