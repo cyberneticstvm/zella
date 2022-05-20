@@ -155,4 +155,50 @@ class ReportsController extends Controller
         $expenses = DB::table('expenses')->whereBetween('expense_date', [$from, $to])->sum('amount');
         return view('reports.pandl', compact('expenses', 'inputs', 'sales'));
     }
+
+    public function showStockIn(){
+        $inputs = []; $stockin = [];
+        $suppliers = DB::table('suppliers')->get();
+        $products = DB::table('products')->get();
+        return view('reports.stockin', compact('inputs', 'suppliers', 'products', 'stockin'));
+    }
+
+    public function getStockIn(Request $request){
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
+        $inputs = array($request->from_date, $request->to_date, $request->supplier, $request->product);
+        $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
+        $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
+        $stockin = DB::table('purchase_details as pd')->leftJoin('purchases as p', 'pd.purchase_id', '=', 'p.id')->leftJoin('products as pr', 'pd.product', '=', 'pr.id')->leftJoin('suppliers as s', 's.id', '=', 'p.supplier')->selectRaw("p.id, p.invoice_number, s.name as supplier, pr.name as product, DATE_FORMAT(p.order_date, '%d/%b/%Y') AS odate, DATE_FORMAT(p.delivery_date, '%d/%b/%Y') AS ddate, p.payment_mode, pd.qty, pd.price, pd.total")->whereBetween('p.delivery_date', [$from, $to])->when(isset($request->supplier), function($query) use ($request){
+            return $query->where('p.supplier', $request->supplier);
+        })->when(isset($request->product), function($query) use ($request){
+            return $query->where('pd.product', $request->product);
+        })->get();
+        $suppliers = DB::table('suppliers')->get();
+        $products = DB::table('products')->get();
+        return view('reports.stockin', compact('inputs', 'stockin', 'suppliers', 'products'));
+    }
+
+    public function showStockOut(){
+        $inputs = []; $stockout = [];
+        $products = DB::table('products')->get();
+        return view('reports.stockout', compact('inputs', 'products', 'stockout'));
+    }
+
+    public function getStockOut(Request $request){
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
+        $inputs = array($request->from_date, $request->to_date, $request->product);
+        $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
+        $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
+        $stockout = DB::table('sales as s')->leftJoin('sales_details as sd', 's.id', '=', 'sd.sales_id')->leftJoin('products as p', 'p.id', '=', 'sd.product')->selectRaw("s.id, s.customer_name, p.name AS product,  DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.payment_mode, sd.qty, sd.price, sd.total")->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
+            return $query->where('sd.product', $request->product);
+        })->get();
+        $products = DB::table('products')->get();
+        return view('reports.stockout', compact('inputs', 'stockout', 'products'));
+    }
 }
