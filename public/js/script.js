@@ -1,11 +1,17 @@
 $(function(){
     'use strict'
     $('form').submit(function(){
-        var cls = $(this).attr('class');
-        if(cls != 'export'){
-            $(".btn-submit").attr("disabled", true);
-            $(".btn-submit").html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>&nbsp;Loading...");
-        }        
+        var c = confirm("Are you sure want to proceed?");
+        if(c){
+            var cls = $(this).attr('class');
+            if(cls != 'export'){
+                $(".btn-submit").attr("disabled", true);
+                $(".btn-submit").html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>&nbsp;Loading...");
+            }  
+        }else{
+            return false;
+        }
+              
     });
     
     $('#dataTbl').dataTable({

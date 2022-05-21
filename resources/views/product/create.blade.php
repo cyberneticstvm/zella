@@ -50,8 +50,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="TextInput" class="form-label">Size <span class="req">*</span></label>
-                                    <select name='size' class='form-control' required='required'>
+                                    <label for="TextInput" class="form-label">Size</label>
+                                    <select name='size' class='form-control'>
                                         <option value=''>Select</option>
                                         @foreach($sizes as $size)
                                             <option value="{{ $size->id }}">{{ $size->name }}</option>
@@ -62,8 +62,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="TextInput" class="form-label">Color <span class="req">*</span></label>
-                                    <select name='color' class='form-control' required='required'>
+                                    <label for="TextInput" class="form-label">Color</label>
+                                    <select name='color' class='form-control'>
                                         <option value=''>Select</option>
                                         @foreach($colors as $color)
                                             <option value="{{ $color->id }}">{{ $color->name }}</option>
@@ -74,8 +74,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="TextInput" class="form-label">Material <span class="req">*</span></label>
-                                    <select name='material' class='form-control' required='required'>
+                                    <label for="TextInput" class="form-label">Material</label>
+                                    <select name='material' class='form-control'>
                                         <option value=''>Select</option>
                                         @foreach($materials as $material)
                                             <option value="{{ $material->id }}">{{ $material->name }}</option>

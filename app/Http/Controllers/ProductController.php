@@ -45,9 +45,6 @@ class ProductController extends Controller
             'name' => 'required|unique:products,name',
             'collection' => 'required',
             'sku' => 'required|unique:products,sku',
-            'size' => 'required',
-            'color' => 'required',
-            'material' => 'required',
             'selling_price' => 'required|numeric|min:1',
         ]);
         $input = $request->all();
@@ -97,9 +94,6 @@ class ProductController extends Controller
             'name' => 'required|unique:products,name,'.$id,
             'collection' => 'required',
             'sku' => 'required|unique:products,sku,'.$id,
-            'size' => 'required',
-            'color' => 'required',
-            'material' => 'required',
             'selling_price' => 'required|numeric|min:1',
         ]);
         $input = $request->all();

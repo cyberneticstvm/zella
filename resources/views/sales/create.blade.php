@@ -20,7 +20,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <form method="post" action="{{ route('sales.save') }}">
+                        <form id="frm-sales" method="post" action="{{ route('sales.save') }}">
                             @csrf
                             <input type="hidden" name="is_dead_stock" value="0" />
                             <div class="row g-3">
@@ -60,35 +60,7 @@
                                     <small class="text-danger">{{ $errors->first('order_date') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-sm-2">
-                                    <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
-                                    <select class="form-control form-control-md" name="payment_mode" required="required">
-                                        <option value="">Select</option>
-                                        <option value="cash">Cash</option>
-                                        <option value="card">Card</option>
-                                    </select>
-                                    @error('payment_mode')
-                                    <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-5">
-                                    <label for="TextInput" class="form-label">Sales Note </label>
-                                    <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Sales Notes"/>
-                                    @error('sales_note')
-                                    <small class="text-danger">{{ $errors->first('sales_note') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-2">
-                                    <label for="TextInput" class="form-label">Payment Status <span class="req">*</span></label>
-                                    <select class="form-control form-control-md" name="payment_status" required="required">
-                                        <option value="">Select</option>
-                                        <option value="paid">Paid</option>
-                                        <option value="notpaid">Not Paid</option>
-                                    </select>
-                                    @error('payment_status')
-                                    <small class="text-danger">{{ $errors->first('payment_status') }}</small>
-                                    @enderror
-                                </div>
+                                
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-12">
@@ -117,6 +89,39 @@
                                         </tfoot>
                                     </table>
                                 </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
+                                    <select class="form-control form-control-md" name="payment_mode" required="required">
+                                        <option value="">Select</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="card">Card</option>
+                                    </select>
+                                    @error('payment_mode')
+                                    <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="TextInput" class="form-label">Sales Note </label>
+                                    <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Sales Notes"/>
+                                    @error('sales_note')
+                                    <small class="text-danger">{{ $errors->first('sales_note') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Payment Status <span class="req">*</span></label>
+                                    <select class="form-control form-control-md" name="payment_status" required="required">
+                                        <option value="">Select</option>
+                                        <option value="paid">Paid</option>
+                                        <option value="notpaid">Not Paid</option>
+                                    </select>
+                                    @error('payment_status')
+                                    <small class="text-danger">{{ $errors->first('payment_status') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2"></div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-6"></div>

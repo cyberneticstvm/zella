@@ -61,6 +61,8 @@ class SalesController extends Controller
         $input = $request->all();
         $input['discount'] = ($request->discount > 0) ? $request->discount : 0;
         $input['sold_date'] = (!empty($request->sold_date)) ? Carbon::createFromFormat('d/M/Y', $request['sold_date'])->format('Y-m-d') : NULL;
+        $input['card_fee'] = ($request->payment_mode == 'card') ? $this->settings->card_fee : 0.00;
+        $input['vat_percentage'] = $this->settings->vat_percentage;
         $input['created_by'] = $request->user()->id;
         $sales = Sales::create($input);
         if($input['product']):
@@ -155,6 +157,8 @@ class SalesController extends Controller
         ]);
         $input = $request->all();
         $input['sold_date'] = (!empty($request->sold_date)) ? Carbon::createFromFormat('d/M/Y', $request['sold_date'])->format('Y-m-d') : NULL;
+        $input['card_fee'] = ($request->payment_mode == 'card') ? $this->settings->card_fee : 0.00;
+        $input['vat_percentage'] = $this->settings->vat_percentage;
         $input['discount'] = ($request->discount > 0) ? $request->discount : 0;
         $sales = Sales::find($id);
         $input['created_by'] = $sales->getOriginal('created_by');

@@ -16,8 +16,10 @@ class Sales extends Model
         'sold_date',
         'created_by',
         'payment_mode',
+        'card_fee',
         'sales_note',
         'discount',
+        'vat_percentage',
         'payment_status',
         'is_dead_stock',
     ];
