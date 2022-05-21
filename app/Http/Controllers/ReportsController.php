@@ -201,4 +201,9 @@ class ReportsController extends Controller
         $products = DB::table('products')->get();
         return view('reports.stockout', compact('inputs', 'stockout', 'products'));
     }
+
+    public function getStockInHand(){
+        $products = DB::table('products')->get();
+        return view('reports.stockinhand', compact('products'));
+    }
 }
