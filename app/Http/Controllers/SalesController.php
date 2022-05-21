@@ -79,9 +79,14 @@ class SalesController extends Controller
                 endif;
             endfor;
         endif;
-        $sales = Sales::orderBy('id', 'desc')->get();
         $products = DB::table('products')->get();
-        return redirect()->route('sales.create', ['sales' => $sales, 'products' => $products])->with('success','Sales recorded successfully');
+        if($request->is_dead_stock == 0):
+            $sales = Sales::orderBy('id', 'desc')->get();
+            return redirect()->route('sales.create', ['sales' => $sales, 'products' => $products])->with('success','Sales recorded successfully');
+        else:
+            $sales = Sales::orderBy('id', 'desc')->where('is_dead_stock', 0)->get();
+            return redirect()->route('sales.deadstock', ['sales' => $sales, 'products' => $products])->with('success','Deadstock recorded successfully');
+        endif;
     }
 
     /**
@@ -172,6 +177,12 @@ class SalesController extends Controller
             endfor;
         endif;
         return redirect()->route('sales.index')->with('success','Sales record updated successfully');
+    }
+
+    public function deadstock(){
+        $products = DB::table('products')->get();
+        $sales = Sales::orderBy('id', 'desc')->where('is_dead_stock', 1)->get();
+        return view('sales.deadstock', compact('products', 'sales'));
     }
 
     /**

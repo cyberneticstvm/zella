@@ -116,6 +116,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sales/return/', 'App\Http\Controllers\SalesController@getSalesReturns')->name('sales.return');
     Route::post('/sales/return/', 'App\Http\Controllers\SalesController@fetch')->name('sreturn.fetch');
     Route::put('/sales/return/update/', 'App\Http\Controllers\SalesController@updatereturn')->name('sales.updatereturn');
+
+    Route::get('/sales/deadstock/', 'App\Http\Controllers\SalesController@deadstock')->name('sales.deadstock');    
+
     // end sales //
 
     // reports //
@@ -150,6 +153,8 @@ Route::group(['middleware' => ['auth']], function(){
     // settings //
     Route::get('/settings/vat/', 'App\Http\Controllers\SettingsController@getvat')->name('settings.vat');
     Route::post('/settings/vat/{id}', 'App\Http\Controllers\SettingsController@updatevat')->name('vat.update');
+    Route::get('/settings/cardfee/', 'App\Http\Controllers\SettingsController@getcardfee')->name('settings.cardfee');
+    Route::post('/settings/cardfee/{id}', 'App\Http\Controllers\SettingsController@updatecardfee')->name('cardfee.update');
     // end settings //
 
     // helper //

@@ -23,6 +23,7 @@
                         <form method="post" action="{{ route('sales.update', $sales->id) }}">
                             @csrf
                             @method("PUT")
+                            <input type="hidden" name="is_dead_stock" value="0" />
                             <div class="row g-3">
                                 <div class="col-sm-4">
                                     <label for="TextInput" class="form-label">Customer Name <span class="req">*</span></label>

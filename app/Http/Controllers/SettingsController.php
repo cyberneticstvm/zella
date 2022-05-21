@@ -27,4 +27,19 @@ class SettingsController extends Controller
         return redirect()->route('settings.vat')
                         ->with('success','VAT updated successfully');
     }
+
+    public function getcardfee(){
+        $settings = $this->settings;
+        return view('settings.cardfee', compact('settings'));
+    }
+
+    public function updatecardfee(Request $request, $id){
+        $this->validate($request, [
+            'card_fee' => 'required',
+        ]);
+        DB::table('settings')->where('id', $id)->update(['card_fee' => $request->card_fee]);
+        $settings = $this->settings;
+        return redirect()->route('settings.cardfee')
+                        ->with('success','Card Fee updated successfully');
+    }
 }

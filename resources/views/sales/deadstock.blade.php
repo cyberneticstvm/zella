@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">New Sales</h1>
+                <h1 class="fs-4 mt-1 mb-0">Dead Stock</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -22,29 +22,14 @@
                     <div class="card-body p-4">
                         <form method="post" action="{{ route('sales.save') }}">
                             @csrf
-                            <input type="hidden" name="is_dead_stock" value="0" />
-                            <div class="row g-3">
-                                <div class="col-sm-4">
-                                    <label for="TextInput" class="form-label">Customer Name <span class="req">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Customer Name" name="customer_name" value="{{ old('customer_name') }}">
-                                    @error('customer_name')
-                                    <small class="text-danger">{{ $errors->first('customer_name') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-3">
-                                    <label for="TextInput" class="form-label">Contact Number <span class="req">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Contact Number" name="contact_number" value="{{ old('contact_number') }}">
-                                    @error('contact_number')
-                                    <small class="text-danger">{{ $errors->first('contact_number') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-5">
-                                    <label for="TextInput" class="form-label">Customer Address <span class="req">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Customer Address" name="address" value="{{ old('address') }}">
-                                    @error('address')
-                                    <small class="text-danger">{{ $errors->first('address') }}</small>
-                                    @enderror
-                                </div>                            
+                            <input type="hidden" name="is_dead_stock" value="1" />
+                            <input type="hidden" name="customer_name" value="Dead Stock" />
+                            <input type="hidden" name="contact_number" value="xxxxxxxxxx" />
+                            <input type="hidden" name="address" value="Zella Boutique" />
+                            <input type="hidden" name="payment_mode" value="cash" />
+                            <input type="hidden" name="payment_status" value="notpaid" />
+                            <input type="hidden" name="discount" value="0.00" />
+                            <div class="row g-3">                            
                                 <div class="col-sm-3">
                                     <label class="form-label">Sales Date <span class="req">*</span></label>
                                     <fieldset class="form-icon-group left-icon position-relative">
@@ -60,33 +45,11 @@
                                     <small class="text-danger">{{ $errors->first('order_date') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-sm-2">
-                                    <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
-                                    <select class="form-control form-control-md" name="payment_mode" required="required">
-                                        <option value="">Select</option>
-                                        <option value="cash">Cash</option>
-                                        <option value="card">Card</option>
-                                    </select>
-                                    @error('payment_mode')
-                                    <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-5">
-                                    <label for="TextInput" class="form-label">Sales Note </label>
-                                    <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Sales Notes"/>
+                                <div class="col-sm-9">
+                                    <label for="TextInput" class="form-label">Comments / Reason</label>
+                                    <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Comments / Reason"/>
                                     @error('sales_note')
                                     <small class="text-danger">{{ $errors->first('sales_note') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-2">
-                                    <label for="TextInput" class="form-label">Payment Status <span class="req">*</span></label>
-                                    <select class="form-control form-control-md" name="payment_status" required="required">
-                                        <option value="">Select</option>
-                                        <option value="paid">Paid</option>
-                                        <option value="notpaid">Not Paid</option>
-                                    </select>
-                                    @error('payment_status')
-                                    <small class="text-danger">{{ $errors->first('payment_status') }}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -112,8 +75,8 @@
                                             </tr>
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" placeholder="0.00" name="discount"></td></tr>
-                                            <tr><td colspan="3" class="text-right">Total before Tax</td><td class="text-success text-right fw-bold tbt">0.00</td></tr>
+                                            <!--<tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" placeholder="0.00" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Total before Tax</td><td class="text-success text-right fw-bold tbt">0.00</td></tr>-->
                                         </tfoot>
                                     </table>
                                 </div>
@@ -130,9 +93,9 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <h5 class="text-center">Sales Register</h5>
+                        <h5 class="text-center">Dead Stock Register</h5>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Invoice Number</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Sold Date</th><th>Payment Status</th><th>Invoice</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Invoice Number</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Sold Date</th><th>Payment Status</th><th>Invoice</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
                         @foreach($sales as $sale)
                         <tr>
@@ -144,7 +107,6 @@
                             <td>{{ date('d/M/Y', strtotime($sale->sold_date)) }}</td>
                             <td>{{ $sale->payment_status }}</td>
                             <td><a class='btn btn-link' href="/sales-invoice/{{ $sale->id }}" target="_blank"><i class="fa fa-file-o text-info"></i></a></td>
-                            <td><a class='btn btn-link' href="{{ route('sales.edit', $sale->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
                                 <form method="post" action="{{ route('sales.delete', $sale->id) }}">
                                     @csrf 

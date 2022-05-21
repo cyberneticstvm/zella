@@ -19,5 +19,6 @@ class Sales extends Model
         'sales_note',
         'discount',
         'payment_status',
+        'is_dead_stock',
     ];
 }
