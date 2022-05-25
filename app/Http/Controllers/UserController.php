@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
 use Hash;
 use Session;
@@ -109,7 +110,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::pluck('name','name')->all();
+        return view('user.create',compact('roles'));
     }
 
     /**
@@ -126,10 +128,12 @@ class UserController extends Controller
             'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
+            'roles' => 'required',
         ]);
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+        $user->assignRole($request->input('roles'));
         return redirect()->route('user.index')
                         ->with('success','User created successfully');
     }
@@ -154,7 +158,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('user.edit',compact('user'));
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+        return view('user.edit',compact('user', 'roles', 'userRole'));
     }
 
     /**
@@ -180,6 +186,8 @@ class UserController extends Controller
         }
         $user = User::find($id);
         $user->update($input);
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        $user->assignRole($request->input('roles'));
         return redirect()->route('user.index')
                         ->with('success','User updated successfully');
     }

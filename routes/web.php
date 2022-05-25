@@ -32,14 +32,21 @@ Route::group(['middleware' => ['auth']], function(){
 
     // user //
     Route::get('/user/', 'App\Http\Controllers\UserController@index')->name('user.index');
-    Route::get('/user/create/', function () {
-        return view('user.create');
-    });
+    Route::get('/user/create/', 'App\Http\Controllers\UserController@create')->name('user.create');
     Route::post('/user/create/', 'App\Http\Controllers\UserController@store')->name('user.create');
     Route::get('/user/{id}/edit/', 'App\Http\Controllers\UserController@edit')->name('user.edit');
     Route::put('/user/{id}/edit/', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::delete('/user/{id}/delete/', 'App\Http\Controllers\UserController@destroy')->name('user.delete');
     // end user //
+
+    // roles //
+    Route::get('/roles/', 'App\Http\Controllers\RoleController@index')->name('roles.index');
+    Route::get('/roles/create/', 'App\Http\Controllers\RoleController@create')->name('role.create');
+    Route::post('/roles/create/', 'App\Http\Controllers\RoleController@store')->name('role.create');
+    Route::get('/roles/{id}/edit/', 'App\Http\Controllers\RoleController@edit')->name('role.edit');
+    Route::put('/roles/{id}/edit/', 'App\Http\Controllers\RoleController@update')->name('role.update');
+    Route::delete('/roles/{id}/delete/', 'App\Http\Controllers\RoleController@destroy')->name('role.delete');
+    // end roles //
 
     // collection //
     Route::get('/collection/', 'App\Http\Controllers\CollectionController@index')->name('collection.index');

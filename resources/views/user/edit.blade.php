@@ -53,6 +53,13 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <label for="TextInput" class="form-label">Role <span class="req">*</span></label>
+                                {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control select2','')) !!}
+                                @error('password')
+                                <small class="text-danger">{{ $errors->first('password') }}</small>
+                                @enderror
+                            </div>
                             <div class="row mt-3">
                                 <div class="col-sm-6"></div>
                                 <div class="col-sm-2"><button type="button" class="btn btn-danger w-100" onClick="history.back()">CANCEL</button></div>

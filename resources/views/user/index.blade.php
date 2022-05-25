@@ -22,7 +22,7 @@
                     <div class="card-body p-4">
                         <div class="text-right"><a href="/user/create/"><i class="fa fa-plus text-primary"></i></a></div>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Name</th><th>Username</th><th>Email</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Name</th><th>Username</th><th>Email</th><th>Role</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
                         @foreach($users as $user)
                         <tr>
@@ -30,6 +30,13 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>
+                            @if(!empty($user->getRoleNames()))
+                                @foreach($user->getRoleNames() as $v)
+                                {{ $v }}
+                                @endforeach
+                            @endif
+                            </td>
                             <td><a class='btn btn-link' href="{{ route('user.edit', $user->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
                                 <form method="post" action="{{ route('user.delete', $user->id) }}">

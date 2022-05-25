@@ -51,6 +51,13 @@
                                     <small class="text-danger">{{ $errors->first('password') }}</small>
                                     @enderror
                                 </div>
+                                <div class="col-sm-3">
+                                    <label for="TextInput" class="form-label">Role <span class="req">*</span></label>
+                                    {!! Form::select('roles[]', $roles,[], array('class' => 'form-control select2', '')) !!}
+                                    @error('password')
+                                    <small class="text-danger">{{ $errors->first('password') }}</small>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-6"></div>
