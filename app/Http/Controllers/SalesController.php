@@ -21,7 +21,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sales::orderBy('id', 'desc')->get();
+        $sales = Sales::orderBy('id', 'desc')->where('is_dead_stock', 0)->get();
         return view('sales.index', compact('sales'));
     }
 
@@ -38,8 +38,9 @@ class SalesController extends Controller
     public function create()
     {
         $products = DB::table('products')->get();
-        $sales = Sales::orderBy('id', 'desc')->get();
-        return view('sales.create', compact('products', 'sales'));
+        $sales = Sales::orderBy('id', 'desc')->where('is_dead_stock', 0)->get();
+        $settings = $this->settings;
+        return view('sales.create', compact('products', 'sales', 'settings'));
     }
 
     /**
@@ -64,30 +65,35 @@ class SalesController extends Controller
         $input['card_fee'] = ($request->payment_mode == 'card') ? $this->settings->card_fee : 0.00;
         $input['vat_percentage'] = $this->settings->vat_percentage;
         $input['created_by'] = $request->user()->id;
-        $sales = Sales::create($input);
-        if($input['product']):
-            for($i=0; $i<count($input['product']); $i++):
-                if($input['product'][$i] > 0):
-                    $product = DB::table('products')->find($input['product'][$i]);
-                    $vat_percentage = ($this->settings->vat_percentage > 0 && $product->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
-                    DB::table('sales_details')->insert([
-                        'sales_id' => $sales->id,
-                        'product' => $input['product'][$i],
-                        'qty' => $input['qty'][$i],
-                        'price' => $input['price'][$i],
-                        'vat_percentage' => $vat_percentage,
-                        'total' => $input['total'][$i],
-                    ]);
-                endif;
-            endfor;
-        endif;
-        $products = DB::table('products')->get();
-        if($request->is_dead_stock == 0):
-            $sales = Sales::orderBy('id', 'desc')->get();
-            return redirect()->route('sales.create', ['sales' => $sales, 'products' => $products])->with('success','Sales recorded successfully');
+        $is_stock_in_hand = ($this->settings->allow_sales_zero_qty == 0) ? $this->checkStockInHand($input['product'], $input['qty']) : true;
+        if(!$is_stock_in_hand):
+            return back()->withInput()->withErrors("One or more items in this order doesn't have enough qty.");
         else:
-            $sales = Sales::orderBy('id', 'desc')->where('is_dead_stock', 0)->get();
-            return redirect()->route('sales.deadstock', ['sales' => $sales, 'products' => $products])->with('success','Deadstock recorded successfully');
+            $sales = Sales::create($input);
+            if($input['product']):
+                for($i=0; $i<count($input['product']); $i++):
+                    if($input['product'][$i] > 0):
+                        $product = DB::table('products')->find($input['product'][$i]);
+                        $vat_percentage = ($this->settings->vat_percentage > 0 && $product->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
+                        DB::table('sales_details')->insert([
+                            'sales_id' => $sales->id,
+                            'product' => $input['product'][$i],
+                            'qty' => $input['qty'][$i],
+                            'price' => $input['price'][$i],
+                            'vat_percentage' => $vat_percentage,
+                            'total' => $input['total'][$i],
+                        ]);
+                    endif;
+                endfor;
+            endif;
+            $products = DB::table('products')->get();
+            if($request->is_dead_stock == 0):
+                $sales = Sales::orderBy('id', 'desc')->get();
+                return redirect()->route('sales.create', ['sales' => $sales, 'products' => $products])->with('success','Sales recorded successfully');
+            else:
+                $sales = Sales::orderBy('id', 'desc')->where('is_dead_stock', 0)->get();
+                return redirect()->route('sales.deadstock', ['sales' => $sales, 'products' => $products])->with('success','Deadstock recorded successfully');
+            endif;
         endif;
     }
 
@@ -135,7 +141,8 @@ class SalesController extends Controller
         $sales = Sales::find($id);
         $sales_details = DB::table('sales_details')->where('sales_id', $id)->get();
         $products = DB::table('products')->get();
-        return view('sales.edit', compact('sales', 'products', 'sales_details'));
+        $settings = $this->settings;
+        return view('sales.edit', compact('sales', 'products', 'sales_details', 'settings'));
     }
 
     /**
@@ -162,25 +169,46 @@ class SalesController extends Controller
         $input['discount'] = ($request->discount > 0) ? $request->discount : 0;
         $sales = Sales::find($id);
         $input['created_by'] = $sales->getOriginal('created_by');
-        $sales->update($input);
-        DB::table("sales_details")->where('sales_id', $id)->delete();
-        if($input['product']):
-            for($i=0; $i<count($input['product']); $i++):
-                if($input['product'][$i] > 0):
-                    $product = DB::table('products')->find($input['product'][$i]);
-                    $vat_percentage = ($this->settings->vat_percentage > 0 && $product->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
-                    DB::table('sales_details')->insert([
-                        'sales_id' => $sales->id,
-                        'product' => $input['product'][$i],
-                        'qty' => $input['qty'][$i],
-                        'price' => $input['price'][$i],
-                        'vat_percentage' => $vat_percentage,
-                        'total' => $input['total'][$i],
-                    ]);
+        $is_stock_in_hand = ($this->settings->allow_sales_zero_qty == 0) ? $this->checkStockInHand($input['product'], $input['qty']) : true;
+        if(!$is_stock_in_hand):
+            return back()->withInput()->withErrors("One or more items in this order doesn't have enough qty.");
+        else:
+            $sales->update($input);
+            DB::table("sales_details")->where('sales_id', $id)->delete();
+            if($input['product']):
+                for($i=0; $i<count($input['product']); $i++):
+                    if($input['product'][$i] > 0):
+                        $product = DB::table('products')->find($input['product'][$i]);
+                        $vat_percentage = ($this->settings->vat_percentage > 0 && $product->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
+                        DB::table('sales_details')->insert([
+                            'sales_id' => $sales->id,
+                            'product' => $input['product'][$i],
+                            'qty' => $input['qty'][$i],
+                            'price' => $input['price'][$i],
+                            'vat_percentage' => $vat_percentage,
+                            'total' => $input['total'][$i],
+                        ]);
+                    endif;
+                endfor;
+            endif;
+            return redirect()->route('sales.index')->with('success','Sales record updated successfully');
+        endif;
+    }
+
+    public function checkStockInHand($products, $qty){
+        $item = true;
+        if($products):
+            for($i=0; $i<count($products); $i++):
+                if($products[$i] > 0):
+                    $stockin = DB::table('purchase_details')->where('product', $products[$i])->where('is_return', 0)->sum('qty');
+                    $stockout = DB::table('sales_details')->where('product', $products[$i])->where('is_return', 0)->sum('qty');
+                    $stock = $stockin - $stockout;
+                    $item = ($stock >= $qty[$i]) ? true : false;
+                    if(!$item) break;
                 endif;
             endfor;
         endif;
-        return redirect()->route('sales.index')->with('success','Sales record updated successfully');
+        return $item;
     }
 
     public function deadstock(){

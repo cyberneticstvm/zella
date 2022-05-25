@@ -21,6 +21,8 @@ class Sales extends Model
         'discount',
         'vat_percentage',
         'payment_status',
+        'order_total',
         'is_dead_stock',
+        'created_by',
     ];
 }

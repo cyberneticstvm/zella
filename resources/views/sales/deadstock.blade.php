@@ -20,6 +20,13 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
+                        @if (count($errors) > 0)
+                        <div role="alert" class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}
+                            @endforeach
+                        </div>
+                        @endif
                         <form method="post" action="{{ route('sales.save') }}">
                             @csrf
                             <input type="hidden" name="is_dead_stock" value="1" />
@@ -95,7 +102,7 @@
                     <div class="card-body p-4">
                         <h5 class="text-center">Dead Stock Register</h5>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Invoice Number</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Sold Date</th><th>Payment Status</th><th>Invoice</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Invoice Number</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Date</th><th>Payment Status</th><th>Invoice</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
                         @foreach($sales as $sale)
                         <tr>

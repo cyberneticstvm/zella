@@ -20,10 +20,19 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
+                        @if (count($errors) > 0)
+                        <div role="alert" class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}
+                            @endforeach
+                        </div>
+                        @endif
                         <form id="frm-sales" method="post" action="{{ route('sales.update', $sales->id) }}">
                             @csrf
                             @method("PUT")
                             <input type="hidden" name="is_dead_stock" value="0" />
+                            <input type="hidden" id="card_fee" name="card_fee" value="{{ $settings->card_fee }}" />
+                            <input type="hidden" id="vat" name="vat" value="{{ $settings->vat_percentage }}" />
                             <div class="row g-3">
                                 <div class="col-sm-4">
                                     <label for="TextInput" class="form-label">Customer Name <span class="req">*</span></label>
@@ -92,8 +101,10 @@
                                         @endforeach
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" step='any' class="form-control text-right discount" placeholder="0.00" value="{{ $sales->discount }}" name="discount"></td></tr>
-                                            <tr><td colspan="3" class="text-right">Total before Tax</td><td class="text-success text-right fw-bold tbt">{{ number_format($tot - $sales->discount, 2) }}</td></tr>
+                                            <tr><td colspan="3" class="text-right">Sub Total</td><td><input type="number" class="form-control text-right stot" value="{{ number_format($tot, 2) }}" placeholder="0.00" readonly="true"></td></tr>
+                                            <!--<tr><td colspan="3" class="text-right">Card Fee %</td><td><input type="number" class="form-control text-right card_fee" placeholder="0.00" readonly="true"></td></tr>-->
+                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" value="{{ number_format($sales->discount, 2) }}" placeholder="0.00" step="any" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Grand Total</td><td class="text-success text-right fw-bold"><input type="number" class="form-control text-right gtot" value="{{ number_format($sales->order_total, 2) }}" placeholder="0.00" name="order_total" readonly="true"></td></tr>
                                         </tfoot>
                                     </table>
                                 </div>
@@ -102,7 +113,7 @@
                                 <div class="col-sm-2"></div>
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
-                                    <select class="form-control form-control-md" name="payment_mode" required="required">
+                                    <select class="form-control form-control-md payment_mode" name="payment_mode" required="required">
                                         <option value="">Select</option>
                                         <option value="cash" {{ ($sales->payment_mode == 'cash') ? 'selected' : '' }}>Cash</option>
                                         <option value="card"  {{ ($sales->payment_mode == 'card') ? 'selected' : '' }}>Card</option>

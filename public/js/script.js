@@ -1,17 +1,25 @@
 $(function(){
     'use strict'
     $('form').submit(function(){
-        var c = confirm("Are you sure want to proceed?");
-        if(c){
+        var fid = $(this).attr('id');
+        if(fid == 'frm-sales'){
+            var c = confirm("Are you sure want to proceed?");
+            if(c){
+                var cls = $(this).attr('class');
+                if(cls != 'export'){
+                    $(".btn-submit").attr("disabled", true);
+                    $(".btn-submit").html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>&nbsp;Loading...");
+                }  
+            }else{
+                return false;
+            }
+        }else{
             var cls = $(this).attr('class');
             if(cls != 'export'){
                 $(".btn-submit").attr("disabled", true);
                 $(".btn-submit").html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>&nbsp;Loading...");
             }  
-        }else{
-            return false;
-        }
-              
+        }              
     });
     
     $('#dataTbl').dataTable({
@@ -44,7 +52,7 @@ $(function(){
     })
 
     $(document).on('change', '.selProduct', function(){
-        var pid = $(this).val(); var discount = $(".discount").val();
+        var pid = $(this).val();
         var qty = $(this).parent().parent().find('.qty');
         var price = $(this).parent().parent().find('.price');
         var total = $(this).parent().parent().find('.total');
@@ -55,7 +63,8 @@ $(function(){
                 qty.val('1');
                 price.val(response.selling_price);
                 total.val(response.selling_price);
-                calculateTotal(discount);
+                var pmode = $(".payment_mode").val();
+                calculateTotal(pmode);
             }
         });
     });
@@ -64,13 +73,14 @@ $(function(){
         var qty = $(this).parent().parent().find('.qty').val();
         var price = $(this).parent().parent().find('.price').val();
         var total = $(this).parent().parent().find('.total');
-        total.val(qty*price); var discount = $(".discount").val();
-        calculateTotal(discount);
+        total.val(qty*price);
+        var pmode = $(".payment_mode").val();
+        calculateTotal(pmode);
     });
 
     $(document).on('change', '.discount', function(){
-        var discount = $(this).val();
-        calculateTotal(discount);
+        var pmode = $(".payment_mode").val();
+        calculateTotal(pmode);
     });
 
     $(document).on('click', '.chkReturn', function(){
@@ -91,6 +101,12 @@ $(function(){
             return false;
         }
     });
+
+    $(".payment_mode").change(function(){
+        var pmode = $(this).val();
+        var discount = $(".discount").val();
+        calculateTotal(pmode);
+    })
 });
 
 function bindDDL(type, ddl){
@@ -106,11 +122,18 @@ function bindDDL(type, ddl){
     });
 }
 
-function calculateTotal(discount){
+function calculateTotal(pmode){
     var tot = 0;
+    var card_fee = (pmode == 'card') ? $("#card_fee").val() : 0.00;
+    var vat = $("#vat").val();
+    var discount = $(".discount").val();
     $("table .total").each(function () {
         tot += Number($(this).val());               
     });
+    $(".stot").val(tot);
+    $(".card_fee").val(card_fee);
+    tot = tot + (tot*card_fee)/100;
+    tot = (vat > 0 ) ? tot+(tot*vat)/100 : tot;
     tot = tot - discount;
-    $(".tbt").text(tot.toFixed(2));
+    $(".gtot").val(tot.toFixed(2));
 }
