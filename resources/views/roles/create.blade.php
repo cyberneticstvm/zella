@@ -22,25 +22,25 @@
                     <div class="card-body p-4">
                         <form method="post" action="{{ route('role.create') }}">
                             @csrf
-                            <div class="row g-3">
+                            <div class="row g-3 mb-3">
                                 <div class="col-sm-12">
                                     <label for="TextInput" class="form-label">Role Name <span class="req">*</span></label>
                                     {!! Form::text('name', null, array('placeholder' => 'Role Name','class' => 'form-control')) !!}
                                     @error('name')
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror
-                                </div>                            
-                                <div class="col-sm-12">
-                                    <label for="TextInput" class="form-label">Permissions <span class="req">*</span></label><br />
+                                </div>
+                            </div>
+                            <label class="form-label"><strong>Permissions</strong><sup class="text-danger">*</sup></label>
+                            <div class="row mx-1">                                                            
                                     @foreach($permission as $value)
-                                        <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                                        {{ $value->name }}</label>
-                                    <br/>
+                                    <div class="col-sm-2 form-check form-check-inline">
+                                        <label class="form-check-label" for="flexCheckDefault">{{ $value->name }}</label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name, form-check-input')) }}
+                                    </div>
                                     @endforeach
                                     @error('password')
                                     <small class="text-danger">{{ $errors->first('password') }}</small>
                                     @enderror
-                                </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-6"></div>

@@ -23,25 +23,25 @@
                         <form method="post" action="{{ route('role.update', $role->id) }}">
                             @csrf
                             @method("PUT")
-                            <div class="row g-3">
+                            <div class="row g-3 mb-3">
                                 <div class="col-sm-12">
                                     <label for="TextInput" class="form-label">Role Name <span class="req">*</span></label>
                                     {!! Form::text('name', $role->name, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                     @error('name')
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror
-                                </div>                            
-                                <div class="col-sm-12">
-                                    <label for="TextInput" class="form-label">Permissions <span class="req">*</span></label><br />
-                                    @foreach($permission as $value)
-                                        <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                                        {{ $value->name }}</label>
-                                    <br/>
-                                    @endforeach
-                                    @error('password')
-                                    <small class="text-danger">{{ $errors->first('password') }}</small>
-                                    @enderror
                                 </div>
+                            </div>
+                            <label class="form-label"><strong>Permissions</strong><sup class="text-danger">*</sup></label>
+                            <div class="row mx-1">                            
+                                @foreach($permission as $value)
+                                    <div class="col-sm-2 form-check form-check-inline">
+                                    <label class="form-check-label" for="flexCheckDefault">{{ $value->name }}</label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name, form-check-input')) }}
+                                    </div>
+                                @endforeach
+                                @error('password')
+                                <small class="text-danger">{{ $errors->first('password') }}</small>
+                                @enderror
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-6"></div>
