@@ -13,6 +13,15 @@ class CollectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+         $this->middleware('permission:collection-list|collection-create|collection-edit|collection-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:collection-create', ['only' => ['create','store']]);
+         $this->middleware('permission:collection-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:collection-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $collections = Collection::orderBy('name','ASC')->get();
