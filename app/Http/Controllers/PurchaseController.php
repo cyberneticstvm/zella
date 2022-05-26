@@ -18,6 +18,11 @@ class PurchaseController extends Controller
     protected $purchases;
 
     public function __construct(){
+        $this->middleware('permission:purchase-list|purchase-create|purchase-edit|purchase-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:purchase-create', ['only' => ['create','store']]);
+        $this->middleware('permission:purchase-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:purchase-delete', ['only' => ['destroy']]);
+
         $this->purchases = Purchase::leftJoin('suppliers AS s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->orderBy('purchases.id','DESC')->get();        
     }
 
@@ -64,6 +69,7 @@ class PurchaseController extends Controller
         $input['other_expense'] = ($request->other_expense > 0) ? $request->other_expense : 0;
         $input['order_date'] = (!empty($request->order_date)) ? Carbon::createFromFormat('d/M/Y', $request['order_date'])->format('Y-m-d') : NULL;
         $input['delivery_date'] = (!empty($request->delivery_date)) ? Carbon::createFromFormat('d/M/Y', $request['delivery_date'])->format('Y-m-d') : NULL;
+        $input['created_by'] = $request->user()->id;
         $purchase = Purchase::create($input);
         if($input['product']):
             for($i=0; $i<count($input['product']); $i++):
@@ -153,6 +159,7 @@ class PurchaseController extends Controller
         $input['order_date'] = (!empty($request->order_date)) ? Carbon::createFromFormat('d/M/Y', $request['order_date'])->format('Y-m-d') : NULL;
         $input['delivery_date'] = (!empty($request->delivery_date)) ? Carbon::createFromFormat('d/M/Y', $request['delivery_date'])->format('Y-m-d') : NULL;
         $purchase = Purchase::find($id);
+        $input['created_by'] = $purchase->getOriginal('created_by');
         $purchase->update($input);
         DB::table("purchase_details")->where('purchase_id', $id)->delete();
         if($input['product']):

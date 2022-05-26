@@ -13,6 +13,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+         $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:product-create', ['only' => ['create','store']]);
+         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $products = DB::table('products as p')->leftJoin('collections as c', 'p.collection', '=', 'c.id')->select('p.id', 'p.name', 'p.sku', 'p.purchase_price', 'p.selling_price', 'p.description', 'p.vat_applicable', 'c.name as collection_name')->orderBy('p.name','ASC')->get();
@@ -48,6 +57,7 @@ class ProductController extends Controller
             'selling_price' => 'required|numeric|min:1',
         ]);
         $input = $request->all();
+        $input['created_by'] = $request->user()->id;
         $input['vat_applicable'] = ($request->has('vat_applicable')) ? 1 : 0;
         $product = Product::create($input);
         return redirect()->route('product.index')
@@ -99,6 +109,7 @@ class ProductController extends Controller
         $input = $request->all();
         $input['vat_applicable'] = ($request->has('vat_applicable')) ? 1 : 0;
         $product = Product::find($id);
+        $input['created_by'] = $product->getOriginal('created_by');
         $product->update($input);
         return redirect()->route('product.index')
                         ->with('success','Product updated successfully');

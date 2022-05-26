@@ -21,7 +21,13 @@ class UserController extends Controller
      */
     protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month;
 
-    public function __construct(){
+    function __construct(){
+
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+
         $this->settings = DB::table('settings')->find(1);
         $vat = $this->settings->vat_percentage;
 

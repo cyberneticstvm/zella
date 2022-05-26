@@ -14,5 +14,6 @@ class Expense extends Model
         'expense_date',
         'description',
         'department',
+        'created_by',
     ];
 }

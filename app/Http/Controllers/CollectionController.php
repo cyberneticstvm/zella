@@ -50,6 +50,7 @@ class CollectionController extends Controller
             'name' => 'required|unique:collections,name',
         ]);
         $input = $request->all();
+        $input['created_by'] = $request->user()->id;
         $collection = Collection::create($input);
         return redirect()->route('collection.index')
                         ->with('success','Collection created successfully');
@@ -92,6 +93,7 @@ class CollectionController extends Controller
         ]);
         $input = $request->all();
         $collection = Collection::find($id);
+        $input['created_by'] = $collection->getOriginal('created_by');
         $collection->update($input);
         return redirect()->route('collection.index')
                         ->with('success','Collection updated successfully');

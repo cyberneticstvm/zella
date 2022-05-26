@@ -12,6 +12,15 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+         $this->middleware('permission:supplier-list|supplier-create|supplier-edit|supplier-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:supplier-create', ['only' => ['create','store']]);
+         $this->middleware('permission:supplier-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:supplier-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $suppliers = Supplier::orderBy('name','ASC')->get();
@@ -41,6 +50,7 @@ class SupplierController extends Controller
             'address' => 'required',
         ]);
         $input = $request->all();
+        $input['created_by'] = $request->user()->id;
         $supplier = Supplier::create($input);
         return redirect()->route('supplier.index')
                         ->with('success','Supplier created successfully');
@@ -84,6 +94,7 @@ class SupplierController extends Controller
         ]);
         $input = $request->all();
         $supplier = Supplier::find($id);
+        $input['created_by'] = $supplier->getOriginal('created_by');
         $supplier->update($input);
         return redirect()->route('supplier.index')
                         ->with('success','Supplier updated successfully');

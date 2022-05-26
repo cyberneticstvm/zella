@@ -13,6 +13,15 @@ class VariantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+         $this->middleware('permission:variant-list|variant-create|variant-edit|variant-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:variant-create', ['only' => ['create','store']]);
+         $this->middleware('permission:variant-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:variant-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         //$variants = Variant::where('parent', '>', '0')->orderBy('name','ASC')->get();

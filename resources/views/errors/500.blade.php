@@ -23,7 +23,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                    <h3 class="text-danger">{{ $exception->getMessage() }}</h3>
+                    <h6 class="text-danger">{{ $exception->getMessage() }}</h6>
                     </div>
                 </div> <!-- .Card End -->
             </div>

@@ -14,6 +14,15 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+         $this->middleware('permission:expense-list|expense-create|expense-edit|expense-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:expense-create', ['only' => ['create','store']]);
+         $this->middleware('permission:expense-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:expense-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $expenses = Expense::get();
@@ -45,6 +54,7 @@ class ExpenseController extends Controller
             'description' => 'required',
         ]);
         $input = $request->all();
+        $input['created_by'] = $request->user()->id;
         $input['expense_date'] = (!empty($request->expense_date)) ? Carbon::createFromFormat('d/M/Y', $request->expense_date)->format('Y-m-d') : NULL;
         $expense = Expense::create($input);
         return redirect()->route('expense.index')->with('success','Expense recorded successfully');
@@ -91,6 +101,7 @@ class ExpenseController extends Controller
         $input = $request->all();
         $input['expense_date'] = (!empty($request->expense_date)) ? Carbon::createFromFormat('d/M/Y', $request->expense_date)->format('Y-m-d') : NULL;
         $expense = Expense::find($id);
+        $input['created_by'] = $expense->getOriginal('created_by');
         $expense->update($input);
         return redirect()->route('expense.index')->with('success','Expense updated successfully');
     }

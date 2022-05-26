@@ -12,6 +12,11 @@ class SalesController extends Controller
     private $settings;
 
     public function __construct(){
+        $this->middleware('permission:sales-list|sales-create|sales-edit|sales-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:sales-create', ['only' => ['create','store']]);
+        $this->middleware('permission:sales-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:sales-delete', ['only' => ['destroy']]);
+
         $this->settings = DB::table('settings')->find(1);
     }
     /**

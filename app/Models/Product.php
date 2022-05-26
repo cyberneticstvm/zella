@@ -20,5 +20,6 @@ class Product extends Model
         'description',
         'vat_applicable',
         'allow_sales_zero_qty',
+        'created_by',
     ];
 }

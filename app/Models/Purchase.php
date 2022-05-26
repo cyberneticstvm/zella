@@ -17,5 +17,6 @@ class Purchase extends Model
         'payment_mode',
         'purchase_note',
         'other_expense',
+        'created_by',
     ];
 }
