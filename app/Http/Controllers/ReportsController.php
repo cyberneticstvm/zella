@@ -10,8 +10,18 @@ class ReportsController extends Controller
 {
     private $settings;
 
-    public function __construct(){
+    function __construct(){
         $this->settings = DB::table('settings')->find(1);
+
+        $this->middleware('permission:expense-report', ['only' => ['showExpense','getExpense']]);
+        $this->middleware('permission:sales-report', ['only' => ['showSales','getSales']]);
+        $this->middleware('permission:sales-return-report', ['only' => ['showSalesReturn','getSalesReturn']]);
+        $this->middleware('permission:purchase-report', ['only' => ['showPurchase','getPurchase']]);
+        $this->middleware('permission:purchase-return-report', ['only' => ['showPurchaseReturn','getPurchaseReturn']]);
+        $this->middleware('permission:pandl-report', ['only' => ['showPandL','getPandL']]);
+        $this->middleware('permission:stockin-report', ['only' => ['showStockIn','getStockIn']]);
+        $this->middleware('permission:stockout-report', ['only' => ['showStockOut','getStockOut']]);
+        $this->middleware('permission:stockinhand-report', ['only' => ['getStockInHand']]);
     }
     public function showPurchase(){
         $suppliers = DB::table('suppliers')->get();
