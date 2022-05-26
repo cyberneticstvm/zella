@@ -82,13 +82,13 @@ class ReportsController extends Controller
         $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request['from_date'])->format('Y-m-d') : NULL;
         $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request['to_date'])->format('Y-m-d') : NULL;
 
-        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, s.payment_status, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.payment_mode, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total")->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
+        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, s.customer_name, s.contact_number, s.address, s.payment_status, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.payment_mode, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total1, s.order_total as total")->where('sd.is_return', 0)->where('s.is_dead_stock', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($request->product), function($query) use ($request){
             return $query->where('sd.product', $request->product);
         })->when(isset($request->payment_mode), function($query) use ($request){
             return $query->where('s.payment_mode', $request->payment_mode);
         })->when(isset($request->payment_status), function($query) use ($request){
             return $query->where('s.payment_status', $request->payment_status);
-        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.sold_date', 's.payment_mode', 's.discount', 'sd.vat_percentage')->get();
+        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.sold_date', 's.payment_mode', 's.discount', 's.order_total', 'sd.vat_percentage')->get();
 
         $products = DB::table('products')->get();
         return view('reports.sales', compact('products', 'sales', 'inputs'));

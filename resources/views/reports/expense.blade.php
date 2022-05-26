@@ -56,7 +56,8 @@
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Department </label>
                                     <select class="form-control form-control-md" name="department">
-                                        <option value="office" {{ ($inputs && $inputs[2] == 'office') ? 'selected' : '' }}>Office</option>
+                                        <option value="office" {{ ($inputs && $inputs[2] == 'office') ? 'selected' : '' }}>Office Expense</option>
+                                        <option value="profit" {{ ($inputs && $inputs[2] == 'profit') ? 'selected' : '' }}>Profit Share</option>
                                     </select>
                                     @error('department')
                                     <small class="text-danger">{{ $errors->first('department') }}</small>
@@ -91,7 +92,7 @@
                                 </div>
                             </div>
                             @endif
-                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Date</th><th>Department</th><th>Amount</th><th>Description</th></tr></thead><tbody>
+                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Date</th><th>Head</th><th>Amount</th><th>Description</th></tr></thead><tbody>
                             @php $c = 1; @endphp
                             @foreach($expenses as $expense)
                             <tr>

@@ -47,9 +47,10 @@
                                     @enderror
                                 </div> 
                                 <div class="col-sm-2">
-                                    <label for="TextInput" class="form-label">Department <span class="req">*</span></label>
+                                    <label for="TextInput" class="form-label">Head <span class="req">*</span></label>
                                     <select class="form-control form-control-md" name="department" required="required">
                                         <option value="office" {{ ($expense->department == 'office') ? 'selected' : '' }}>Office</option>
+                                        <option value="profit" {{ ($expense->department == 'profit') ? 'selected' : '' }}>Office</option>
                                     </select>
                                     @error('department')
                                     <small class="text-danger">{{ $errors->first('department') }}</small>
