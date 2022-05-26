@@ -11,6 +11,9 @@ class SettingsController extends Controller
 
     public function __construct(){
         $this->settings = DB::table('settings')->find(1);
+
+        $this->middleware('permission:vat-settings', ['only' => ['getvat','updatevat']]);
+        $this->middleware('permission:cardfee-settings', ['only' => ['getcardfee','updatecardfee']]);
     }
 
     public function getvat(){
