@@ -84,9 +84,9 @@ class SalesController extends Controller
                             'sales_id' => $sales->id,
                             'product' => $input['product'][$i],
                             'qty' => $input['qty'][$i],
-                            'price' => $input['price'][$i],
+                            'price' => ($input['is_dead_stock'] == 0) ? $input['price'][$i] : 0.00,
                             'vat_percentage' => $vat_percentage,
-                            'total' => $input['total'][$i],
+                            'total' => ($input['is_dead_stock'] == 0) ? $input['total'][$i] : 0.00,
                         ]);
                     endif;
                 endfor;
@@ -189,9 +189,9 @@ class SalesController extends Controller
                             'sales_id' => $sales->id,
                             'product' => $input['product'][$i],
                             'qty' => $input['qty'][$i],
-                            'price' => $input['price'][$i],
+                            'price' => ($input['is_dead_stock'] == 0) ? $input['price'][$i] : 0.00,
                             'vat_percentage' => $vat_percentage,
-                            'total' => $input['total'][$i],
+                            'total' => ($input['is_dead_stock'] == 0) ? $input['total'][$i] : 0.00,
                         ]);
                     endif;
                 endfor;

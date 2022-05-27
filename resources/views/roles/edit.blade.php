@@ -39,8 +39,8 @@
                                     <label class="form-check-label" for="flexCheckDefault">{{ $value->name }}</label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name, form-check-input')) }}
                                     </div>
                                 @endforeach
-                                @error('password')
-                                <small class="text-danger">{{ $errors->first('password') }}</small>
+                                @error('permission')
+                                <small class="text-danger">{{ $errors->first('permission') }}</small>
                                 @enderror
                             </div>
                             <div class="row mt-3">

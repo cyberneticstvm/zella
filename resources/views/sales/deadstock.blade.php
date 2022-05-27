@@ -36,6 +36,7 @@
                             <input type="hidden" name="payment_mode" value="cash" />
                             <input type="hidden" name="payment_status" value="notpaid" />
                             <input type="hidden" name="discount" value="0.00" />
+                            <input type="hidden" name="order_total" value="0.00" />
                             <div class="row g-3">                            
                                 <div class="col-sm-3">
                                     <label class="form-label">Sales Date <span class="req">*</span></label>

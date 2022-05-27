@@ -75,7 +75,6 @@
             <tr><td colspan="6" class="text-right">Grand Total / <span class="arab">{{ $obj->utf8Glyphs('مجموع الدراهم') }}</span></td><td class="text-right"><b>{{ number_format($sale->order_total, 2) }}</b></td></tr>
         </tbody>
     </table>
-    <small>Card fee of AED {{ $settings->card_fee }}% as applicable for Sub Total.</small>
     <br /><br /><br />
     <table width="100%">
         <tr><td>Receiver's Sign</td><td class="text-right">Signature / <span class="arab">{{ $obj->utf8Glyphs('التوقيع') }}</span></td></tr>

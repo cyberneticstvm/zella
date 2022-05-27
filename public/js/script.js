@@ -45,6 +45,23 @@ $(function(){
         }
     });
 
+    $(document).on("blur", ".tblPurchase tbody .qty", function(e){
+        var dis = $(this);
+        var pid = dis.parent().parent().find(".selProduct").val();
+        var qty = dis.val();
+        $.ajax({
+            type: 'GET',
+            url: '/helper/product/'+pid+'/'+qty,
+            success: function(response) {
+                if(!response){
+                    alert("Insufficient Qty");
+                    dis.val('0');
+                    dis.focus();
+                }
+            }
+        });
+    });
+
     $(document).on("keypress", ".tblPurchase tbody .total", function(e){
         if(e.keyCode == 13){
             $(".tblPurchase tbody").append("<tr><td><select class='form-control form-control-md select2 selProduct' name='product[]' required='required'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]' required='required'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]' required='required'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");

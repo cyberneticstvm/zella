@@ -167,6 +167,7 @@ Route::group(['middleware' => ['auth']], function(){
     // helper //
     Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
     Route::get('/helper/product/{id}', 'App\Http\Controllers\HelperController@getproduct');
+    Route::get('/helper/product/{id}/{qty}', 'App\Http\Controllers\HelperController@checkStockInHand');
     // end helper //
 
     // pdf //
