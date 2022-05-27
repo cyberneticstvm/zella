@@ -29,7 +29,7 @@
                         @endif
                         <form id="frm-sales" method="post" action="{{ route('sales.save') }}">
                             @csrf
-                            <input type="hidden" name="is_dead_stock" value="0" />
+                            <input type="hidden" id="is_dead_stock" name="is_dead_stock" value="0" />
                             <input type="hidden" id="card_fee" name="card_fee" value="{{ $settings->card_fee }}" />
                             <input type="hidden" id="vat" name="vat" value="{{ $settings->vat_percentage }}" />
                             <div class="row g-3">

@@ -49,9 +49,10 @@ $(function(){
         var dis = $(this);
         var pid = dis.parent().parent().find(".selProduct").val();
         var qty = dis.val();
+        var dval = $("#is_dead_stock").val();
         $.ajax({
             type: 'GET',
-            url: '/helper/product/'+pid+'/'+qty,
+            url: '/helper/product/'+pid+'/'+qty+'/'+dval,
             success: function(response) {
                 if(!response){
                     alert("Insufficient Qty");

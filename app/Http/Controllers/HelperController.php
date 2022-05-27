@@ -17,11 +17,15 @@ class HelperController extends Controller
         return response()->json($product);
     }
 
-    public function checkStockInHand($id, $qty){
-        $stockin = DB::table('purchase_details')->where('product', $id)->where('is_return', 0)->sum('qty');
-        $stockout = DB::table('sales_details')->where('product', $id)->where('is_return', 0)->sum('qty');
-        $stock = $stockin - $stockout;
-        $item = ($stock >= $qty) ? true : false;
-        return $item;
+    public function checkStockInHand($id, $qty, $dval){
+        if($dval == 1 || $dval == 0):
+            $stockin = DB::table('purchase_details')->where('product', $id)->where('is_return', 0)->sum('qty');
+            $stockout = DB::table('sales_details')->where('product', $id)->where('is_return', 0)->sum('qty');
+            $stock = $stockin - $stockout;
+            $item = ($stock >= $qty) ? true : false;
+            return $item;
+        else:
+            return true; // if dval = 1 or dval = 0 then it will be sales / deadstock transaction. Otherwise it will be purchase transaction and need not be perform this validaton.
+        endif;
     }
 }

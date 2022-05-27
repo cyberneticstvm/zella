@@ -29,7 +29,7 @@
                         @endif
                         <form method="post" action="{{ route('sales.save') }}">
                             @csrf
-                            <input type="hidden" name="is_dead_stock" value="1" />
+                            <input type="hidden" id="is_dead_stock" name="is_dead_stock" value="1" />
                             <input type="hidden" name="customer_name" value="Dead Stock" />
                             <input type="hidden" name="contact_number" value="xxxxxxxxxx" />
                             <input type="hidden" name="address" value="Zella Boutique" />
