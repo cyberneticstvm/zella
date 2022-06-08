@@ -45,7 +45,7 @@
                 <div class="card border-0 mb-3">
                     <div class="card-body d-flex align-items-start p-lg-4 p-3">
                         <div class="avatar rounded no-thumbnail">
-                            <i class="fa fa-dollar fa-lg"></i>
+                            <i class="fa fa-money fa-lg"></i>
                         </div>
                         <div class="flex-fill ms-3">
                             <div class="fw-bold"><span class="h4 mb-0">{{ number_format($revenue_this_year, 2) }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
