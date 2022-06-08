@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Stock in Hand</h1>
+                <h1 class="fs-4 mt-1 mb-0">Stock in Hand (Product)</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
