@@ -22,28 +22,34 @@
                     <div class="card-body p-4">
                         <div class="mt-5">
                             <table id="" class="table table-sm display dataTable table-hover"><thead><tr><th>Particulars</th><th>Amount</th></tr></thead><tbody>
-                            <tr><td colspan='2'>SALES</td></tr>
+                            <tr><td colspan='2'><strong>SALES</strong></td></tr>
                             @foreach($sales as $sale)
                             <tr>
                                 <td>{{ $sale->customer_name }}</td>
                                 <td>{{ $sale->order_total }}</td>
                             </tr>
                             @endforeach
-                            <tr><td colspan='2'>PURCHASES</td></tr>
+                            <tr><td class='text-right'><strong>SALES TOTAL</strong></td><td><strong>{{ number_format($sales_tot, 2) }}</strong></td></tr>
+                            <tr><td colspan='2'><strong>PURCHASES</strong></td></tr>
+                            @php $ptot = 0; @endphp
                             @foreach($purchases as $purchase)
-                            @php $ptotal = DB::table('purchase_details')->where('purchase_id', $purchase->id)->where('is_return', 0)->sum('total'); @endphp
+                            @php 
+                            $ptotal = DB::table('purchase_details')->where('purchase_id', $purchase->id)->where('is_return', 0)->sum('total'); $ptot += $ptotal
+                            @endphp
                             <tr>
                                 <td>{{ $purchase->invoice_number }}</td>
                                 <td>{{ $ptotal }}</td>
                             </tr>
                             @endforeach
-                            <tr><td colspan='2'>EXPENSES</td></tr>
+                            <tr><td class='text-right'><strong>PURCHASES TOTAL</strong></td><td><strong>{{ number_format($ptot, 2) }}</strong></td></tr>
+                            <tr><td colspan='2'><strong>EXPENSES</strong></td></tr>
                             @foreach($expenses as $expense)
                             <tr>
                                 <td>{{ $expense->description }}</td>
                                 <td>{{ $expense->amount }}</td>
                             </tr>
                             @endforeach
+                            <tr><td class='text-right'><strong>EXPENSE TOTAL</strong></td><td><strong>{{ number_format($exp_tot, 2) }}</strong></td></tr>
                             </tbody></table>
                         </div>
                     </div>
