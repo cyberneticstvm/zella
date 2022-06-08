@@ -35,13 +35,13 @@ class UserController extends Controller
         $this->sales_this_month = DB::table('sales')->where('is_dead_stock', 0)->whereMonth('sold_date', date('m'))->whereYear('sold_date', date('Y'))->count('id');
         $this->sales_last_month = DB::table('sales')->where('is_dead_stock', 0)->whereMonth('sold_date', Carbon::now()->subMonth()->month)->whereYear('sold_date', date('Y'))->count('id');
 
-        $revenue = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('sd.is_return', 0)->whereYear('s.sold_date', date('Y'))->groupBy('s.id', 's.discount')->get();
+        $revenue = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('sd.is_return', 0)->where('s.is_dead_stock', 0)->whereYear('s.sold_date', date('Y'))->groupBy('s.id', 's.discount')->get();
         $this->revenue_this_year = $revenue->sum('total');
 
-        $revenue1 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('sd.is_return', 0)->whereMonth('s.sold_date', date('m'))->groupBy('s.id', 's.discount')->get();
+        $revenue1 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereMonth('s.sold_date', date('m'))->groupBy('s.id', 's.discount')->get();
         $this->revenue_this_month = $revenue1->sum('total');
 
-        $revenue2 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('sd.is_return', 0)->whereMonth('s.sold_date', Carbon::now()->subMonth()->month)->whereYear('s.sold_date', date('Y'))->groupBy('s.id', 's.discount')->get();
+        $revenue2 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereMonth('s.sold_date', Carbon::now()->subMonth()->month)->whereYear('s.sold_date', date('Y'))->groupBy('s.id', 's.discount')->get();
         $this->revenue_last_month = $revenue2->sum('total');
 
         $this->expense_this_year = DB::table('expenses')->whereYear('expense_date', date('Y'))->sum('amount');
