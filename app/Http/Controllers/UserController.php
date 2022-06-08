@@ -111,7 +111,12 @@ class UserController extends Controller
             $purchase_this_year = $this->purchase_this_year;
             $purchase_this_month = $this->purchase_this_month;
             $purchase_last_month = $this->purchase_last_month;
-            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month'));
+            $revenue_last_year = $this->revenue_last_year;
+            $expense_last_year = $this->expense_last_year;
+            $purchase_last_year = $this->purchase_last_year;
+
+            $sales_last_year = $this->sales_last_year;
+            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year'));
         }
         return redirect()->route('login')->withErrors('Login details are not valid');
     }
