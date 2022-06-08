@@ -26,7 +26,7 @@
                             @foreach($sales as $sale)
                             <tr>
                                 <td>{{ $sale->customer_name }}</td>
-                                <td>{{ $sale->order_total }}</td>
+                                <td>{{ number_format($sale->order_total, 2) }}</td>
                             </tr>
                             @endforeach
                             <tr><td class='text-right'><strong>SALES TOTAL</strong></td><td><strong>{{ number_format($sales_tot, 2) }}</strong></td></tr>
@@ -38,7 +38,7 @@
                             @endphp
                             <tr>
                                 <td>{{ $purchase->invoice_number }}</td>
-                                <td>{{ $ptotal }}</td>
+                                <td>{{ number_format($ptotal, 2) }}</td>
                             </tr>
                             @endforeach
                             <tr><td class='text-right'><strong>PURCHASES TOTAL</strong></td><td><strong>{{ number_format($ptot, 2) }}</strong></td></tr>
@@ -46,7 +46,7 @@
                             @foreach($expenses as $expense)
                             <tr>
                                 <td>{{ $expense->description }}</td>
-                                <td>{{ $expense->amount }}</td>
+                                <td>{{ number_format($expense->amount, 2) }}</td>
                             </tr>
                             @endforeach
                             <tr><td class='text-right'><strong>EXPENSE TOTAL</strong></td><td><strong>{{ number_format($exp_tot, 2) }}</strong></td></tr>
