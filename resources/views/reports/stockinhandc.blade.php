@@ -25,10 +25,10 @@
                             @php $c = 1; @endphp
                             @foreach($collections as $collection)
                                 @php 
-                                $stockin = DB::table('purchase_details')->whereIn('product', function($q) use($collection){
+                                $stockin = DB::table('purchase_details')->where('is_return', 0)->whereIn('product', function($q) use($collection){
                                     $q->select('id')->from('products')->where('collection', $collection->id);
                                 })->sum('qty');
-                                $stockout = DB::table('sales_details')->whereIn('product', function($q) use($collection){
+                                $stockout = DB::table('sales_details')->where('is_return', 0)->whereIn('product', function($q) use($collection){
                                     $q->select('id')->from('products')->where('collection', $collection->id);
                                 })->sum('qty');
                                 @endphp

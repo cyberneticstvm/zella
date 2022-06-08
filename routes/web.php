@@ -147,6 +147,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reports/stockout/', 'App\Http\Controllers\ReportsController@getStockOut')->name('reports.stockout');
     Route::get('/reports/stockinhand/', 'App\Http\Controllers\ReportsController@getStockInHand')->name('reports.stockinhand');
     Route::get('/reports/stockinhandc/', 'App\Http\Controllers\ReportsController@getStockInHandCollection')->name('reports.stockinhandc');
+    Route::get('/reports/daybook/', 'App\Http\Controllers\ReportsController@dayBook')->name('reports.daybook');
     // end reports //
 
     // search //

@@ -224,4 +224,11 @@ class ReportsController extends Controller
         $collections = DB::table('collections')->get();
         return view('reports.stockinhandc', compact('collections'));
     }
+
+    public function dayBook(){
+        $sales = DB::table('sales')->whereDate('created_at', Carbon::today())->get();
+        $purchases = DB::table('purchases')->whereDate('created_at', Carbon::today())->get();
+        $expenses = DB::table('expenses')->whereDate('created_at', Carbon::today())->get();
+        return view('reports.daybook', compact('sales', 'purchases', 'expenses'));
+    }
 }
