@@ -122,6 +122,7 @@
                                         @endforeach
                                         </tbody>
                                         <tfoot>
+                                            <tr><td colspan="3" class="text-right">Sub Total</td><td><input type="number" class="form-control text-right stot" name="purchase_total" value="{{ $purchase->purchase_total }}" readonly="true"></td></tr>
                                             <tr><td colspan="3" class="text-right">Other Expenses</td><td><input type="number" class="form-control text-right" step='any' placeholder="0.00" value="{{ $purchase->other_expense }}" name="other_expense"></td></tr>
                                         </tfoot>
                                     </table>

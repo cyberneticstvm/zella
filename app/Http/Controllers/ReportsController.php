@@ -226,10 +226,10 @@ class ReportsController extends Controller
     }
 
     public function dayBook(){
-        $sales = DB::table('sales')->whereDate('created_at', Carbon::today())->get();
+        $sales = DB::table('sales')->whereDate('sold_date', Carbon::today())->get();
         $sales_tot = $sales->sum('order_total');
-        $purchases = DB::table('purchases')->whereDate('created_at', Carbon::today())->get();
-        $expenses = DB::table('expenses')->whereDate('created_at', Carbon::today())->get();
+        $purchases = DB::table('purchases')->whereDate('delivery_date', Carbon::today())->get();
+        $expenses = DB::table('expenses')->whereDate('expense_date', Carbon::today())->get();
         $exp_tot = $expenses->sum('amount');
         return view('reports.daybook', compact('sales', 'purchases', 'expenses', 'sales_tot', 'exp_tot'));
     }

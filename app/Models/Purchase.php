@@ -16,6 +16,7 @@ class Purchase extends Model
         'delivery_date',
         'payment_mode',
         'purchase_note',
+        'purchase_total',
         'other_expense',
         'created_by',
     ];
