@@ -91,8 +91,8 @@
                                         @endphp
                                     @endforeach
                                     <tr><td colspan="5" class="text-right fw-bold">Total</td><td class="text-right fw-bold">{{ number_format($etot, 2) }}</td><td class="text-right fw-bold">{{ number_format($itot, 2) }}</td><td class="text-right fw-bold">{{ number_format($ptot, 2) }}</td></tr>
-                                    <!--<tr><td colspan="5" class="text-right fw-bold">Expense Total</td><td colspan="3" class="text-right fw-bold">{{ number_format($expenses, 2) }}</td></tr>
-                                    <tr><td colspan="5" class="text-right fw-bold">Net Profit / Loss</td><td colspan="3" class="text-right fw-bold">{{ number_format($ptot - $expenses, 2) }}</td></tr>-->
+                                    <tr><td colspan="5" class="text-right fw-bold">Card Fee</td><td colspan="3" class="text-right fw-bold">{{ number_format($card_fee, 2) }}</td></tr>
+                                    <!--<tr><td colspan="5" class="text-right fw-bold">Net Profit / Loss</td><td colspan="3" class="text-right fw-bold">{{ number_format($ptot - $expenses, 2) }}</td></tr>-->
                                     </tbody></table>
                                 </div>
                                 <div class="text-right">
