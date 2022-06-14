@@ -161,6 +161,6 @@ function calculateTotal(pmode){
     $(".card_fee").val(card_fee);
     tot = tot - discount;
     tot = (vat > 0 ) ? tot+(tot*vat)/100 : tot;
-    tot = tot + (tot*card_fee)/100;    
+    tot = tot - (tot*card_fee)/100;    
     $(".gtot").val(tot.toFixed(2));
 }
