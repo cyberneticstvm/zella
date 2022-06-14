@@ -81,13 +81,13 @@ class PDFController extends Controller
         $pmode = (!empty($inputs[3])) ? $inputs[3] : NULL;
         $pstatus = (!empty($inputs[4])) ? $inputs[4] : NULL;
 
-        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.customer_name, s.contact_number, s.address, s.payment_status, s.payment_mode, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total")->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($product), function($query) use ($request, $product){
+        $sales = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.customer_name, s.contact_number, s.address, s.payment_status, s.payment_mode, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total1, s.order_total as total")->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->when(isset($product), function($query) use ($request, $product){
             return $query->where('sd.product', $product);
         })->when(isset($pmode), function($query) use ($request, $pmode){
             return $query->where('s.payment_mode', $pmode);
         })->when(isset($pstatus), function($query) use ($request, $pstatus){
             return $query->where('s.payment_status', $pstatus);
-        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.payment_mode', 's.sold_date', 's.discount', 'sd.vat_percentage')->get();
+        })->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.payment_mode', 's.sold_date', 's.discount', 's.order_total', 'sd.vat_percentage')->get();
 
         $pdf = PDF::loadView('/pdf/sales', compact('sales', 'inputs'));
         return $pdf->stream('sales.pdf', array("Attachment"=>0));
@@ -125,7 +125,7 @@ class PDFController extends Controller
         $inputs = explode(',', $request->inputs);
         $from = (!empty($inputs[0])) ? Carbon::createFromFormat('d/M/Y', $inputs[0])->format('Y-m-d') : NULL;
         $to = (!empty($inputs[1])) ? Carbon::createFromFormat('d/M/Y', $inputs[1])->format('Y-m-d') : NULL;
-        $sales = DB::table('sales_details AS sd')->leftJoin('products AS pr', 'pr.id', '=', 'sd.product')->leftJoin('sales AS sa', 'sd.sales_id', '=', 'sa.id')->selectRaw("sd.sales_id, pr.name, pr.purchase_price as prate, pr.selling_price as srate, sd.qty, sum(sd.total) AS income, sum(sd.qty)*pr.purchase_price AS expense")->whereBetween('sa.sold_date', [$from, $to])->where('sd.is_return', 0)->where('sa.is_dead_stock', 0)->groupBy('sd.sales_id', 'sd.product', 'pr.name', 'sd.qty', 'pr.purchase_price', 'pr.selling_price', 'pr.purchase_price')->get();
+        $sales = DB::table('sales_details AS sd')->leftJoin('products AS pr', 'pr.id', '=', 'sd.product')->leftJoin('sales AS sa', 'sd.sales_id', '=', 'sa.id')->selectRaw("sd.sales_id, pr.name, pr.purchase_price as prate, pr.selling_price as srate, sd.qty, sa.order_total as income, sum(sd.qty)*pr.purchase_price AS expense")->whereBetween('sa.sold_date', [$from, $to])->where('sd.is_return', 0)->where('sa.is_dead_stock', 0)->groupBy('sa.order_total', 'sd.sales_id', 'sd.product', 'pr.name', 'sd.qty', 'pr.purchase_price', 'pr.selling_price', 'pr.purchase_price')->get();
         $expenses = DB::table('expenses')->whereBetween('expense_date', [$from, $to])->sum('amount');
         $pdf = PDF::loadView('/pdf/pandl', compact('sales', 'inputs', 'expenses'));
         return $pdf->stream('pandl.pdf', array("Attachment"=>0));
