@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Edit Sales</h1>
+                <h1 class="fs-4 mt-1 mb-0">Sales Return / Replacement</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -27,7 +27,7 @@
                             @endforeach
                         </div>
                         @endif
-                        <form id="frm-sales" method="post" action="{{ route('sales.update', $sales->id) }}">
+                        <form id="frm-sales" method="post" action="{{ route('sales.returnupdate', $sales->id) }}">
                             @csrf
                             @method("PUT")
                             <input type="hidden" id="is_dead_stock" name="is_dead_stock" value="0" />
@@ -75,12 +75,27 @@
                                 <div class="col-sm-12">
                                     <h5 class="text-center">Product Details</h5>
                                     <table style="width:100%; margin:0 auto;" class="table table-bordered tblPurchase">
-                                        <thead><tr><th width='50%'>Product</th><th width='10%'>Qty</th><th width='15%'>Price</th><th width='15%'>Total</th><th class="text-center" width='10%'><a href="javascript:void(0)"><i class="fa fa-plus text-primary addPurchaseRow"></i></a></th></tr></thead>
+                                        <thead><tr><th width='20%'>Old Product</th><th width="10%">Select</th><th>New Product</th><th width='10%'>Qty</th><th width='15%'>Price</th><th width='15%'>Total</th><th class="text-center" width='10%'></th></tr></thead>
                                         <tbody>
                                         @php $c = 0; $tot = 0;@endphp
                                         @foreach($sales_details as $sale)
                                         @php $c++; $tot += $sale->total; @endphp
                                             <tr>
+                                                <td>
+                                                    <select class="form-control form-control-md select2" name="old_product[]" required="required">
+                                                        <option value="">Select</option>
+                                                        @foreach($products as $product)
+                                                            <option value="{{ $product->id }}" {{ ($sale->product == $product->id) ? 'selected' : '' }}>{{ $product->name.' - '.$product->sku }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class='form-control' name='status'>
+                                                        <option value="0">Select</option>
+                                                        <option value="1">Return</option>
+                                                        <option value="2">Replacement</option>
+                                                    </select>
+                                                </td>
                                                 <td>
                                                     <select class="form-control form-control-md select2 selProduct" name="product[]" required="required">
                                                         <option value="">Select</option>
@@ -93,18 +108,16 @@
                                                 <td><input type="number" class="form-control text-right price" step='any' value="{{ $sale->price }}" placeholder="0.00" name="price[]" required='required'></td>
                                                 <td><input type="number" step='any' class="form-control text-right total" value="{{ $sale->total }}" placeholder="0.00" name="total[]" required='required'></td>
                                                 <td class="text-center">
-                                                    @if($c > 1 && $sale->is_return == 0)
-                                                    <a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a>
-                                                    @endif
+                                                   
                                                 </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="3" class="text-right">Sub Total</td><td><input type="number" class="form-control text-right stot" value="{{ number_format($tot, 2) }}" placeholder="0.00" readonly="true"></td></tr>
+                                            <tr><td colspan="5" class="text-right">Sub Total</td><td><input type="number" class="form-control text-right stot" value="{{ number_format($tot, 2) }}" placeholder="0.00" readonly="true"></td></tr>
                                             <!--<tr><td colspan="3" class="text-right">Card Fee %</td><td><input type="number" class="form-control text-right card_fee" placeholder="0.00" readonly="true"></td></tr>-->
-                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" value="{{ number_format($sales->discount, 2) }}" placeholder="0.00" step="any" name="discount"></td></tr>
-                                            <tr><td colspan="3" class="text-right">Grand Total</td><td class="text-success text-right fw-bold"><input type="number" class="form-control text-right gtot" value="{{ number_format($sales->order_total, 2) }}" placeholder="0.00" name="order_total" readonly="true"></td></tr>
+                                            <tr><td colspan="5" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" value="{{ number_format($sales->discount, 2) }}" placeholder="0.00" step="any" name="discount"></td></tr>
+                                            <tr><td colspan="5" class="text-right">Grand Total</td><td class="text-success text-right fw-bold"><input type="number" class="form-control text-right gtot" value="{{ number_format($sales->order_total, 2) }}" placeholder="0.00" name="order_total" readonly="true"></td></tr>
                                         </tfoot>
                                     </table>
                                 </div>

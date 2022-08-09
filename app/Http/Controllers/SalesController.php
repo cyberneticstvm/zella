@@ -141,6 +141,45 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function return($id){
+        $sales = Sales::find($id);
+        $sales_details = DB::table('sales_details')->where('sales_id', $id)->get();
+        $products = DB::table('products')->get();
+        $settings = $this->settings;
+        return view('sales.return1', compact('sales', 'products', 'sales_details', 'settings'));
+    }
+
+    public function returnupdate(Request $request, $id){
+        $input = $request->all();
+        $is_stock_in_hand = ($this->settings->allow_sales_zero_qty == 0) ? $this->checkStockInHand($input['product'], $input['qty']) : true;
+        if(!$is_stock_in_hand):
+            return back()->withInput()->withErrors("One or more items in this order doesn't have enough qty.");
+        else:
+            DB::table("sales_details")->where('sales_id', $id)->delete();
+            if($input['product']):
+                for($i=0; $i<count($input['product']); $i++):
+                    if($input['product'][$i] > 0):
+                        $product = DB::table('products')->find($input['product'][$i]);
+                        $vat_percentage = ($this->settings->vat_percentage > 0 && $product->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
+                        DB::table('sales_details')->insert([
+                            'sales_id' => $id,
+                            'product' => $input['product'][$i],
+                            'old_product' => ($input['status'][$i] == 2) ? $input['old_product'][$i] : 0,
+                            'qty' => $input['qty'][$i],
+                            'price' => ($input['is_dead_stock'] == 0) ? $input['price'][$i] : 0.00,
+                            'vat_percentage' => $vat_percentage,
+                            'total' => ($input['is_dead_stock'] == 0) ? $input['total'][$i] : 0.00,
+                            'is_return' => ($input['status'][$i] == 1) ? $input['status'][$i] : 0,
+                            'return_date' => ($input['status'][$i] == 1 || $input['status'][$i] == 2) ? Carbon::now() : NULL,
+                        ]);
+                    endif;
+                endfor;
+            endif;
+            return redirect()->route('sales.index')->with('success','Sales record updated successfully');
+        endif;
+    }
+
     public function edit($id)
     {
         $sales = Sales::find($id);

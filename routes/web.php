@@ -116,6 +116,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sales/', 'App\Http\Controllers\SalesController@index')->name('sales.index');
     Route::get('/sales/create/', 'App\Http\Controllers\SalesController@create')->name('sales.create');
     Route::post('/sales/create/', 'App\Http\Controllers\SalesController@store')->name('sales.save');
+    Route::get('/sales/return/{id}/', 'App\Http\Controllers\SalesController@return')->name('sales.return1');
+    Route::put('/sales/return/{id}/', 'App\Http\Controllers\SalesController@returnupdate')->name('sales.returnupdate');
     Route::get('/sales/{id}/edit/', 'App\Http\Controllers\SalesController@edit')->name('sales.edit');
     Route::put('/sales/{id}/edit/', 'App\Http\Controllers\SalesController@update')->name('sales.update');
     Route::delete('/sales/{id}/delete/', 'App\Http\Controllers\SalesController@destroy')->name('sales.delete');

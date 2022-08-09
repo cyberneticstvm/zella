@@ -22,7 +22,7 @@
                     <div class="card-body p-4">
                         <div class="text-right"><a href="/sales/create/"><i class="fa fa-plus text-primary"></i></a></div>
                         <table id="dataTbl" class="table display table-sm dataTable table-striped table-hover align-middle" style="width:100%">
-                        <thead><tr><th>SL No.</th><th>Invoice Number</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Sold Date</th><th>Payment Status</th><th>Invoice</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
+                        <thead><tr><th>SL No.</th><th>Invoice Number</th><th>Customer Name</th><th>Contact Number</th><th>Address</th><th>Sold Date</th><th>Payment Status</th><th>Invoice</th><th>Return</th><th>Edit</th><th>Remove</th></tr></thead><tbody>
                         @php $i = 0; @endphp
                         @foreach($sales as $sale)
                         <tr>
@@ -33,7 +33,8 @@
                             <td>{{ $sale->address }}</td>
                             <td>{{ date('d/M/Y', strtotime($sale->sold_date)) }}</td>
                             <td>{{ $sale->payment_status }}</td>
-                            <td><a class='btn btn-link' href="/sales-invoice/{{ $sale->id }}" target="_blank"><i class="fa fa-file-o text-info"></i></a></td>
+                            <td><a class='btn btn-link' href="/sales-invoice/{{ $sale->id }}" target="_blank"><i class="fa fa-file-o text-muted"></i></a></td>
+                            <td class="text-center"><a href="{{ route('sales.return1', $sale->id) }}"><i class="fa fa-undo text-info"></i></a></td>
                             <td><a class='btn btn-link' href="{{ route('sales.edit', $sale->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
                                 <form method="post" action="{{ route('sales.delete', $sale->id) }}">
