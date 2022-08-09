@@ -4,6 +4,6 @@
 </head>
 <body>
    <p>Barcode</p>
-   <img src="data:image/png;base64,{{DNS1D::getBarcodePNG('11', 'C39')}}" alt="" />
+   {!! DNS1D::getBarcodeHTML('4445645656', 'C39') !!}
 </body>
 </html>
