@@ -5,6 +5,6 @@
 </head>
 <body>
    <p>Barcode</p>
-   <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(200)->generate('http://google.com')) !!} ">
+   <img src="data:image/png;base64,{{DNS1D::getBarcodePNG('11', 'C39')}}" alt="" />
 </body>
 </html>
