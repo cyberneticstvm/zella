@@ -37,7 +37,7 @@
         <img src="./images/zella-logo-pdf.png" width="20%"/>
         <p class="arab big">{{ $obj->utf8Glyphs('الشخص الواحد ذ.م.م') }} {{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة ') }}</p>
         <p>Phone: 0562659619, 0521734496</p>
-        <h2>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h2>
+        <p>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></p>
     </center>
     <table width="100%">
         <tbody>
