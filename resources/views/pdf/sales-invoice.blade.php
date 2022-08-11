@@ -55,10 +55,11 @@
                 $vat_amount = ($vat_percentage > 0) ? ($row->total*$vat_percentage)/100 : 0;
                 $tot += $row->total+$vat_amount;
                 $vat_tot += $vat_amount;
+                $old = ($row->old_product > 0) ? DB::table('products')->find($row->old_product) : '';
             @endphp
             <tr>
                 <td>{{ $c++ }}</td>
-                <td>{{ $row->name }} {{ ($row->old_product > 0) ? '(Replacement)' : '' }}</td>
+                <td>{{ $row->name }} {{ ($old && $old->name) ? ' - Exchange with'.$old->name : '' }}</td>
                 <td class="text-right">{{ $row->qty }}</td>
                 <td class="text-right">{{ $row->price }}</td>
                 <td class="text-right">{{ $vat_percentage }}</td>
