@@ -39,7 +39,7 @@
         <p>Phone: 0562659619, 0521734496</p>
         <p>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></p>
     </center>
-    <table width="100%">
+    <table width="100%" cellspacing="0" cellpadding="0">
         <tbody>
             <tr><td width="30%">Mr. / Mrs. <span class="arab">{{ $obj->utf8Glyphs('السيدة') }}</span> / <span class="arab">{{ $obj->utf8Glyphs('السيد') }}</span> </td><td width="30%">{{ $sale->customer_name }}</td><td width="25%">Invoice No<td><td>{{ $sale->id }}</td></tr>
             <tr><td>Contact Number:</td><td>{{ $sale->contact_number }}</td><td>Invoice Date / <span class="arab">{{ $obj->utf8Glyphs('تاريخ') }}</span><td><td>{{ ($sale->sold_date) ? date('d/M/Y', strtotime($sale->sold_date)) : '' }}</td></tr>
