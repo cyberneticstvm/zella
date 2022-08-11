@@ -90,7 +90,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class='form-control' name='status'>
+                                                    <select class='form-control' name='status[]'>
                                                         <option value="0">Select</option>
                                                         <option value="1">Return</option>
                                                         <option value="2">Replacement</option>
