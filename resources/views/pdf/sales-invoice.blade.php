@@ -24,9 +24,10 @@
         .arab{
             font-family: 'notosans';
             font-weight: normal;
+            font-size:10px;
         }
         .big{
-            font-size: 1.2rem;
+            font-size: .5rem;
             margin-top: -10px;
         }
     </style>
