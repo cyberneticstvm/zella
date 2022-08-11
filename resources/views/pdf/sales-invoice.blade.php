@@ -27,7 +27,7 @@
             font-size:10px;
         }
         .big{
-            font-size: .5rem;
+            font-size: .7rem;
             margin-top: -10px;
         }
     </style>
@@ -37,7 +37,7 @@
         <img src="./images/zella-logo-pdf.png" width="20%"/>
         <p class="arab big">{{ $obj->utf8Glyphs('الشخص الواحد ذ.م.م') }} {{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة ') }}</p>
         <p>Phone: 0562659619, 0521734496</p>
-        <h5>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h5>
+        <h2>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></h2>
     </center>
     <table width="100%">
         <tbody>
@@ -77,11 +77,10 @@
             <tr><td colspan="6" class="text-right">Grand Total / <span class="arab">{{ $obj->utf8Glyphs('مجموع الدراهم') }}</span></td><td class="text-right"><b>{{ number_format($tot-$sale->discount, 2) }}</b></td></tr>
         </tbody>
     </table>
-    <br /><br /><br />
+    <br />
     <table width="100%">
         <tr><td>Receiver's Sign</td><td class="text-right">Signature / <span class="arab">{{ $obj->utf8Glyphs('التوقيع') }}</span></td></tr>
     </table>
-   <pre /><pre />
-    <center><img src="data:image/png;base64, {!! $qrcode !!}"></center>
+    <!--<center><img src="data:image/png;base64, {!! $qrcode !!}"></center>-->
 </body>
 </html>
