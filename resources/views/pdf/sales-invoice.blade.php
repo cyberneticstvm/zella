@@ -58,7 +58,7 @@
             @endphp
             <tr>
                 <td>{{ $c++ }}</td>
-                <td>{{ $row->name }}</td>
+                <td>{{ $row->name }} {{ ($row->old_product > 0) ? '(Replacement)' : '' }}</td>
                 <td class="text-right">{{ $row->qty }}</td>
                 <td class="text-right">{{ $row->price }}</td>
                 <td class="text-right">{{ $vat_percentage }}</td>

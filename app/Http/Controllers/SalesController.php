@@ -156,6 +156,7 @@ class SalesController extends Controller
         if(!$is_stock_in_hand):
             return back()->withInput()->withErrors("One or more items in this order doesn't have enough qty.");
         else:
+            $upd = Sales::where('id', $id)->update(['order_total' => $request->order_total]);
             DB::table("sales_details")->where('sales_id', $id)->delete();
             if($input['product']):
                 for($i=0; $i<count($input['product']); $i++):
