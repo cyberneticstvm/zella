@@ -90,10 +90,10 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class='form-control' name='status[]'>
+                                                    <select class='form-control selStatus' name='status[]'>
                                                         <option value="0">Select</option>
-                                                        <option value="1">Return</option>
-                                                        <option value="2">Replacement</option>
+                                                        <option value="1" {{ ($sale->is_return == 1) ? 'selected' : '' }}>Return</option>
+                                                        <option value="2" {{ ($sale->old_product > 0) ? 'selected' : '' }}>Replacement</option>
                                                     </select>
                                                 </td>
                                                 <td>

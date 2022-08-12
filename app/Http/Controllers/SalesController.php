@@ -153,9 +153,9 @@ class SalesController extends Controller
     public function returnupdate(Request $request, $id){
         $input = $request->all();
         $is_stock_in_hand = ($this->settings->allow_sales_zero_qty == 0) ? $this->checkStockInHand($input['product'], $input['qty']) : true;
-        if(!$is_stock_in_hand):
-            return back()->withInput()->withErrors("One or more items in this order doesn't have enough qty.");
-        else:
+        //if(!$is_stock_in_hand):
+            //return back()->withInput()->withErrors("One or more items in this order doesn't have enough qty.");
+        //else:
             $upd = Sales::where('id', $id)->update(['order_total' => $request->order_total]);
             DB::table("sales_details")->where('sales_id', $id)->delete();
             if($input['product']):
@@ -178,7 +178,7 @@ class SalesController extends Controller
                 endfor;
             endif;
             return redirect()->route('sales.index')->with('success','Sales record updated successfully');
-        endif;
+        //endif;
     }
 
     public function edit($id)

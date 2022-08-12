@@ -133,7 +133,15 @@ $(function(){
         var pmode = $(this).val();
         var discount = $(".discount").val();
         calculateTotal(pmode);
-    })
+    });
+
+    $(document).on("change", ".selStatus", function(){
+        if($(this).val() == 1){
+            var pmode = $(".payment_mode").val();
+            $(this).closest('tr').find(".qty, .price, .total").val('0');
+            calculateTotal(pmode);
+        }
+    });
 });
 
 function bindDDL(type, ddl){
