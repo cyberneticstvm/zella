@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">SKU <span class="req">*</span></label>
-                                    <input type="text" class="form-control" placeholder="SKU" value="{{ $product->sku }}" required="required" name="sku">
+                                    <input type="text" class="form-control" placeholder="SKU" value="{{ $product->sku }}" required="required" name="sku" readonly>
                                     @error('sku')
                                     <small class="text-danger">{{ $errors->first('sku') }}</small>
                                     @enderror
