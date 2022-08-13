@@ -20,7 +20,7 @@ class PDFController extends Controller
     public function salesinvoice($id){
         $sale = DB::table('sales')->find($id);
         $settings = $this->settings; $qrcode =  $this->qrcode;      
-        $sales = DB::table('sales_details as s')->leftJoin('products as p', 'p.id', '=', 's.product')->select('s.qty', 's.price', 's.total', 's.vat_percentage', 's.old_product', 's.return_date', 's.is_return', 'p.name', 'p.vat_applicable')->where('s.sales_id', $id)->get();      
+        $sales = DB::table('sales_details as s')->leftJoin('products as p', 'p.id', '=', 's.product')->select('s.id', 's.product', 's.qty', 's.price', 's.total', 's.vat_percentage', 's.old_product', 's.return_date', 's.is_return', 'p.name', 'p.vat_applicable')->where('s.sales_id', $id)->get();      
         $pdf = PDF::loadView('/pdf/sales-invoice', compact('sale', 'sales', 'settings', 'qrcode'));
         return $pdf->stream('sales-invoice.pdf', array("Attachment"=>0));
     }
