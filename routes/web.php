@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\HelperController;
 
 /*
 |--------------------------------------------------------------------------
@@ -195,5 +196,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/sales-return/download/excel/', [ExcelController::class, 'salesReturnExport'])->name('sales-return-export');
     Route::post('/expense/download/excel/', [ExcelController::class, 'expenseExport'])->name('expense-export');
     // end excel //
+
+    Route::get('/updatesku/', [HelperController::class, 'updateSKU']);
 
 });

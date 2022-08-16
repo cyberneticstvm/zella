@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Str;
 
 class HelperController extends Controller
 {
@@ -27,5 +28,12 @@ class HelperController extends Controller
         else:
             return true; // if dval = 1 or dval = 0 then it will be sales / deadstock transaction. Otherwise it will be purchase transaction and need not be perform this validaton.
         endif;
+    }
+
+    public function updateSKU(){
+        $products = DB::table('products')->get();
+        foreach($products as $key => $value):
+            $upd = DB::table('products')->where('id', $value->id)->update(['sku' => Str::random(10)]);
+        endforeach;
     }
 }
