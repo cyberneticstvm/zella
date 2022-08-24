@@ -80,7 +80,7 @@ $(function(){
 
     $(document).on("click", ".fa-trash", function(){
         var pmode = $(".payment_mode").val();
-        $(this).parent().parent().remove();
+        $(this).parent().parent().parent().remove();
         calculateTotal(pmode);
     });
 
