@@ -34,11 +34,12 @@
 </head>
 <body>
     <center>
-        <img src="./images/zella-logo-pdf.png" width="20%"/>
+        <!--<img src="./images/zella-logo-pdf.png" width="20%"/>
         <p class="arab big">{{ $obj->utf8Glyphs('الشخص الواحد ذ.م.م') }} {{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة ') }}</p>
         <p>Phone: 0562659619, 0521734496</p>
-        <p>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></p>
+        <p>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></p>-->
     </center>
+    <table width="100%"><tbody><tr><td width="60%"><img src="./images/zella-logo-pdf.png" width="20%"/><br>Phone: 0562659619, 0521734496</td><td class="arab big">{{ $obj->utf8Glyphs('الشخص الواحد ذ.م.م') }} {{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة ') }}</td></tr></tbody></table>
     <table width="100%" cellspacing="0" cellpadding="0">
         <tbody>
             <tr><td width="30%">Mr. / Mrs. <span class="arab">{{ $obj->utf8Glyphs('السيدة') }}</span> / <span class="arab">{{ $obj->utf8Glyphs('السيد') }}</span> </td><td width="30%">{{ $sale->customer_name }}</td><td width="25%">Invoice No<td><td>{{ $sale->id }}</td></tr>
