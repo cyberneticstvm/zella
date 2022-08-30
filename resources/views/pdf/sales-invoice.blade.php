@@ -65,7 +65,7 @@
             @endphp
             <tr>
                 <td>{{ $c++ }}</td>
-                <td>{{ $row->name }} {{ ($old && $old->name) ? ' (Exchange)' : '' }} {{ ($row->is_return == 1) ? ' (Return)' : '' }}</td>
+                <td>{{ $row->name }} {{ ($old && $old->name) ? ' (Exchange - '.$row->return_date.')' : '' }} {{ ($row->is_return == 1) ? ' (Return)' : '' }}</td>
                 <td class="text-right">{{ $row->qty }}</td>
                 <td class="text-right">{{ $row->price }}</td>
                 <td class="text-right">{{ $vat_percentage }}</td>
