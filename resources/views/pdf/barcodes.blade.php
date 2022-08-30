@@ -10,7 +10,7 @@
             <td>
                 <small>{{ $product->name }}</small>
                 {!! DNS1D::getBarcodeHTML($product->sku, 'C128', 1, 25, 'black') !!}
-                <small>AED: {{ $product->selling_price. $c%4 }}</small>
+                <small>AED: {{ $product->selling_price }}</small>
             </td>
         @if($c%4 > 0 && $c%4 == 0) </tr> @endif
     {{ $c++ }}
