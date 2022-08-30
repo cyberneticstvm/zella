@@ -40,6 +40,12 @@ class PDFController extends Controller
         return $pdf->stream('products.pdf', array("Attachment"=>0));
     }
 
+    public function barcodes(){
+        $products = DB::table('products')->get();
+        $pdf = PDF::loadView('/pdf/barcodes', compact('products'));
+        return $pdf->stream('barcodes.pdf', array("Attachment"=>0));
+    }
+
     public function purchase(Request $request){
         $inputs = explode(',', $request->inputs);
         $from = (!empty($inputs[0])) ? Carbon::createFromFormat('d/M/Y', $inputs[0])->format('Y-m-d') : NULL;

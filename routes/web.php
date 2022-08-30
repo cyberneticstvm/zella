@@ -179,6 +179,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sales-invoice/{id}/', [PDFController::class, 'salesinvoice']);
     Route::get('/purchase-invoice/{id}/', [PDFController::class, 'purchaseinvoice']);
     Route::get('/product/download/pdf/', [PDFController::class, 'products']);
+    Route::get('/product/download/barcodes/', [PDFController::class, 'barcodes']);
     Route::post('/purchase/download/pdf/', [PDFController::class, 'purchase'])->name('purchase.pdf');
     Route::post('/purchase-return/download/pdf/', [PDFController::class, 'purchasereturn'])->name('purchase-return.pdf');
     Route::post('/sales/download/pdf/', [PDFController::class, 'sales'])->name('sales.pdf');
