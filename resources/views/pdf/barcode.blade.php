@@ -11,7 +11,7 @@
    <pre></pre>
 
    <small>{{ $product->name }}</small>
-    {!! DNS1D::getBarcodeHTML($product->sku, 'C128', 1, 150, 'black') !!}
+    {!! DNS1D::getBarcodeHTML($product->sku, 'C128', 5, 150, 'black') !!}
     <small>AED: {{ $product->selling_price }}</small>
 </body>
 </html>
