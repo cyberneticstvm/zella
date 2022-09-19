@@ -1,6 +1,11 @@
 <html>
 <head>
     <title>Zella Boutique UAE</title>
+    <style>
+        small{
+            font-size:10px;
+        }
+    </style>
 </head>
 <body>
     <small>{{ $product->name }}</small>
