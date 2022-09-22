@@ -8,7 +8,7 @@
         @media print {  
             @page {
                 size: 3.8mm 2.5mm; /* landscape */
-                margin: 2cm;
+                margin: 10cm;
             }
         }
     </style>
