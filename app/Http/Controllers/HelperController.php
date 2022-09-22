@@ -36,4 +36,9 @@ class HelperController extends Controller
             $upd = DB::table('products')->where('id', $value->id)->update(['sku' => Str::random(10)]);
         endforeach;
     }
+
+    public function barcode($id){
+        $product = DB::table('products')->find($id);
+        return view('barcode', compact('product'));
+    }
 }
