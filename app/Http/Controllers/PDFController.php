@@ -138,9 +138,9 @@ class PDFController extends Controller
         return $pdf->stream('pandl.pdf', array("Attachment"=>0));
     }
 
-    /*public function barcode($id){
+    public function barcode($id){
         $product = DB::table('products')->find($id);
         $pdf = PDF::loadView('/pdf/barcode', compact('product'));
         return $pdf->stream('barcode.pdf', array("Attachment"=>0));
-    }*/
+    }
 }
