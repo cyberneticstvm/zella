@@ -43,7 +43,7 @@
                                     <i class="fa fa-close text-danger"></i>
                                 @endif
                             </td>
-                            <td class="text-center"><a href="{{ route('barcode.html', $product->id) }}" target="_blank"><i class="fa fa-barcode text-dark"></i></a></td>
+                            <td class="text-center"><a href="{{ route('barcode.pdf', $product->id) }}" target="_blank"><i class="fa fa-barcode text-dark"></i></a></td>
                             <td><a class='btn btn-link' href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                             <td>
                                 <form method="post" action="{{ route('product.delete', $product->id) }}">
