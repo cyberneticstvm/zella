@@ -173,7 +173,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
     Route::get('/helper/product/{id}', 'App\Http\Controllers\HelperController@getproduct');
     Route::get('/helper/product/{id}/{qty}/{dval}', 'App\Http\Controllers\HelperController@checkStockInHand');
-    Route::get('/product/barcode/{id}/', [HelperController::class, 'barcode'])->name('barcode.html');
+    //Route::get('/product/barcode/{id}/', [HelperController::class, 'barcode'])->name('barcode.html');
     // end helper //
 
     // pdf //
@@ -187,7 +187,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/sales-return/download/pdf/', [PDFController::class, 'salesreturn'])->name('sales-return.pdf');
     Route::post('/expense/download/pdf/', [PDFController::class, 'expense'])->name('expense.pdf');
     Route::post('/pandl/download/pdf/', [PDFController::class, 'pandl'])->name('pandl.pdf');
-    //Route::get('/product/barcode/{id}/', [PDFController::class, 'barcode'])->name('barcode.pdf');
+    Route::get('/product/barcode/{id}/', [PDFController::class, 'barcode'])->name('barcode.pdf');
     // end pdf //
 
     // excel //
