@@ -115,6 +115,13 @@
                                         <tfoot>
                                             <tr><td colspan="3" class="text-right">Sub Total</td><td><input type="number" class="form-control text-right stot" name="purchase_total" placeholder="0.00" readonly="true"></td></tr>
                                             <tr><td colspan="3" class="text-right">Other Expenses</td><td><input type="number" class="form-control text-right" step='any' placeholder="0.00" name="other_expense"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Payment Status</td><td>
+                                                <select class="form-control form-control-md" name="payment_status" required="required">
+                                                    <option value="">Select</option>
+                                                    <option value="paid">Paid</option>
+                                                    <option value="notpaid">Not Paid</option>
+                                                </select>
+                                            </td></tr>
                                         </tfoot>
                                     </table>
                                 </div>

@@ -63,6 +63,7 @@ class PurchaseController extends Controller
             'invoice_number' => 'required',
             'order_date' => 'required',
             'delivery_date' => 'required',
+            'payment_status' => 'required',
             'payment_mode' => 'required',
         ]);
         $input = $request->all();

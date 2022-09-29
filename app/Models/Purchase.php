@@ -17,6 +17,7 @@ class Purchase extends Model
         'payment_mode',
         'purchase_note',
         'purchase_total',
+        'payment_status',
         'other_expense',
         'created_by',
     ];
