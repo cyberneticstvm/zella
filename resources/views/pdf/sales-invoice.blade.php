@@ -12,7 +12,7 @@
             src: url("{{ storage_path('/fonts/NotoSansArabic-Regular.ttf') }}") format("truetype");
         }
         table{
-            font-size: 10px;
+            font-size: 13px;
         }
         .bordered th, .bordered td{
             border: 1px solid #e6e6e6;
