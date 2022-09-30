@@ -227,7 +227,7 @@ class ReportsController extends Controller
     }
 
     public function dayBook(){
-        $sales = DB::table('sales as s')->leftJoin('sales_details as sd', 's.id', '=', 'sd.sales_id')->selectRaw("CASE WHEN s.card_fee > 0 THEN (SUM(sd.total)-s.discount)-((SUM(sd.total)-s.discount)*s.card_fee)/100 ELSE SUM(sd.total)-s.discount END AS order_total, s.customer_name")->whereDate('s.sold_date', Carbon::today())->groupBy('sd.sales_id', 's.card_fee', 's.discount', 's.customer_name')->get();
+        $sales = DB::table('sales as s')->leftJoin('sales_details as sd', 's.id', '=', 'sd.sales_id')->selectRaw("SUM(sd.total)-s.discount AS order_total, s.customer_name")->whereDate('s.sold_date', Carbon::today())->groupBy('sd.sales_id', 's.card_fee', 's.discount', 's.customer_name')->get();
         $sales_tot = $sales->sum('order_total');
         $purchases = DB::table('purchases')->whereDate('delivery_date', Carbon::today())->get();
         $expenses = DB::table('expenses')->whereDate('expense_date', Carbon::today())->get();
