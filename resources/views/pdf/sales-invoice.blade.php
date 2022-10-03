@@ -11,12 +11,15 @@
             font-family: 'notosans';
             src: url("{{ storage_path('/fonts/NotoSansArabic-Regular.ttf') }}") format("truetype");
         }
+        body{
+            font-weight: bold;
+        }
         table{
             font-size: 13px;
         }
         .bordered th, .bordered td{
             border: 1px solid #e6e6e6;
-            padding: 2px;
+            padding: 10px;
         }
         .text-right{
             text-align: right;
@@ -27,7 +30,7 @@
             font-size:10px;
         }
         .big{
-            font-size: .7rem;
+            font-size: .8rem;
             margin-top: -10px;
         }
     </style>
@@ -39,7 +42,7 @@
         <p>Phone: 0562659619, 0521734496</p>
         <p>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></p>-->
     </center>
-    <table width="100%"><tbody><tr><td width="60%"><img src="./images/zella-logo-pdf.png" width="20%"/><br>Phone: 0562659619, 0521734496</td><td class="arab big">{{ $obj->utf8Glyphs('الشخص الواحد ذ.م.م') }} {{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة ') }}</td></tr></tbody></table>
+    <table width="100%"><tbody><tr><td width="40%"><img src="./images/zella-logo-pdf.png" width="40%"/><br>Phone: 0562659619, 0521734496</td><td class="arab big text-right">{{ $obj->utf8Glyphs('الشخص الواحد ذ.م.م') }} {{ $obj->utf8Glyphs('زلة بطيق لتجارة الملابس والأقمشة شركة ') }}</td></tr></tbody></table>
     <center>
     <p>INVOICE&nbsp;&nbsp;<span class="arab"> {{ $obj->utf8Glyphs('فاتورة') }} </span></p>
     </center>
@@ -76,6 +79,11 @@
                 <td class="text-right">{{ number_format($row->total+$vat_amount, 2) }}</td>
             </tr>           
             @endforeach
+            @if($c <= 5)
+            <tr><td colspan="7"><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre></td></tr>
+            @elseif($c > 5 && $c <= 10)
+            <tr><td colspan="7"><pre><pre><pre><pre><pre><pre><pre><pre></td></tr>
+            @endif
             <tr><td colspan="6" class="text-right">Sub Total / <span class="arab">{{ $obj->utf8Glyphs('المجموع الفرعي') }}</span></td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
 
             <tr><td colspan="6" class="text-right">VAT/<span class="arab">{{ $obj->utf8Glyphs('ضريبة') }}</span> (Included in Sub Total)</td><td class="text-right">{{ number_format($vat_tot, 2) }}</td></tr>
