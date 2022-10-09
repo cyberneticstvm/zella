@@ -74,7 +74,7 @@
                             <div class="row mt-3">
                                 <div class="col-sm-12">
                                     <h5 class="text-center">Product Details</h5>
-                                    <table style="width:100%; margin:0 auto;" class="table table-bordered tblPurchase">
+                                    <table style="width:100%; margin:0 auto;" class="table table-bordered tblReplace">
                                         <thead><tr><th width='20%'>Old Product</th><th width="10%">Select</th><th>New Product</th><th width='10%'>Qty</th><th width='15%'>Price</th><th width='15%'>Total</th><th class="text-center" width='10%'></th></tr></thead>
                                         <tbody>
                                         @php $c = 0; $tot = 0;@endphp

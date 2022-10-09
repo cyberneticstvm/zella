@@ -72,6 +72,15 @@ $(function(){
         }
     });
 
+    $(document).on("keypress", ".tblReplace tbody .total", function(e){
+        if(e.keyCode == 13){
+            $(".tblReplace tbody").append("<tr><td><select class='form-control form-control-md select2 selProduct' name='old_product[]' required='required'><option value=''>Select</option></select></td><td><select class='form-control selStatus' name='status[]'><option value='0'>Select</option></select></td><td><select class='form-control form-control-md select2 selProduct' name='product[]' required='required'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]' required='required'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]' required='required'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");
+            $('.selProduct').select2();
+            bindDDL('product', 'selProduct');
+            return false;
+        }
+    });
+
     $(".addPurchaseRow").click(function(){        
         $(".tblPurchase tbody").append("<tr><td><select class='form-control form-control-md select2 selProduct' name='product[]' required='required'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]' required='required'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]' required='required'></td><td class='text-center'><a href='javascript:void(0)'><i class='fa fa-trash text-danger'></i></a></td></tr>");
         $('.selProduct').select2();
