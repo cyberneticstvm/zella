@@ -45,7 +45,7 @@ $(function(){
         }
     });
 
-    $(document).on("blur", ".tblPurchase tbody .qty", function(e){
+    $(document).on("change", ".tblPurchase tbody .qty", function(e){
         var dis = $(this);
         var pid = dis.parent().parent().find(".selProduct").val();
         var qty = dis.val();
@@ -102,7 +102,7 @@ $(function(){
             type: 'GET',
             url: '/helper/product/'+pid,
             success: function( response ) {
-                qty.val('1');
+                //qty.val('1');
                 price.val(response.selling_price);
                 total.val(response.selling_price);
                 var pmode = $(".payment_mode").val();
