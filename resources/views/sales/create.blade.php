@@ -102,23 +102,30 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-sm-2"></div>
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
                                     <select class="form-control form-control-md payment_mode" name="payment_mode" required="required">
                                         <option value="">Select</option>
                                         <option value="cash">Cash</option>
                                         <option value="card">Card</option>
+                                        <option value="candc">Cash & Card</option>
                                     </select>
                                     @error('payment_mode')
                                     <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
                                     @enderror
+                                </div>                                
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Cash Collected</label>
+                                    <input type="text" class="form-control form-control-md" name="cash_collected" placeholder="0.00"/>
+                                    @error('cash_collected')
+                                    <small class="text-danger">{{ $errors->first('cash_collected') }}</small>
+                                    @enderror
                                 </div>
-                                <div class="col-sm-4">
-                                    <label for="TextInput" class="form-label">Sales Note </label>
-                                    <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Sales Notes"/>
-                                    @error('sales_note')
-                                    <small class="text-danger">{{ $errors->first('sales_note') }}</small>
+                                <div class="col-sm-2">
+                                    <label for="TextInput" class="form-label">Card Collected</label>
+                                    <input type="text" class="form-control form-control-md" name="card_collected" placeholder="0.00"/>
+                                    @error('card_collected')
+                                    <small class="text-danger">{{ $errors->first('card_collected') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
@@ -132,7 +139,13 @@
                                     <small class="text-danger">{{ $errors->first('payment_status') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-sm-2"></div>
+                                <div class="col-sm-4">
+                                    <label for="TextInput" class="form-label">Sales Note </label>
+                                    <input type="text" class="form-control form-control-md" name="sales_note" placeholder="Sales Notes"/>
+                                    @error('sales_note')
+                                    <small class="text-danger">{{ $errors->first('sales_note') }}</small>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-6"></div>

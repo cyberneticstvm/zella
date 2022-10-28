@@ -16,6 +16,8 @@ class Sales extends Model
         'sold_date',
         'created_by',
         'payment_mode',
+        'cash_collected',
+        'card_collected',
         'card_fee',
         'sales_note',
         'discount',

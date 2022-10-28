@@ -71,6 +71,7 @@
                                         <option value="">Select</option>
                                         <option value="cash" {{ ($inputs && $inputs[3] == 'cash') ? 'selected' : '' }}>Cash</option>
                                         <option value="card" {{ ($inputs && $inputs[3] == 'card') ? 'selected' : '' }}>Card</option>
+                                        <option value="candc" {{ ($inputs && $inputs[3] == 'candc') ? 'selected' : '' }}>Cash & Card</option>
                                     </select>
                                     @error('payment_mode')
                                     <small class="text-danger">{{ $errors->first('payment_mode') }}</small>
