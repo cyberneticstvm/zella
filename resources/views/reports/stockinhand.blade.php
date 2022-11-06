@@ -26,11 +26,13 @@
                             @foreach($products as $product)
                             @php $stockin = DB::table('purchase_details')->where('product', $product->id)->where('is_return', 0)->sum('qty') @endphp
                             @php $stockout = DB::table('sales_details')->where('product', $product->id)->where('is_return', 0)->sum('qty') @endphp
-                            <tr>
-                                <td>{{ $c++ }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $stockin - $stockout }}</td>
-                            </tr>
+                                @if(($stockin - $stockout) > 0)
+                                <tr>
+                                    <td>{{ $c++ }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $stockin - $stockout }}</td>
+                                </tr>
+                                @endif
                             @endforeach
                             </tbody></table>
                         </div>

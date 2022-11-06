@@ -32,11 +32,13 @@
                                     $q->select('id')->from('products')->where('collection', $collection->id);
                                 })->sum('qty');
                                 @endphp
-                            <tr>
-                                <td>{{ $c++ }}</td>
-                                <td>{{ $collection->name }}</td>
-                                <td>{{ $stockin - $stockout}}</td>
-                            </tr>
+                                @if(($stockin - $stockout) > 0)
+                                    <tr>
+                                        <td>{{ $c++ }}</td>
+                                        <td>{{ $collection->name }}</td>
+                                        <td>{{ $stockin - $stockout}}</td>
+                                    </tr>
+                                @endif
                             @endforeach
                             </tbody></table>
                         </div>
