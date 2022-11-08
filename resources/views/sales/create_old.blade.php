@@ -48,7 +48,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-5">
-                                    <label for="TextInput" class="form-label">Customer Address</label>
+                                    <label for="TextInput" class="form-label">Customer Address <span class="req">*</span></label>
                                     <input type="text" class="form-control" placeholder="Customer Address" name="address" value="{{ old('address') }}">
                                     @error('address')
                                     <small class="text-danger">{{ $errors->first('address') }}</small>
@@ -74,44 +74,29 @@
                             <div class="row mt-3">
                                 <div class="col-sm-12">
                                     <h5 class="text-center">Product Details</h5>
-                                    <table style="width:100%; margin:0 auto;" class="table table-bordered tblSales">
-                                        <thead><tr><th width="10%">Type</th><th width="25%">Old Product</th><th width="25%">New Product</th><th>Qty</th><th>Price</th><th>Total</th><th class="text-center"><a href="javascript:void(0)"><i class="fa fa-plus text-primary addSalesRow"></i></a></th></tr></thead>
+                                    <table style="width:100%; margin:0 auto;" class="table table-bordered tblPurchase">
+                                        <thead><tr><th width='50%'>Product</th><th width='10%'>Qty</th><th width='15%'>Price</th><th width='15%'>Total</th><th class="text-center" width='10%'><a href="javascript:void(0)"><i class="fa fa-plus text-primary addPurchaseRow"></i></a></th></tr></thead>
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <select class="form-control form-control-md select2 sType" name="type[]">
-                                                        <option value="new">New</option>
-                                                        <option value="return">Return</option>
-                                                        <option value="replacement">Replacement</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control form-control-md select2 selOldProduct" name="old_product[]">
+                                                    <select class="form-control form-control-md select2 selProduct" name="product[]" required="required">
                                                         <option value="">Select</option>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}">{{ $product->name.' - '.$product->sku }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td>
-                                                    <select class="form-control form-control-md select2 selProduct" name="product[]">
-                                                        <option value="">Select</option>
-                                                        @foreach($products as $product)
-                                                            <option value="{{ $product->id }}">{{ $product->name.' - '.$product->sku }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>                                                
-                                                <td><input type="number" class="form-control text-right qty" step='any' placeholder="0" name="qty[]" required></td>
-                                                <td><input type="number" class="form-control text-right price" step='any' placeholder="0.00" name="price[]"></td>
-                                                <td><input type="number" class="form-control text-right total" step='any' placeholder="0.00" name="total[]"></td>
+                                                <td><input type="number" class="form-control text-right qty" step='any' placeholder="0" name="qty[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right price" step='any' placeholder="0.00" name="price[]" required='required'></td>
+                                                <td><input type="number" class="form-control text-right total" step='any' placeholder="0.00" name="total[]" required='required'></td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
-                                            <tr><td colspan="5" class="text-right">Sub Total</td><td><input type="number" class="form-control text-right stot" placeholder="0.00"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Sub Total</td><td><input type="number" class="form-control text-right stot" placeholder="0.00" readonly="true"></td></tr>
                                             <!--<tr><td colspan="3" class="text-right">Card Fee %</td><td><input type="number" class="form-control text-right card_fee" placeholder="0.00" readonly="true"></td></tr>-->
-                                            <tr><td colspan="5" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" placeholder="0.00" step="any" name="discount"></td></tr>
-                                            <tr><td colspan="5" class="text-right">Grand Total</td><td class="text-success text-right fw-bold"><input type="number" step="any" class="form-control text-right gtot" placeholder="0.00" name="order_total"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Discount</td><td><input type="number" class="form-control text-right discount" placeholder="0.00" step="any" name="discount"></td></tr>
+                                            <tr><td colspan="3" class="text-right">Grand Total</td><td class="text-success text-right fw-bold"><input type="number" class="form-control text-right gtot" placeholder="0.00" name="order_total" readonly="true"></td></tr>
                                         </tfoot>
                                     </table>
                                 </div>

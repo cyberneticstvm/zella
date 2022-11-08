@@ -172,7 +172,7 @@ Route::group(['middleware' => ['auth']], function(){
     // helper //
     Route::get('/helper/product/', 'App\Http\Controllers\HelperController@getproducts');
     Route::get('/helper/product/{id}', 'App\Http\Controllers\HelperController@getproduct');
-    Route::get('/helper/product/{id}/{qty}/{dval}', 'App\Http\Controllers\HelperController@checkStockInHand');
+    Route::get('/helper/product/{id}/{qty}/{dval}/{stype}', 'App\Http\Controllers\HelperController@checkStockInHand');
     //Route::get('/product/barcode/{id}/', [HelperController::class, 'barcode'])->name('barcode.html');
     // end helper //
 

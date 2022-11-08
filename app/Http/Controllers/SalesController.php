@@ -54,7 +54,64 @@ class SalesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request){
+        $this->validate($request, [
+            'customer_name' => 'required',
+            'contact_number' => 'required',
+            'sold_date' => 'required',
+            'payment_mode' => 'required',
+            'payment_status' => 'required',
+        ]);
+        $input = $request->all();
+        $input['discount'] = ($request->discount > 0) ? $request->discount : 0;
+        $input['sold_date'] = (!empty($request->sold_date)) ? Carbon::createFromFormat('d/M/Y', $request['sold_date'])->format('Y-m-d') : NULL;
+        $input['card_fee'] = ($request->payment_mode == 'card') ? $this->settings->card_fee : 0.00;
+        $input['vat_percentage'] = $this->settings->vat_percentage;
+        $input['created_by'] = $request->user()->id;
+        try{
+            DB::transaction(function() use ($input, $request){
+                $sales = Sales::create($input);
+                $product = $request->product;
+                foreach($product as $key => $pdct):
+                    $item = DB::table('products')->find($pdct);
+                    $vat_percentage = ($this->settings->vat_percentage > 0 && $item->vat_applicable == 1) ? $this->settings->vat_percentage : 0;
+                    $total = ($input['is_dead_stock'] == 0) ? $input['total'][$key] : 0.00;
+                    if($input['type'][$key] == 'return' || $input['type'][$key] == 'replacement'):
+                        DB::table('purchases')->insert(['supplier' => 0, 'purchase_note' => $input['type'][$key]]);
+                        $purchase_id = DB::getPdo()->lastInsertId();
+                        DB::table('purchase_details')->insert(['purchase_id' => $purchase_id, 'sales_id' => $sales->id, 'product' => $input['old_product'][$key], 'qty' => $input['qty'][$key], 'price' => 0, 'total' => 0, 'is_return' => 0]);
+                    endif;
+                    $data[] = [
+                        'sales_id'   => $sales->id,
+                        'old_product' => ($input['old_product'][$key] > 0) ? $input['old_product'][$key] : 0,
+                        'product' => ($pdct > 0 ) ? $pdct : 0,
+                        'qty' => ($input['qty'][$key] > 0) ? $input['qty'][$key] : 0,
+                        'price' => ($input['price'][$key] > 0 ) ? $input['price'][$key] : 0,
+                        'vat_percentage' => $vat_percentage,
+                        'total' => ($total > 0) ? $total : 0,
+                        'is_return' => ($input['type'][$key] == 'return') ? 1 : 0,
+                        'type' => $input['type'][$key],
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                        'return_date' => ($input['type'][$key] == 'return') ? Carbon::today() : NULL
+                    ];
+                endforeach;
+                DB::table('sales_details')->insert($data);
+            });
+            
+            $products = DB::table('products')->get();
+            if($request->is_dead_stock == 0):
+                $sales = Sales::orderBy('id', 'desc')->get();
+                return redirect()->route('sales.create', ['sales' => $sales, 'products' => $products])->with('success','Sales recorded successfully');
+            else:
+                $sales = Sales::orderBy('id', 'desc')->where('is_dead_stock', 0)->get();
+                return redirect()->route('sales.deadstock', ['sales' => $sales, 'products' => $products])->with('success','Deadstock recorded successfully');
+            endif;
+        }catch(Exception $e){
+            throw $e;
+        }
+    }
+    /*public function store(Request $request)
     {
         $this->validate($request, [
             'customer_name' => 'required',
@@ -100,7 +157,7 @@ class SalesController extends Controller
                 return redirect()->route('sales.deadstock', ['sales' => $sales, 'products' => $products])->with('success','Deadstock recorded successfully');
             endif;
         endif;
-    }
+    }*/
 
     /**
      * Display the specified resource.

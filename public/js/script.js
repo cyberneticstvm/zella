@@ -45,14 +45,15 @@ $(function(){
         }
     });
 
-    $(document).on("change", ".tblPurchase tbody .qty", function(e){
+    $(document).on("change", ".tblSales tbody .qty", function(e){
         var dis = $(this);
         var pid = dis.parent().parent().find(".selProduct").val();
+        var stype = dis.parent().parent().find(".sType").val();
         var qty = dis.val();
         var dval = $("#is_dead_stock").val();
         $.ajax({
             type: 'GET',
-            url: '/helper/product/'+pid+'/'+qty+'/'+dval,
+            url: '/helper/product/'+pid+'/'+qty+'/'+dval+'/'+stype,
             success: function(response) {
                 if(!response){
                     alert("Insufficient Qty");
@@ -72,11 +73,11 @@ $(function(){
         }
     });
 
-    $(document).on("keypress", ".tblReplace tbody .total", function(e){
+    $(document).on("keypress", ".tblSales tbody .total", function(e){
         if(e.keyCode == 13){
-            $(".tblReplace tbody").append("<tr><td><select class='form-control form-control-md select2 selProduct' name='old_product[]' required='required'><option value=''>Select</option></select></td><td><select class='form-control selStatus' name='status[]'><option value='0'>Select</option></select></td><td><select class='form-control form-control-md select2 selProduct' name='product[]' required='required'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]' required='required'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]' required='required'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");
-            $('.selProduct').select2();
-            bindDDL('product', 'selProduct');
+            $(".tblSales tbody").append("<tr><td><select class='form-control form-control-md select2 sType' name='type[]'><option value='new'>New</option><option value='return'>Return</option><option value='replacement'>Replacement</option></select></td><td><select class='form-control form-control-md selOldProduct select2' name='old_product[]'><option value=''>Select</option></select></td><td><select class='form-control form-control-md select2 selProduct' name='product[]'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");
+            $('.selProduct, .selOldProduct, .sType').select2();
+            bindDDL('product', 'selProduct'); bindDDL('product', 'selOldProduct');
             return false;
         }
     });
@@ -85,6 +86,12 @@ $(function(){
         $(".tblPurchase tbody").append("<tr><td><select class='form-control form-control-md select2 selProduct' name='product[]' required='required'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]' required='required'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]' required='required'></td><td class='text-center'><a href='javascript:void(0)'><i class='fa fa-trash text-danger'></i></a></td></tr>");
         $('.selProduct').select2();
         bindDDL('product', 'selProduct');
+    });
+
+    $(".addSalesRow").click(function(){
+        $(".tblSales tbody").append("<tr><td><select class='form-control form-control-md select2 sType' name='type[]'><option value='new'>New</option><option value='return'>Return</option><option value='replacement'>Replacement</option></select></td><td><select class='form-control form-control-md select2 selOldProduct' name='old_product[]'><option value=''>Select</option></select></td><td><select class='form-control form-control-md select2 selProduct' name='product[]'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]'></td><td class='text-center'><a href='javascript:void(0)'><i class='fa fa-trash text-danger'></i></a></td></tr>");
+        $('.selProduct, .selOldProduct, .sType').select2();
+        bindDDL('product', 'selProduct'); bindDDL('product', 'selOldProduct');
     });
 
     $(document).on("click", ".fa-trash", function(){
