@@ -42,7 +42,7 @@
                                 <form method="post" action="{{ route('user.delete', $user->id) }}">
                                     @csrf 
                                     @method("DELETE")
-                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this User?');"><i class="fa fa-trash text-danger"></i></button>
+                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this User?');"><i class="fa fa-times text-danger"></i></button>
                                 </form>
                             </td>
                         </tr>

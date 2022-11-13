@@ -33,7 +33,7 @@
                                 <form method="post" action="{{ route('role.delete', $role->id) }}">
                                     @csrf 
                                     @method("DELETE")
-                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this Role?');"><i class="fa fa-trash text-danger"></i></button>
+                                    <button type="submit" class="btn btn-link" onclick="javascript: return confirm('Are you sure want to delete this Role?');"><i class="fa fa-times text-danger"></i></button>
                                 </form>
                             </td>
                         </tr>
