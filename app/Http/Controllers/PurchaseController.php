@@ -23,7 +23,7 @@ class PurchaseController extends Controller
         $this->middleware('permission:purchase-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:purchase-delete', ['only' => ['destroy']]);
 
-        $this->purchases = Purchase::leftJoin('suppliers AS s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->where('purchases.supplier', '!=', 0)->orderBy('purchases.id','DESC')->get();        
+        $this->purchases = Purchase::leftJoin('suppliers AS s', 'purchases.supplier', '=', 's.id')->select('purchases.id', DB::Raw("DATE_FORMAT(purchases.order_date, '%d/%b/%Y') AS odate"), DB::Raw("DATE_FORMAT(purchases.delivery_date, '%d/%b/%Y') AS ddate"), 'purchases.invoice_number', 's.name')->orderBy('purchases.id','DESC')->get();        
     }
 
     public function index()
