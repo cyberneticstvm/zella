@@ -92,7 +92,7 @@
 
             <tr><td colspan="6" class="text-right">Grand Total / <span class="arab">{{ $obj->utf8Glyphs('مجموع الدراهم') }}</span></td><td class="text-right"><b>{{ number_format($tot-$sale->discount, 2) }}</b></td></tr>
 
-            <tr><td colspan="6" class="text-right">Exchange Difference</span></td><td class="text-right"><b>{{ number_format($new_item_tot - $old_item_tot, 2) }}</b></td></tr>
+            <!--<tr><td colspan="6" class="text-right">Exchange Difference</span></td><td class="text-right"><b>{{ number_format($new_item_tot - $old_item_tot, 2) }}</b></td></tr>-->
         </tbody>
     </table>
     <br />
