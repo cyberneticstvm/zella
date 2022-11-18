@@ -58,8 +58,9 @@ $(function(){
                 if(!response){
                     alert("Insufficient Qty");
                     dis.val('0');
-                    dis.focus();
+                    dis.focus();                    
                 }
+                calculateOldProductTotal();
             }
         });
     });
@@ -75,7 +76,7 @@ $(function(){
 
     $(document).on("keypress", ".tblSales tbody .total", function(e){
         if(e.keyCode == 13){
-            $(".tblSales tbody").append("<tr><td><select class='form-control form-control-md select2 sType' name='type[]'><option value='new'>New</option><option value='return'>Return</option><option value='replacement'>Replacement</option></select></td><td><select class='form-control form-control-md selOldProduct select2' name='old_product[]'><option value=''>Select</option></select></td><td><select class='form-control form-control-md select2 selProduct' name='product[]'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");
+            $(".tblSales tbody").append("<tr><td><select class='form-control form-control-md select2 sType' name='type[]'><option value='new'>New</option><option value='return'>Return</option><option value='replacement'>Replacement</option></select></td><td><select class='form-control form-control-md selOldProduct select2' name='old_product[]'><option value=''>Select</option></select></td><td><input type='number' name='old_product_price[]' class='form-control oldprice' readonly /></td><td><select class='form-control form-control-md select2 selProduct' name='product[]'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required='required'></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]'></td><td class='text-center'><a href='javascript:void(0)' onClick='$(this).parent().parent().remove()'><i class='fa fa-trash text-danger'></i></a></td></tr>");
             $('.selProduct, .selOldProduct, .sType').select2();
             bindDDL('product', 'selProduct'); bindDDL('product', 'selOldProduct');
             return false;
@@ -89,7 +90,7 @@ $(function(){
     });
 
     $(".addSalesRow").click(function(){
-        $(".tblSales tbody").append("<tr><td><select class='form-control form-control-md select2 sType' name='type[]'><option value='new'>New</option><option value='return'>Return</option><option value='replacement'>Replacement</option></select></td><td><select class='form-control form-control-md select2 selOldProduct' name='old_product[]'><option value=''>Select</option></select></td><td><select class='form-control form-control-md select2 selProduct' name='product[]'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]'></td><td class='text-center'><a href='javascript:void(0)'><i class='fa fa-trash text-danger'></i></a></td></tr>");
+        $(".tblSales tbody").append("<tr><td><select class='form-control form-control-md select2 sType' name='type[]'><option value='new'>New</option><option value='return'>Return</option><option value='replacement'>Replacement</option></select></td><td><select class='form-control form-control-md select2 selOldProduct' name='old_product[]'><option value=''>Select</option></select></td><td><input type='number' name='old_product_price[]' class='form-control oldprice' readonly /></td><td><select class='form-control form-control-md select2 selProduct' name='product[]'><option value=''>Select</option></select></td><td><input type='number' class='form-control text-right qty' placeholder='0' step='any' name='qty[]' required></td><td><input type='number' step='any' class='form-control text-right price' placeholder='0.00' name='price[]'></td><td><input type='number' step='any' class='form-control text-right total' placeholder='0.00' name='total[]'></td><td class='text-center'><a href='javascript:void(0)'><i class='fa fa-trash text-danger'></i></a></td></tr>");
         $('.selProduct, .selOldProduct, .sType').select2();
         bindDDL('product', 'selProduct'); bindDDL('product', 'selOldProduct');
     });
@@ -98,6 +99,7 @@ $(function(){
         var pmode = $(".payment_mode").val();
         $(this).parent().parent().parent().remove();
         calculateTotal(pmode);
+        calculateOldProductTotal();
     });
 
     $(document).on('change', '.selProduct', function(){
@@ -114,6 +116,19 @@ $(function(){
                 total.val(response.selling_price);
                 var pmode = $(".payment_mode").val();
                 calculateTotal(pmode);
+            }
+        });
+    });
+    $(document).on('change', '.selOldProduct', function(){
+        var pid = $(this).val();
+        var price = $(this).parent().parent().find('.oldprice');
+        $.ajax({
+            type: 'GET',
+            url: '/helper/product/'+pid,
+            success: function( response ) {
+                //qty.val('1');
+                price.val(response.selling_price);
+                calculateOldProductTotal();
             }
         });
     });
@@ -164,6 +179,11 @@ $(function(){
             calculateTotal(pmode);
         }
     });
+
+    /*$(".sType").change(function(){
+        calculateOldProductTotal();
+        return true;
+    });*/
 });
 
 function bindDDL(type, ddl){
@@ -180,7 +200,7 @@ function bindDDL(type, ddl){
 }
 
 function calculateTotal(pmode){
-    var tot = 0;
+    var tot = 0; var old_pdct_tot = parseFloat($(".old_pdct_tot").val());
     var card_fee = (pmode == 'card') ? $("#card_fee").val() : 0.00;
     var vat = $("#vat").val();
     var discount = $(".discount").val();
@@ -192,5 +212,21 @@ function calculateTotal(pmode){
     tot = tot - discount;
     tot = (vat > 0 ) ? tot+(tot*vat)/100 : tot;
     tot = tot - (tot*card_fee)/100;    
-    $(".gtot").val(tot.toFixed(2));
+    $(".gtot").val((tot-old_pdct_tot).toFixed(2));
+}
+
+function calculateOldProductTotal(){
+    var otot = 0; var otot1 = 0; var pmode = $(".payment_mode").val();
+    $(".tblSales tbody tr").each(function(){ 
+        var dis = $(this);
+        var type = dis.find(".sType").val();
+        if(type == 'return' || type == 'replacement'){
+            var old_price = parseFloat(dis.find('.oldprice').val());
+            var qty = parseInt(dis.find('.qty').val());
+            otot = otot + (old_price > 0 && qty > 0) ? qty*old_price : 0;
+            otot1 += otot;
+        }
+    });
+    $(".old_pdct_tot").val(otot1.toFixed(2));
+    calculateTotal(pmode);
 }

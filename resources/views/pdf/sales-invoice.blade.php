@@ -71,7 +71,7 @@
             @endphp
             <tr>
                 <td>{{ $c++ }}</td>
-                <td>{{ $row->name }} {{ ($old && $old->name) ? ' (Exchange - '.$row->return_date.')' : '' }} {{ ($row->is_return == 1) ? ' (Return - '.$row->return_date.')' : '' }}</td>
+                <td>{{ $row->name }} {{ ($row->type == 'replacement') ? ' (Exchange - '.$row->return_date.')' : '' }} {{ ($row->type == 'return') ? ' (Return - '.$row->return_date.')' : '' }}</td>
                 <td class="text-right">{{ $row->qty }}</td>
                 <td class="text-right">{{ $row->price }}</td>
                 <td class="text-right">{{ $vat_percentage }}</td>
@@ -90,7 +90,7 @@
 
             <tr><td colspan="6" class="text-right">Discount</td><td class="text-right">{{ $sale->discount }}</td></tr>
 
-            <tr><td colspan="6" class="text-right">Grand Total / <span class="arab">{{ $obj->utf8Glyphs('مجموع الدراهم') }}</span></td><td class="text-right"><b>{{ number_format($tot-$sale->discount, 2) }}</b></td></tr>
+            <tr><td colspan="6" class="text-right">Grand Total / <span class="arab">{{ $obj->utf8Glyphs('مجموع الدراهم') }}</span></td><td class="text-right"><b>{{ number_format($tot-($sale->discount+$sale->old_product_total), 2) }}</b></td></tr>
 
             <!--<tr><td colspan="6" class="text-right">Exchange Difference</span></td><td class="text-right"><b>{{ number_format($new_item_tot - $old_item_tot, 2) }}</b></td></tr>-->
         </tbody>

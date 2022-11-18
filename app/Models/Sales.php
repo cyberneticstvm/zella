@@ -24,6 +24,7 @@ class Sales extends Model
         'vat_percentage',
         'payment_status',
         'order_total',
+        'old_product_total',
         'is_dead_stock',
         'created_by',
     ];
