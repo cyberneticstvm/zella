@@ -23,7 +23,11 @@ $(function(){
     });
     
     $('#dataTbl, #dataTbl1').dataTable({
-        responsive: true
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [,
+            'pdfHtml5'
+        ]
     });
 
     $('.select2').select2();
