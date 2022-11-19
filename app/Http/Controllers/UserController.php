@@ -19,7 +19,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month, $sales_last_year, $revenue_last_year, $expense_last_year, $purchase_last_year, $products, $sales_this_week, $sales_today, $revenue_today, $revenue_this_week, $expense_this_week, $expense_today, $purchase_this_week, $purchase_today;
+    protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month, $sales_last_year, $revenue_last_year, $expense_last_year, $purchase_last_year, $products, $collections, $sales_this_week, $sales_today, $revenue_today, $revenue_this_week, $expense_this_week, $expense_today, $purchase_this_week, $purchase_today;
 
     function __construct(){
 
@@ -72,6 +72,7 @@ class UserController extends Controller
         $this->purchase_today = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, p.order_date, p.delivery_date, p.payment_mode, s.name as sname, SUM(pd.total)+p.other_expense as total')->where('pd.is_return', 0)->whereDate('p.delivery_date', Carbon::today())->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name', 'p.other_expense')->get()->sum('total');
 
         $this->products = DB::table('products')->get();
+        $this->collections = DB::table('collections')->get();
     }
     public function index()
     {
@@ -98,6 +99,7 @@ class UserController extends Controller
 
         $sales_last_year = $this->sales_last_year;
         $products = $this->products;
+        $collections = $this->collections;
         $sales_this_week = $this->sales_this_week;
         $sales_today = $this->sales_today;
         $revenue_this_week = $this->revenue_this_week;
@@ -107,7 +109,7 @@ class UserController extends Controller
         $purchase_this_week = $this->purchase_this_week;
         $purchase_today = $this->purchase_today;
 
-        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products', 'sales_today', 'sales_this_week', 'revenue_this_week', 'revenue_today', 'expense_this_week', 'expense_today', 'purchase_this_week', 'purchase_today'));
+        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products', 'collections', 'sales_today', 'sales_this_week', 'revenue_this_week', 'revenue_today', 'expense_this_week', 'expense_today', 'purchase_this_week', 'purchase_today'));
     }
 
     public function login(Request $request){
@@ -135,6 +137,7 @@ class UserController extends Controller
 
             $sales_last_year = $this->sales_last_year;
             $products = $this->products;
+            $collections = $this->collections;
             $sales_this_week = $this->sales_this_week;
             $sales_today = $this->sales_today;
             $revenue_this_week = $this->revenue_this_week;
@@ -144,7 +147,7 @@ class UserController extends Controller
             $purchase_this_week = $this->purchase_this_week;
             $purchase_today = $this->purchase_today;
 
-            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products', 'sales_today', 'sales_this_week', 'revenue_this_week', 'revenue_today', 'expense_this_week', 'expense_today', 'purchase_this_week', 'purchase_today'));
+            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products', 'collections', 'sales_today', 'sales_this_week', 'revenue_this_week', 'revenue_today', 'expense_this_week', 'expense_today', 'purchase_this_week', 'purchase_today'));
         }
         return redirect()->route('login')->withErrors('Login details are not valid');
     }
