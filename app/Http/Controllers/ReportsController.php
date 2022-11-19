@@ -276,7 +276,7 @@ class ReportsController extends Controller
                break;
             case 2:
                 $head = 'Total Sales';
-                $amount = DB::table('sales_details as sd')->leftJoin('sales as s', 'sd.sales_id', '=', 's.id')->whereBetween('s.sold_date', [$from, $to])->sum('s.order_total');
+                $amount = DB::table('sales_details as sd')->leftJoin('sales as s', 'sd.sales_id', '=', 's.id')->whereBetween('s.sold_date', [$from, $to])->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->sum('s.order_total');
                 break;
             case 3:
                 $head = 'Total Income';
