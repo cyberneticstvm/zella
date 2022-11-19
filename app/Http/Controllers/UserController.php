@@ -74,7 +74,7 @@ class UserController extends Controller
         $purchase3 = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereYear('p.delivery_date', date('Y', strtotime("-1 year")))->groupBy('p.id', 'p.other_expense')->get();
         $this->purchase_last_year = $purchase3->sum('total');
 
-        $this->purchase_this_week = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereYear('p.delivery_date', date('Y'))->groupBy('p.id', 'p.other_expense')->get()->sum('total');
+        $this->purchase_this_week = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereDate('p.delivery_date', date('Y'))->groupBy('p.id', 'p.other_expense')->get()->sum('total');
         $this->purchase_today = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [Carbon::now()->subWeek()->format("Y-m-d"), Carbon::today()])->groupBy('p.id', 'p.other_expense')->get()->sum('total');
 
         $this->products = DB::table('products')->get();
