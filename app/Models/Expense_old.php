@@ -10,11 +10,10 @@ class Expense extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date',
-        'head',
-        'description',
         'amount',
-        'branch',
+        'expense_date',
+        'description',
+        'department',
         'created_by',
     ];
 }

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Create Expense</h1>
+                <h1 class="fs-4 mt-1 mb-0">Create Income</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -16,11 +16,11 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('expense.create') }}" method="post">
+                        <form action="{{ route('income.create') }}" method="post">
                             @csrf
                             <div class="row g-4">
                                 <div class="col-sm-3">
-                                    <label class="form-label">Expense Date</label>
+                                    <label class="form-label">Income Date</label>
                                     <fieldset class="form-icon-group left-icon position-relative">
                                         <input type="text" value="{{ old('date') }}" name="date" class="form-control form-control-md dtpicker" placeholder="dd/mm/yyyy">
                                         <div class="form-icon position-absolute">

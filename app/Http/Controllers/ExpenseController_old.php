@@ -14,9 +14,18 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+         $this->middleware('permission:expense-list|expense-create|expense-edit|expense-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:expense-create', ['only' => ['create','store']]);
+         $this->middleware('permission:expense-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:expense-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
-        $expenses = Expense::leftJoin('income_expense_heads as h', 'expenses.head', '=', 'h.id')->select('expenses.id', 'expenses.description', 'expenses.amount', DB::raw("DATE_FORMAT(expenses.date, '%d/%b/%Y') AS edate"), 'h.name as head')->whereDate('expenses.created_at', Carbon::today())->orderByDesc('expenses.id')->get();
+        $expenses = Expense::get();
         return view('expense.index', compact('expenses'));
     }
 
@@ -26,9 +35,8 @@ class ExpenseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {    
-        $heads = DB::table('income_expense_heads')->where('type', 'E')->get();    
-        return view('expense.create', compact('heads'));
+    {
+        //
     }
 
     /**
@@ -40,15 +48,15 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'date' => 'required',
+            'expense_date' => 'required',
             'amount' => 'required',
-            'head' => 'required',
+            'department' => 'required',
+            'description' => 'required',
         ]);
         $input = $request->all();
         $input['created_by'] = $request->user()->id;
-        $input['branch'] = 1;
-        $input['date'] = (!empty($request->date)) ? Carbon::createFromFormat('d/M/Y', $input['date'])->format('Y-m-d') : NULL;
-        $expense = Expense::create($input);        
+        $input['expense_date'] = (!empty($request->expense_date)) ? Carbon::createFromFormat('d/M/Y', $request->expense_date)->format('Y-m-d') : NULL;
+        $expense = Expense::create($input);
         return redirect()->route('expense.index')->with('success','Expense recorded successfully');
     }
 
@@ -72,8 +80,7 @@ class ExpenseController extends Controller
     public function edit($id)
     {
         $expense = Expense::find($id);
-        $heads = DB::table('income_expense_heads')->where('type', 'E')->get();    
-        return view('expense.edit', compact('expense', 'heads'));
+        return view('expense.edit', compact('expense'));
     }
 
     /**
@@ -86,16 +93,16 @@ class ExpenseController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'date' => 'required',
+            'expense_date' => 'required',
             'amount' => 'required',
-            'head' => 'required',
+            'department' => 'required',
+            'description' => 'required',
         ]);
         $input = $request->all();
+        $input['expense_date'] = (!empty($request->expense_date)) ? Carbon::createFromFormat('d/M/Y', $request->expense_date)->format('Y-m-d') : NULL;
         $expense = Expense::find($id);
         $input['created_by'] = $expense->getOriginal('created_by');
-        $input['branch'] = 1;
-        $input['date'] = (!empty($request->date)) ? Carbon::createFromFormat('d/M/Y', $request['date'])->format('Y-m-d') : NULL;        
-        $expense->update($input);        
+        $expense->update($input);
         return redirect()->route('expense.index')->with('success','Expense updated successfully');
     }
 

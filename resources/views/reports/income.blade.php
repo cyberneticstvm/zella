@@ -20,7 +20,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <form method="post" action="{{ route('reports.expense') }}">
+                        <form method="post" action="{{ route('reports.income') }}">
                             @csrf
                             <div class="row g-3">
                                 <div class="col-sm-3">
@@ -96,13 +96,13 @@
                             @endif
                             <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Date</th><th>Head</th><th>Description</th><th>Amount</th></tr></thead><tbody>
                             @php $c = 1; @endphp
-                            @foreach($expenses as $expense)
+                            @foreach($incomes as $income)
                             <tr>
                                 <td>{{ $c++ }}</td>                                
-                                <td>{{ $expense->edate }}</td>           
-                                <td>{{ $expense->name }}</td>    
-                                <td>{{ $expense->description }} </td>       
-                                <td class="text-right">{{ $expense->amount }}</td>                                        
+                                <td>{{ $income->edate }}</td>           
+                                <td>{{ $income->name }}</td>
+                                <td>{{ $income->description }} </td>             
+                                <td class="text-right">{{ $income->amount }}</td>                                        
                             </tr>
                             @endforeach
                             </tbody></table>

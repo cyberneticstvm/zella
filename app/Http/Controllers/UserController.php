@@ -48,10 +48,10 @@ class UserController extends Controller
         $revenue2 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereMonth('s.sold_date', Carbon::now()->subMonth()->month)->whereYear('s.sold_date', date('Y'))->groupBy('s.id', 's.discount')->get();
         $this->revenue_last_month = $revenue2->sum('total');
 
-        $this->expense_this_year = DB::table('expenses')->whereYear('expense_date', date('Y'))->sum('amount');
-        $this->expense_this_month = DB::table('expenses')->whereMonth('expense_date', date('m'))->whereYear('expense_date', date('Y'))->sum('amount');
-        $this->expense_last_month = DB::table('expenses')->whereMonth('expense_date', Carbon::now()->subMonth()->month)->whereYear('expense_date', date('Y'))->sum('amount');
-        $this->expense_last_year = DB::table('expenses')->whereYear('expense_date', date('Y', strtotime("-1 year")))->sum('amount');
+        $this->expense_this_year = DB::table('expenses')->whereYear('date', date('Y'))->sum('amount');
+        $this->expense_this_month = DB::table('expenses')->whereMonth('date', date('m'))->whereYear('date', date('Y'))->sum('amount');
+        $this->expense_last_month = DB::table('expenses')->whereMonth('date', Carbon::now()->subMonth()->month)->whereYear('date', date('Y'))->sum('amount');
+        $this->expense_last_year = DB::table('expenses')->whereYear('date', date('Y', strtotime("-1 year")))->sum('amount');
 
         $purchase = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereYear('p.delivery_date', date('Y'))->groupBy('p.id', 'p.other_expense')->get();
         $this->purchase_this_year = $purchase->sum('total');

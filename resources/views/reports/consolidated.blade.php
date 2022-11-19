@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
-                <h1 class="fs-4 mt-1 mb-0">Expense Report</h1>
+                <h1 class="fs-4 mt-1 mb-0">consolidated Report</h1>
                 <!--<small class="text-muted">You have 12 new messages and 7 new notifications.</small>-->
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <!-- card: Calendar -->
                 <div class="card mb-2">
                     <div class="card-body p-4">
-                        <form method="post" action="{{ route('reports.expense') }}">
+                        <form method="post" action="{{ route('reports.consolidated') }}">
                             @csrf
                             <div class="row g-3">
                                 <div class="col-sm-3">
@@ -56,10 +56,10 @@
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Head </label>
                                     <select class="form-control form-control-md" name="head">
-                                        <option value="0">All</option>
-                                        @foreach($heads as $head)
-                                            <option value="{{ $head->id }} {{ ($inputs && $inputs[2] == $head->id) ? 'selected' : '' }}">{{ $head->name }}</option>
-                                        @endforeach
+                                        <option value="1" {{ ($inputs && $inputs[2] == 1) ? 'selected' : '' }}>Purchase</option>
+                                        <option value="2" {{ ($inputs && $inputs[2] == 2) ? 'selected' : '' }}>Sales</option>
+                                        <option value="3" {{ ($inputs && $inputs[2] == 3) ? 'selected' : '' }}>Income from Heads</option>
+                                        <option value="4" {{ ($inputs && $inputs[2] == 4) ? 'selected' : '' }}>Expense from Heads</option>
                                     </select>
                                     @error('head')
                                     <small class="text-danger">{{ $errors->first('head') }}</small>
@@ -94,17 +94,8 @@
                                 </div>
                             </div>-->
                             @endif
-                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Date</th><th>Head</th><th>Description</th><th>Amount</th></tr></thead><tbody>
-                            @php $c = 1; @endphp
-                            @foreach($expenses as $expense)
-                            <tr>
-                                <td>{{ $c++ }}</td>                                
-                                <td>{{ $expense->edate }}</td>           
-                                <td>{{ $expense->name }}</td>    
-                                <td>{{ $expense->description }} </td>       
-                                <td class="text-right">{{ $expense->amount }}</td>                                        
-                            </tr>
-                            @endforeach
+                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Head</th><th>Amount</th></tr></thead><tbody>
+                            <tr><td>1</td><td>{{ $head }}</td><td class="text-end">{{ number_format($amount, 2) }}</td></tr>
                             </tbody></table>
                         </div>
                     </div>

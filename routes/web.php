@@ -89,16 +89,32 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/supplier/{id}/delete/', 'App\Http\Controllers\SupplierController@destroy')->name('supplier.delete');
     // end supplier //
 
-    // expense //
+    // Income / Expense Heads //
+    Route::get('/income-expense-heads/', 'App\Http\Controllers\IncomeExpenseHeadController@index')->name('income-expense-heads.index');
+    Route::get('/income-expense-heads/create/', 'App\Http\Controllers\IncomeExpenseHeadController@create')->name('income-expense-heads.create');
+    Route::post('/income-expense-heads/create/', 'App\Http\Controllers\IncomeExpenseHeadController@store')->name('income-expense-heads.save');
+    Route::get('/income-expense-heads/edit/{id}/', 'App\Http\Controllers\IncomeExpenseHeadController@edit')->name('income-expense-heads.edit');
+    Route::put('/income-expense-heads/edit/{id}/', 'App\Http\Controllers\IncomeExpenseHeadController@update')->name('income-expense-heads.update');
+    Route::delete('/income-expense-heads/delete/{id}/', 'App\Http\Controllers\IncomeExpenseHeadController@destroy')->name('income-expense-heads.delete');
+    // End Income / Expense Heads //
+
+    // Expense //
     Route::get('/expense/', 'App\Http\Controllers\ExpenseController@index')->name('expense.index');
-    Route::get('/expense/create/', function () {
-        return view('expense.create');
-    });
+    Route::get('/expense/create/', 'App\Http\Controllers\ExpenseController@create')->name('expense.create');
     Route::post('/expense/create/', 'App\Http\Controllers\ExpenseController@store')->name('expense.save');
-    Route::get('/expense/{id}/edit/', 'App\Http\Controllers\ExpenseController@edit')->name('expense.edit');
-    Route::put('/expense/{id}/edit/', 'App\Http\Controllers\ExpenseController@update')->name('expense.update');
-    Route::delete('/expense/{id}/delete/', 'App\Http\Controllers\ExpenseController@destroy')->name('expense.delete');
-    // end expense //
+    Route::get('/expense/edit/{id}/', 'App\Http\Controllers\ExpenseController@edit')->name('expense.edit');
+    Route::put('/expense/edit/{id}/', 'App\Http\Controllers\ExpenseController@update')->name('expense.update');
+    Route::delete('/expense/delete/{id}/', 'App\Http\Controllers\ExpenseController@destroy')->name('expense.delete');
+    // End Expenses //
+
+    // Income //
+    Route::get('/income/', 'App\Http\Controllers\IncomeController@index')->name('income.index');
+    Route::get('/income/create/', 'App\Http\Controllers\IncomeController@create')->name('income.create');
+    Route::post('/income/create/', 'App\Http\Controllers\IncomeController@store')->name('income.save');
+    Route::get('/income/edit/{id}/', 'App\Http\Controllers\IncomeController@edit')->name('income.edit');
+    Route::put('/income/edit/{id}/', 'App\Http\Controllers\IncomeController@update')->name('income.update');
+    Route::delete('/income/delete/{id}/', 'App\Http\Controllers\IncomeController@destroy')->name('income.delete');
+    // End Income //
 
     // purchase //
     Route::get('/purchase/', 'App\Http\Controllers\PurchaseController@index')->name('purchase.index');
@@ -142,6 +158,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reports/sales-return/', 'App\Http\Controllers\ReportsController@getSalesReturn')->name('reports.sales-return');
     Route::get('/reports/expense/', 'App\Http\Controllers\ReportsController@showExpense')->name('reports.expense');
     Route::post('/reports/expense/', 'App\Http\Controllers\ReportsController@getExpense')->name('reports.expense');
+    Route::get('/reports/income/', 'App\Http\Controllers\ReportsController@showIncome')->name('reports.income');
+    Route::post('/reports/income/', 'App\Http\Controllers\ReportsController@getIncome')->name('reports.income');
     Route::get('/reports/pandl/', 'App\Http\Controllers\ReportsController@showPandL')->name('reports.pandl');
     Route::post('/reports/pandl/', 'App\Http\Controllers\ReportsController@getPandL')->name('reports.pandl');
     Route::get('/reports/stockin/', 'App\Http\Controllers\ReportsController@showStockIn')->name('reports.stockin');
@@ -150,6 +168,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reports/stockout/', 'App\Http\Controllers\ReportsController@getStockOut')->name('reports.stockout');
     Route::get('/reports/stockinhand/', 'App\Http\Controllers\ReportsController@getStockInHand')->name('reports.stockinhand');
     Route::get('/reports/stockinhandc/', 'App\Http\Controllers\ReportsController@getStockInHandCollection')->name('reports.stockinhandc');
+    Route::get('/reports/consolidated/', 'App\Http\Controllers\ReportsController@showConsolidated')->name('reports.consolidated');
+    Route::post('/reports/consolidated/', 'App\Http\Controllers\ReportsController@getConsolidated')->name('reports.consolidated');
     Route::get('/reports/daybook/', 'App\Http\Controllers\ReportsController@dayBook')->name('reports.daybook');
     // end reports //
 

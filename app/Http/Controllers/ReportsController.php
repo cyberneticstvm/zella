@@ -131,8 +131,8 @@ class ReportsController extends Controller
     }
 
     public function showExpense(){
-        $inputs = []; $expenses = [];
-        return view('reports.expense', compact('inputs', 'expenses'));
+        $inputs = []; $expenses = []; $heads = DB::table('income_expense_heads')->where('type', 'E')->get();
+        return view('reports.expense', compact('inputs', 'expenses', 'heads'));
     }
 
     public function getExpense(Request $request){
@@ -140,14 +140,35 @@ class ReportsController extends Controller
             'from_date' => 'required',
             'to_date' => 'required',
         ]);
+        $inputs = array($request->from_date, $request->to_date, $request->head);
+        $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
+        $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
+        $heads = DB::table('income_expense_heads')->where('type', 'E')->get();
+
+        $expenses = DB::table('expenses as e')->leftJoin('income_expense_heads as ie', 'e.head', '=', 'ie.id')->selectRaw("DATE_FORMAT(e.date, '%d/%b/%Y') AS edate, e.amount, e.description, ie.name")->whereBetween('e.date', [$from, $to])->when($request->head > 0, function($query) use ($request){
+            return $query->where('e.head', $request->head);
+        })->get();
+        return view('reports.expense', compact('expenses', 'inputs', 'heads'));
+    }
+    public function showIncome(){
+        $inputs = []; $incomes = []; $heads = DB::table('income_expense_heads')->where('type', 'I')->get();
+        return view('reports.income', compact('inputs', 'incomes', 'heads'));
+    }
+
+    public function getIncome(Request $request){
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
         $inputs = array($request->from_date, $request->to_date, $request->department);
         $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
         $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
+        $heads = DB::table('income_expense_heads')->where('type', 'I')->get();
 
-        $expenses = DB::table('expenses')->selectRaw("DATE_FORMAT(expense_Date, '%d/%b/%Y') AS edate, amount, department, description")->whereBetween('expense_date', [$from, $to])->when(isset($request->department), function($query) use ($request){
-            return $query->where('department', $request->department);
+        $incomes = DB::table('incomes as i')->leftJoin('income_expense_heads as ie', 'i.head', '=', 'ie.id')->selectRaw("DATE_FORMAT(i.date, '%d/%b/%Y') AS edate, i.amount, i.description, ie.name")->whereBetween('i.date', [$from, $to])->when($request->head > 0, function($query) use ($request){
+            return $query->where('i.head', $request->head);
         })->get();
-        return view('reports.expense', compact('expenses', 'inputs'));
+        return view('reports.income', compact('incomes', 'inputs', 'heads'));
     }
 
     public function showPandL(){
@@ -233,5 +254,38 @@ class ReportsController extends Controller
         $expenses = DB::table('expenses')->whereDate('expense_date', Carbon::today())->get();
         $exp_tot = $expenses->sum('amount');
         return view('reports.daybook', compact('sales', 'purchases', 'expenses', 'sales_tot', 'exp_tot'));
+    }
+
+    public function showConsolidated(){
+        $inputs = []; $amount = 0; $head = '';
+        return view('reports.consolidated', compact('inputs', 'amount', 'head'));
+    }
+
+    public function getConsolidated(Request $request){
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
+        $inputs = array($request->from_date, $request->to_date, $request->head);
+        $from = (!empty($request->from_date)) ? Carbon::createFromFormat('d/M/Y', $request->from_date)->format('Y-m-d') : NULL;
+        $to = (!empty($request->to_date)) ? Carbon::createFromFormat('d/M/Y', $request->to_date)->format('Y-m-d') : NULL;
+        switch($request->head):
+            case 1:
+               $head = 'Total Purchase';
+               $amount = DB::table('purchase_details as pd')->leftJoin('purchases as p', 'pd.purchase_id', '=', 'p.id')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->sum(DB::raw('p.purchase_total + p.other_expense'));
+               break;
+            case 2:
+                $head = 'Total Sales';
+                $amount = DB::table('sales_details as sd')->leftJoin('sales as s', 'sd.sales_id', '=', 's.id')->whereBetween('s.sold_date', [$from, $to])->sum('s.order_total');
+                break;
+            case 3:
+                $head = 'Total Income';
+                $amount = DB::table('incomes as i')->whereBetween('i.date', [$from, $to])->sum('amount');
+                break;   
+            default:
+                $head = 'Total Expense';
+                $amount = DB::table('expenses as e')->whereBetween('e.date', [$from, $to])->sum('amount');
+        endswitch;        
+        return view('reports.consolidated', compact('inputs', 'amount', 'head'));
     }
 }

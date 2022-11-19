@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\Expense;
+use App\Models\Income;
+use App\Models\PatientPayment as PP;
 use Carbon\Carbon;
 use DB;
 
-class ExpenseController extends Controller
+class IncomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +18,8 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $expenses = Expense::leftJoin('income_expense_heads as h', 'expenses.head', '=', 'h.id')->select('expenses.id', 'expenses.description', 'expenses.amount', DB::raw("DATE_FORMAT(expenses.date, '%d/%b/%Y') AS edate"), 'h.name as head')->whereDate('expenses.created_at', Carbon::today())->orderByDesc('expenses.id')->get();
-        return view('expense.index', compact('expenses'));
+        $incomes = Income::leftJoin('income_expense_heads as ie', 'incomes.head', '=', 'ie.id')->select('incomes.id', 'incomes.description', 'incomes.amount', 'ie.name as head', DB::raw("DATE_FORMAT(incomes.date, '%d/%b/%Y') AS edate"))->whereDate('incomes.created_at', Carbon::today())->orderByDesc("incomes.id")->get();
+        return view('income.index', compact('incomes'));
     }
 
     /**
@@ -27,8 +29,8 @@ class ExpenseController extends Controller
      */
     public function create()
     {    
-        $heads = DB::table('income_expense_heads')->where('type', 'E')->get();    
-        return view('expense.create', compact('heads'));
+        $heads = DB::table('income_expense_heads')->where('type', 'I')->get();    
+        return view('income.create', compact('heads'));
     }
 
     /**
@@ -47,9 +49,9 @@ class ExpenseController extends Controller
         $input = $request->all();
         $input['created_by'] = $request->user()->id;
         $input['branch'] = 1;
-        $input['date'] = (!empty($request->date)) ? Carbon::createFromFormat('d/M/Y', $input['date'])->format('Y-m-d') : NULL;
-        $expense = Expense::create($input);        
-        return redirect()->route('expense.index')->with('success','Expense recorded successfully');
+        $input['date'] = (!empty($request->date)) ? Carbon::createFromFormat('d/M/Y', $request['date'])->format('Y-m-d') : NULL;
+        $income = Income::create($input);        
+        return redirect()->route('income.index')->with('success','Income recorded successfully');
     }
 
     /**
@@ -71,9 +73,9 @@ class ExpenseController extends Controller
      */
     public function edit($id)
     {
-        $expense = Expense::find($id);
-        $heads = DB::table('income_expense_heads')->where('type', 'E')->get();    
-        return view('expense.edit', compact('expense', 'heads'));
+        $income = Income::find($id);
+        $heads = DB::table('income_expense_heads')->where('type', 'I')->get();    
+        return view('income.edit', compact('income', 'heads'));
     }
 
     /**
@@ -91,12 +93,12 @@ class ExpenseController extends Controller
             'head' => 'required',
         ]);
         $input = $request->all();
-        $expense = Expense::find($id);
-        $input['created_by'] = $expense->getOriginal('created_by');
+        $income = Income::find($id);
+        $input['created_by'] = $income->getOriginal('created_by');
         $input['branch'] = 1;
         $input['date'] = (!empty($request->date)) ? Carbon::createFromFormat('d/M/Y', $request['date'])->format('Y-m-d') : NULL;        
-        $expense->update($input);        
-        return redirect()->route('expense.index')->with('success','Expense updated successfully');
+        $income->update($input);        
+        return redirect()->route('income.index')->with('success','Income updated successfully');
     }
 
     /**
@@ -107,8 +109,8 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        Expense::find($id)->delete();
-        return redirect()->route('expense.index')
-                        ->with('success','Expense deleted successfully');
+        Income::find($id)->delete();
+        return redirect()->route('income.index')
+                        ->with('success','Record deleted successfully');
     }
 }
