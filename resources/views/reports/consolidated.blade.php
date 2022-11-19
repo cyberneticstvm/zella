@@ -95,7 +95,16 @@
                             </div>-->
                             @endif
                             <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Head</th><th>Amount</th></tr></thead><tbody>
-                            <tr><td>1</td><td>{{ $head }}</td><td class="text-end">{{ number_format($amount, 2) }}</td></tr>
+                            @php $c = 1; $tot = 0; @endphp
+                            @forelse($records as $key => $record)
+                                <tr>
+                                    <td>{{ $c++ }}</td>
+                                    <td>{{ $record->date }}</td>
+                                    <td>{{ $record->total }}</td>
+                                </tr>
+                                @php $tot += $record->total; @endphp
+                            @empty
+                            @endforelse
                             </tbody></table>
                         </div>
                     </div>

@@ -257,8 +257,8 @@ class ReportsController extends Controller
     }
 
     public function showConsolidated(){
-        $inputs = []; $amount = 0; $head = '';
-        return view('reports.consolidated', compact('inputs', 'amount', 'head'));
+        $inputs = []; $records = []; $head = '';
+        return view('reports.consolidated', compact('inputs', 'records', 'head'));
     }
 
     public function getConsolidated(Request $request){
@@ -272,20 +272,20 @@ class ReportsController extends Controller
         switch($request->head):
             case 1:
                $head = 'Total Purchase';
-               $amount = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, p.order_date, p.delivery_date, p.payment_mode, s.name as sname, SUM(pd.total)+p.other_expense as total')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name', 'p.other_expense')->get()->sum('total');
+               $records = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw("DATE_FORMAT(delivery_date, '%d/%b/%Y') AS date, SUM(pd.total)+p.other_expense as total")->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->groupBy('p.delivery_date', 'p.other_expense')->get();
                break;
             case 2:
                 $head = 'Total Sales';
-                $amount = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.customer_name, s.contact_number, s.address, s.payment_status, s.payment_mode, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total1, s.order_total as total")->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.payment_mode', 's.sold_date', 's.discount', 's.order_total', 'sd.vat_percentage')->get()->sum('total');
+                $records = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("DATE_FORMAT(sold_date, '%d/%b/%Y') AS date, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total1, s.order_total as total")->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->groupBy('s.sold_date')->get();
                 break;
             case 3:
                 $head = 'Total Income';
-                $amount = DB::table('incomes as i')->whereBetween('i.date', [$from, $to])->sum('amount');
+                $records = DB::table('incomes as i')->selectRaw("DATE_FORMAT(date, '%d/%b/%Y') AS date, SUM(amount) AS total")->whereBetween('i.date', [$from, $to])->groupBy('i.date')->get();
                 break;   
             default:
                 $head = 'Total Expense';
-                $amount = DB::table('expenses as e')->whereBetween('e.date', [$from, $to])->sum('amount');
+                $records = DB::table('expenses as e')->selectRaw("DATE_FORMAT(date, '%d/%b/%Y') AS date, SUM(amount) AS total")->whereBetween('e.date', [$from, $to])->groupBy('e.date')->get();
         endswitch;        
-        return view('reports.consolidated', compact('inputs', 'amount', 'head'));
+        return view('reports.consolidated', compact('inputs', 'records', 'head'));
     }
 }
