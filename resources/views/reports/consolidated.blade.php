@@ -100,7 +100,7 @@
                                 <tr>
                                     <td>{{ $c++ }}</td>
                                     <td>{{ $record->date }}</td>
-                                    <td>{{ $record->total }}</td>
+                                    <td class="text-end">{{ number_format($record->total, 2) }}</td>
                                 </tr>
                                 @php $tot += $record->total; @endphp
                             @empty
