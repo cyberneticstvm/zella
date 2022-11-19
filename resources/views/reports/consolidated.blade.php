@@ -105,7 +105,7 @@
                                 @php $tot += $record->total; @endphp
                             @empty
                             @endforelse
-                            <tr><td colspan="2" class="text-end">Total</td><td class="text-end">{{ number_format($tot, 2) }}</td></tr>
+                            <tr><td colspan="2" class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($tot, 2) }}</td></tr>
                             </tbody></table>
                         </div>
                     </div>
