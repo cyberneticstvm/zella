@@ -276,7 +276,7 @@ class ReportsController extends Controller
                break;
             case 2:
                 $head = 'Total Sales';
-                $records = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("DATE_FORMAT(sold_date, '%d/%b/%Y') AS date, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total1, s.order_total as total")->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->groupBy('s.sold_date')->get();
+                $records = DB::table('sales AS s')->selectRaw("SUM(order_total) AS total, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS date")->whereBetween('s.sold_date', [$from, $to])->groupBy('s.sold_date')->get();
                 break;
             case 3:
                 $head = 'Total Income';
