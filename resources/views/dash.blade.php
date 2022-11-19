@@ -174,7 +174,7 @@
                         </div>
                         <div class="flex-fill ms-3">
                             <div class="fw-bold"><span class="h4 mb-0">{{ $sales_last_year }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
-                            <div class="text-muted small">Total Orders Last Year</div>
+                            <div class="text-muted small">Total Orders</div>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                         </div>
                         <div class="flex-fill ms-3">
                             <div class="fw-bold"><span class="h4 mb-0">{{ number_format($revenue_last_year, 2) }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
-                            <div class="text-muted small">Total Sales Last Year</div>
+                            <div class="text-muted small">Total Sales</div>
                         </div>
                     </div>
                 </div>
@@ -200,7 +200,7 @@
                         </div>
                         <div class="flex-fill ms-3">
                             <div class="fw-bold"><span class="h4 mb-0">{{ number_format($expense_last_year, 2) }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
-                            <div class="text-muted small">Total Expenses Last Year</div>
+                            <div class="text-muted small">Total Expenses</div>
                         </div>
                     </div>
                 </div>
@@ -213,7 +213,7 @@
                         </div>
                         <div class="flex-fill ms-3">
                             <div class="fw-bold"><span class="h4 mb-0">{{ number_format($purchase_last_year, 2) }}</span><!--<span class="text-success ms-1">2.55% <i class="fa fa-caret-up"></i></span>--></div>
-                            <div class="text-muted small">Total Purchases Last Year</div>
+                            <div class="text-muted small">Total Purchases</div>
                         </div>
                     </div>
                 </div>
