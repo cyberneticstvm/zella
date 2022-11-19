@@ -104,9 +104,9 @@
                                 </tr>
                                 @php $tot += $record->total; @endphp
                             @empty
-                            @endforelse
-                            <tr><td colspan="2" class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($tot, 2) }}</td></tr>
+                            @endforelse                            
                             </tbody></table>
+                            <tr><td colspan="2" class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($tot, 2) }}</td></tr>
                         </div>
                     </div>
                 </div> <!-- .Card End -->
