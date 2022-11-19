@@ -272,7 +272,7 @@ class ReportsController extends Controller
         switch($request->head):
             case 1:
                $head = 'Total Purchase';
-               $amount = DB::table('purchase_details as pd')->leftJoin('purchases as p', 'pd.purchase_id', '=', 'p.id')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->sum(DB::raw('p.purchase_total + p.other_expense'));
+               $amount = DB::table('purchases as p')->leftJoin('purchase_details as pd', 'p.id', 'pd.purchase_id')->leftJoin('suppliers as s', 'p.supplier', '=', 's.id')->selectRaw('p.id, p.invoice_number, p.order_date, p.delivery_date, p.payment_mode, s.name as sname, SUM(pd.total)+p.other_expense as total')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [$from, $to])->groupBy('p.id', 'p.invoice_number', 'p.order_date', 'p.delivery_date', 'p.payment_mode', 's.name', 'p.other_expense')->get()->sum('total');
                break;
             case 2:
                 $head = 'Total Sales';
