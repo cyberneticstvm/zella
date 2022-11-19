@@ -19,7 +19,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month, $sales_last_year, $revenue_last_year, $expense_last_year, $purchase_last_year, $products;
+    protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month, $sales_last_year, $revenue_last_year, $expense_last_year, $purchase_last_year, $products, $sales_this_week, $sales_today, $revenue_today, $revenue_this_week, $expense_this_week, $expense_today, $purchase_this_week, $purchase_today;
 
     function __construct(){
 
@@ -35,6 +35,8 @@ class UserController extends Controller
         $this->sales_this_month = DB::table('sales')->where('is_dead_stock', 0)->whereMonth('sold_date', date('m'))->whereYear('sold_date', date('Y'))->count('id');
         $this->sales_last_month = DB::table('sales')->where('is_dead_stock', 0)->whereMonth('sold_date', Carbon::now()->subMonth()->month)->whereYear('sold_date', date('Y'))->count('id');
         $this->sales_last_year = DB::table('sales')->where('is_dead_stock', 0)->whereYear('sold_date', date("Y", strtotime("-1 year")))->count('id');
+        $this->sales_today = DB::table('sales')->where('is_dead_stock', 0)->whereDate('sold_date', Carbon::today())->count('id');
+        $this->sales_this_week = DB::table('sales')->where('is_dead_stock', 0)->whereBetween('sold_date', [Carbon::now()->subWeek()->format("Y-m-d"), Carbon::today()])->count('id');
 
         $revenue = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('sd.is_return', 0)->where('s.is_dead_stock', 0)->whereYear('s.sold_date', date('Y'))->groupBy('s.id', 's.discount')->get();
         $this->revenue_this_year = $revenue->sum('total');
@@ -48,10 +50,17 @@ class UserController extends Controller
         $revenue2 = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereMonth('s.sold_date', Carbon::now()->subMonth()->month)->whereYear('s.sold_date', date('Y'))->groupBy('s.id', 's.discount')->get();
         $this->revenue_last_month = $revenue2->sum('total');
 
+        $this->revenue_today = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('sd.is_return', 0)->where('s.is_dead_stock', 0)->whereDate('s.sold_date', Carbon::today())->groupBy('s.id', 's.discount')->get()->sum('total');
+
+        $this->revenue_this_week = DB::table('sales AS s')->leftJoin('sales_details AS sd', 'sd.sales_id', '=', 's.id')->selectRaw('sum(sd.total) - s.discount as total')->where('sd.is_return', 0)->where('s.is_dead_stock', 0)->whereBetween('s.sold_date', [Carbon::now()->subWeek()->format("Y-m-d"), Carbon::today()])->groupBy('s.id', 's.discount')->get()->sum('total');
+
         $this->expense_this_year = DB::table('expenses')->whereYear('date', date('Y'))->sum('amount');
         $this->expense_this_month = DB::table('expenses')->whereMonth('date', date('m'))->whereYear('date', date('Y'))->sum('amount');
         $this->expense_last_month = DB::table('expenses')->whereMonth('date', Carbon::now()->subMonth()->month)->whereYear('date', date('Y'))->sum('amount');
         $this->expense_last_year = DB::table('expenses')->whereYear('date', date('Y', strtotime("-1 year")))->sum('amount');
+
+        $this->expense_this_week = DB::table('expenses')->whereBetween('date', [Carbon::now()->subWeek()->format("Y-m-d"), Carbon::today()])->sum('amount');
+        $this->expense_today = DB::table('expenses')->whereDate('date', Carbon::today())->sum('amount');
 
         $purchase = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereYear('p.delivery_date', date('Y'))->groupBy('p.id', 'p.other_expense')->get();
         $this->purchase_this_year = $purchase->sum('total');
@@ -64,6 +73,9 @@ class UserController extends Controller
 
         $purchase3 = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereYear('p.delivery_date', date('Y', strtotime("-1 year")))->groupBy('p.id', 'p.other_expense')->get();
         $this->purchase_last_year = $purchase3->sum('total');
+
+        $this->purchase_this_week = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereYear('p.delivery_date', date('Y'))->groupBy('p.id', 'p.other_expense')->get()->sum('total');
+        $this->purchase_today = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereBetween('p.delivery_date', [Carbon::now()->subWeek()->format("Y-m-d"), Carbon::today()])->groupBy('p.id', 'p.other_expense')->get()->sum('total');
 
         $this->products = DB::table('products')->get();
     }
@@ -92,7 +104,16 @@ class UserController extends Controller
 
         $sales_last_year = $this->sales_last_year;
         $products = $this->products;
-        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products'));
+        $sales_this_week = $this->sales_this_week;
+        $sales_today = $this->sales_today;
+        $revenue_this_week = $this->revenue_this_week;
+        $revenue_today = $this->revenue_today;
+        $expense_this_week = $this->expense_this_week;
+        $expense_today = $this->expense_today;
+        $purchase_this_week = $this->purchase_this_week;
+        $purchase_today = $this->purchase_today;
+
+        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products', 'sales_today', 'sales_this_week', 'revenue_this_week', 'revenue_today', 'expense_this_week', 'expense_today', 'purchase_this_week', 'purchase_today'));
     }
 
     public function login(Request $request){
@@ -120,7 +141,16 @@ class UserController extends Controller
 
             $sales_last_year = $this->sales_last_year;
             $products = $this->products;
-            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products'));
+            $sales_this_week = $this->sales_this_week;
+            $sales_today = $this->sales_today;
+            $revenue_this_week = $this->revenue_this_week;
+            $revenue_today = $this->revenue_today;
+            $expense_this_week = $this->expense_this_week;
+            $expense_today = $this->expense_today;
+            $purchase_this_week = $this->purchase_this_week;
+            $purchase_today = $this->purchase_today;
+
+            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products', 'sales_today', 'sales_this_week', 'revenue_this_week', 'revenue_today', 'expense_this_week', 'expense_today', 'purchase_this_week', 'purchase_today'));
         }
         return redirect()->route('login')->withErrors('Login details are not valid');
     }
