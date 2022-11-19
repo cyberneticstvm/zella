@@ -94,7 +94,7 @@
                                 </div>
                             </div>-->
                             @endif
-                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Head</th><th>Amount</th></tr></thead><tbody>
+                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Date</th><th>Amount</th></tr></thead><tbody>
                             @php $c = 1; $tot = 0; @endphp
                             @forelse($records as $key => $record)
                                 <tr>
