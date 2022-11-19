@@ -92,7 +92,7 @@
                                 </div>                                
                             </div>
                             <div class="row mt-3">
-                                <div class="col-sm-12 table-responsiveness">
+                                <div class="col-sm-12 table-responsive">
                                     <h5 class="text-center">Product Details</h5>
                                     <table style="width:100%; margin:0 auto;" class="table table-bordered tblPurchase">
                                         <thead><tr><th width='50%'>Product</th><th width='10%'>Qty</th><th width='15%'>Price</th><th width='15%'>Total</th><th class="text-center" width='10%'><a href="javascript:void(0)"><i class="fa fa-plus text-primary addPurchaseRow"></i></a></th></tr></thead>
