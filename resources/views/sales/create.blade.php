@@ -117,7 +117,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row mt-3">
+                            <div class="row g-3 mt-3">
                                 <div class="col-sm-2">
                                     <label for="TextInput" class="form-label">Payment Mode <span class="req">*</span></label>
                                     <select class="form-control form-control-md payment_mode" name="payment_mode" required="required">
