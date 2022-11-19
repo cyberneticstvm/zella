@@ -171,6 +171,33 @@
                 </div>
             </div>
         </div> <!-- Row end  -->
+        <div class="row">
+            <div class="col-12">
+                <h5>Stock in Hand</h5>
+                <!-- card: Calendar -->
+                <div class="card mb-2">
+                    <div class="card-body p-4">
+                        <div class="mt-5">
+                            <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Product</th><th>Stock in Hand</th></tr></thead><tbody>
+                            @php $c = 1; @endphp
+                            @foreach($products as $product)
+                            @php $stockin = DB::table('purchase_details')->where('product', $product->id)->where('is_return', 0)->sum('qty') @endphp
+                            @php $stockout = DB::table('sales_details')->where('product', $product->id)->where('is_return', 0)->sum('qty') @endphp
+                                @if(($stockin - $stockout) > 0)
+                                <tr>
+                                    <td>{{ $c++ }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $stockin - $stockout }}</td>
+                                </tr>
+                                @endif
+                            @endforeach
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div> <!-- .Card End -->
+            </div>
+        </div>
     </div>
 </div>
+
 @endsection

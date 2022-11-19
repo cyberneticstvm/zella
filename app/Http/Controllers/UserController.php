@@ -19,7 +19,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month, $sales_last_year, $revenue_last_year, $expense_last_year, $purchase_last_year;
+    protected $settings, $sales_this_year, $sales_this_month, $sales_last_month, $revenue_this_year, $revenue_this_month, $revenue_last_month, $expense_this_year, $expense_this_month, $expense_last_month, $purchase_this_year, $purchase_this_month, $purchase_last_month, $sales_last_year, $revenue_last_year, $expense_last_year, $purchase_last_year, $products;
 
     function __construct(){
 
@@ -64,6 +64,8 @@ class UserController extends Controller
 
         $purchase3 = DB::table('purchases AS p')->leftJoin('purchase_details AS pd', 'pd.purchase_id', '=', 'p.id')->selectRaw('sum(pd.total) + p.other_expense as total')->where('pd.is_return', 0)->whereYear('p.delivery_date', date('Y', strtotime("-1 year")))->groupBy('p.id', 'p.other_expense')->get();
         $this->purchase_last_year = $purchase3->sum('total');
+
+        $this->products = DB::table('products')->get();
     }
     public function index()
     {
@@ -89,7 +91,8 @@ class UserController extends Controller
         $purchase_last_year = $this->purchase_last_year;
 
         $sales_last_year = $this->sales_last_year;
-        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year'));
+        $products = $this->products;
+        return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products'));
     }
 
     public function login(Request $request){
@@ -116,7 +119,8 @@ class UserController extends Controller
             $purchase_last_year = $this->purchase_last_year;
 
             $sales_last_year = $this->sales_last_year;
-            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year'));
+            $products = $this->products;
+            return view('dash', compact('sales_this_year', 'sales_this_month', 'sales_last_month', 'revenue_this_year', 'revenue_this_month', 'revenue_last_month', 'expense_this_year', 'expense_this_month', 'expense_last_month', 'purchase_this_year', 'purchase_this_month', 'purchase_last_month', 'sales_last_year', 'revenue_last_year', 'expense_last_year', 'purchase_last_year', 'products'));
         }
         return redirect()->route('login')->withErrors('Login details are not valid');
     }
