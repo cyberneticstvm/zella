@@ -252,7 +252,7 @@
                 <div class="card mb-2">
                     <div class="card-body p-4">
                         <div class="mt-5">
-                        <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Collection</th><th>Stock in Hand</th></tr></thead><tbody>
+                        <table id="dataTbl1" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Collection</th><th>Stock in Hand</th></tr></thead><tbody>
                             @php $c = 1; @endphp
                             @foreach($collections as $collection)
                                 @php 

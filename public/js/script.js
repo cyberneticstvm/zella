@@ -22,7 +22,7 @@ $(function(){
         }              
     });
     
-    $('#dataTbl').dataTable({
+    $('#dataTbl, #dataTbl1').dataTable({
         responsive: true
     });
 
