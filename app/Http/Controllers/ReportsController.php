@@ -276,7 +276,7 @@ class ReportsController extends Controller
                break;
             case 2:
                 $head = 'Total Sales';
-                $amount = DB::table('sales_details as sd')->leftJoin('sales as s', 'sd.sales_id', '=', 's.id')->whereBetween('s.sold_date', [$from, $to])->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->sum('s.order_total');
+                $amount = DB::table('sales AS s')->leftJoin('sales_details AS sd', 's.id', 'sd.sales_id')->selectRaw("s.id, DATE_FORMAT(s.sold_date, '%d/%b/%Y') AS sdate, s.customer_name, s.contact_number, s.address, s.payment_status, s.payment_mode, CASE WHEN sd.vat_percentage > 0 THEN (SUM(sd.qty*sd.price)+((SUM(sd.qty*sd.price)*sd.vat_percentage)/100)) - s.discount ELSE SUM(sd.qty*sd.price) - s.discount END AS total1, s.order_total as total")->where('s.is_dead_stock', 0)->where('sd.is_return', 0)->whereBetween('s.sold_date', [$from, $to])->groupBy('s.id', 's.customer_name', 's.contact_number', 's.address', 's.payment_status', 's.payment_mode', 's.sold_date', 's.discount', 's.order_total', 'sd.vat_percentage')->get()->sum('total');
                 break;
             case 3:
                 $head = 'Total Income';
