@@ -19,13 +19,16 @@
                         <table class="table table-sm dataTable table-striped table-hover align-middle">
                             <thead><tr><th>SL No.</th><th>Particulars</th><th class="text-end">Total</th></tr></thead><tbody>
                             <tr>
-                                <td>1</td><td>Income from Sales</td><td class="text-end">{{ number_format($sales, 2) }}</td>
+                                <td>1</td><td>Cash Sales</td><td class="text-end">{{ number_format($sales_cash, 2) }}</td>
                             </tr>
                             <tr>
-                                <td>2</td><td>Income from other sources</td><td class="text-end">{{ number_format($incomes, 2) }}</td>
+                                <td>2</td><td>Card Sales</td><td class="text-end">{{ number_format($sales_card, 2) }}</td>
                             </tr>
                             <tr>
-                                <td colspan="2" class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($sales+$incomes, 2) }}</td>
+                                <td>3</td><td>Income from other sources</td><td class="text-end">{{ number_format($incomes, 2) }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($sales_cash+$sales_card+$incomes, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>1</td><td>Purchase Total</td><td class="text-end">{{ number_format($purchases, 2) }}</td>

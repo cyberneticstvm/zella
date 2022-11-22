@@ -248,11 +248,12 @@ class ReportsController extends Controller
     }
 
     public function dayBook(){
-        $sales = DB::table('sales AS s')->selectRaw("order_total")->whereDate('s.sold_date', Carbon::today())->get()->sum('order_total');
+        $sales_cash = DB::table('sales AS s')->selectRaw("order_total")->where('payment_mode', 'cash')->whereDate('s.sold_date', Carbon::today())->get()->sum('order_total');
+        $sales_card = DB::table('sales AS s')->selectRaw("order_total")->where('payment_mode', 'card')->whereDate('s.sold_date', Carbon::today())->get()->sum('order_total');
         $purchases = DB::table('purchases as p')->whereDate('p.delivery_date', Carbon::today())->get()->sum(DB::raw("p.purchase_total+p.other_expense"));
         $expenses = DB::table('expenses')->whereDate('date', Carbon::today())->get()->sum('amount');
         $incomes = DB::table('incomes')->whereDate('date', Carbon::today())->get()->sum('amount');
-        return view('reports.daybook', compact('sales', 'purchases', 'expenses', 'incomes'));
+        return view('reports.daybook', compact('sales_cash', 'sales_card', 'purchases', 'expenses', 'incomes'));
     }
 
     public function showConsolidated(){
