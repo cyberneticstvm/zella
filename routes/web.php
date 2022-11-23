@@ -116,6 +116,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/income/delete/{id}/', 'App\Http\Controllers\IncomeController@destroy')->name('income.delete');
     // End Income //
 
+    // Notepad //
+    Route::get('/notepad/', 'App\Http\Controllers\NotepadController@index')->name('notepad.index');
+    Route::get('/notepad/create/', 'App\Http\Controllers\NotepadController@create')->name('notepad.create');
+    Route::post('/notepad/create/', 'App\Http\Controllers\NotepadController@store')->name('notepad.save');
+    Route::get('/notepad/edit/{id}/', 'App\Http\Controllers\NotepadController@edit')->name('notepad.edit');
+    Route::put('/notepad/edit/{id}/', 'App\Http\Controllers\NotepadController@update')->name('notepad.update');
+    Route::delete('/notepad/delete/{id}/', 'App\Http\Controllers\NotepadController@destroy')->name('notepad.delete');
+    // End Notepad //
+
     // purchase //
     Route::get('/purchase/', 'App\Http\Controllers\PurchaseController@index')->name('purchase.index');
     Route::get('/purchase/create/', 'App\Http\Controllers\PurchaseController@create')->name('purchase.create');
