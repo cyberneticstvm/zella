@@ -26,7 +26,7 @@ $(function(){
         responsive: true,
         dom: 'Bfrtip',
         buttons: [,
-            'pdfHtml5'
+            { extend: 'pdfHtml5', footer: true }
         ]
     });
 
