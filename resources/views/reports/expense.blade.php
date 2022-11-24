@@ -95,7 +95,7 @@
                             </div>-->
                             @endif
                             <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Date</th><th>Head</th><th>Description</th><th>Amount</th></tr></thead><tbody>
-                            @php $c = 1; @endphp
+                            @php $c = 1; $tot = 0; @endphp
                             @foreach($expenses as $expense)
                             <tr>
                                 <td>{{ $c++ }}</td>                                
@@ -104,8 +104,13 @@
                                 <td>{{ $expense->description }} </td>       
                                 <td class="text-right">{{ $expense->amount }}</td>                                        
                             </tr>
+                            @php $tot += $expense->amount; @endphp
                             @endforeach
-                            </tbody></table>
+                            </tbody>
+                            <tfoot>
+                                <td></td><td></td><td></td><td class="text-right">Total</td><td class="text-right">{{ number_format($tot, 2) }}</td>
+                            </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div> <!-- .Card End -->
