@@ -80,9 +80,9 @@
             </tr>           
             @endforeach
             @if($c <= 5)
-            <tr><td colspan="7"><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre></td></tr>
+            <tr><td colspan="7"><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre></td></tr>
             @elseif($c > 5 && $c <= 10)
-            <tr><td colspan="7"><pre><pre><pre><pre><pre><pre><pre><pre></td></tr>
+            <tr><td colspan="7"><pre><pre><pre><pre><pre></td></tr>
             @endif
             <tr><td colspan="6" class="text-right">Sub Total / <span class="arab">{{ $obj->utf8Glyphs('المجموع الفرعي') }}</span></td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
 
@@ -96,8 +96,10 @@
         </tbody>
     </table>
     <br />
-    <table width="100%">
+    <table width="100%">        
         <tr><td>Receiver's Sign</td><td class="text-right">Signature / <span class="arab">{{ $obj->utf8Glyphs('التوقيع') }}</span></td></tr>
+        <tr><td colspan="2" class="text-right"><br>Thank you for shopping</td></tr>
+        <tr><td colspan="2">Exchange of sold goods allowed within 7 dyas. Original receipt required.<br>Goods received in good condition.</td></tr>
     </table>
     <!--<center><img src="data:image/png;base64, {!! $qrcode !!}"></center>-->
 </body>
