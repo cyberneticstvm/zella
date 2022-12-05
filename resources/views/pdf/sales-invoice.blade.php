@@ -79,11 +79,11 @@
                 <td class="text-right">{{ number_format($row->total+$vat_amount, 2) }}</td>
             </tr>           
             @endforeach
-            @if($c <= 5)
+            <!--@if($c <= 5)
             <tr><td colspan="7"><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre><pre></td></tr>
             @elseif($c > 5 && $c <= 10)
             <tr><td colspan="7"><pre><pre><pre><pre><pre></td></tr>
-            @endif
+            @endif-->
             <tr><td colspan="6" class="text-right">Sub Total / <span class="arab">{{ $obj->utf8Glyphs('المجموع الفرعي') }}</span></td><td class="text-right"><b>{{ number_format($tot, 2) }}</b></td></tr>  
 
             <tr><td colspan="6" class="text-right">VAT/<span class="arab">{{ $obj->utf8Glyphs('ضريبة') }}</span> (Included in Sub Total)</td><td class="text-right">{{ number_format($vat_tot, 2) }}</td></tr>
