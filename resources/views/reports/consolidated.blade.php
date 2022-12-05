@@ -95,7 +95,7 @@
                             </div>-->
                             @endif
                             <table id="dataTbl" class="table table-sm display dataTable table-hover table-striped"><thead><tr><th>SL No.</th><th>Date</th><th>Amount</th></tr></thead><tbody>
-                            @php $c = 1; $tot = 0; @endphp
+                            @php $c = 1; $tot = 0; $gtot = 0; @endphp
                             @forelse($records as $key => $record)
                                 <tr>
                                     <td>{{ $c++ }}</td>
@@ -105,8 +105,10 @@
                                 @php $tot += $record->total; @endphp
                             @empty
                             @endforelse                            
-                            </tbody></table>
-                            <div class="text-end fw-bold mt-3">Total: {{ number_format($tot, 2) }}</div>
+                            </tbody>
+                            <tfoot><tr><td></td><td></td><td class="text-end"></td></tr></tfoot>
+                            </table>
+                            <!--<div class="text-end fw-bold mt-3">Total: {{ number_format($tot, 2) }}</div>-->
                         </div>
                     </div>
                 </div> <!-- .Card End -->
