@@ -106,7 +106,7 @@
                             @empty
                             @endforelse                            
                             </tbody>
-                            <tfoot><tr><td></td><td></td><td class="text-end">{{ number_format($tot, 2) }}</td></tr></tfoot>
+                            <tfoot><tr><td></td><td class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($tot, 2) }}</td></tr></tfoot>
                             </table>
                             <!--<div class="text-end fw-bold mt-3">Total: {{ number_format($tot, 2) }}</div>-->
                         </div>
