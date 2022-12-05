@@ -248,8 +248,12 @@ class ReportsController extends Controller
     }
 
     public function dayBook(){
-        $sales_cash = DB::table('sales AS s')->selectRaw("order_total")->where('payment_mode', 'cash')->whereDate('s.sold_date', Carbon::today())->get()->sum('order_total');
-        $sales_card = DB::table('sales AS s')->selectRaw("order_total")->where('payment_mode', 'card')->whereDate('s.sold_date', Carbon::today())->get()->sum('order_total');
+        $scash = DB::table('sales AS s')->selectRaw("order_total, cash_collected")->where('payment_mode', 'cash')->whereDate('s.sold_date', Carbon::today())->get();
+        $cash = $scash->sum('order_total'); $cash1 = $scash->sum('cash_collected');
+        $sales_cash = $cash + $cash1;
+        $scard = DB::table('sales AS s')->selectRaw("order_total, card_collected")->where('payment_mode', 'card')->whereDate('s.sold_date', Carbon::today())->get();
+        $card = $scard->sum('order_total'); $card1 = $scard->sum('card_collected');
+        $sales_card = $card + $card1;
         $purchases = DB::table('purchases as p')->whereDate('p.delivery_date', Carbon::today())->get()->sum(DB::raw("p.purchase_total+p.other_expense"));
         $expenses = DB::table('expenses')->where('head', '!=', 15)->whereDate('date', Carbon::today())->get()->sum('amount');
         $incomes = DB::table('incomes')->where('head', '!=', 16)->whereDate('date', Carbon::today())->get()->sum('amount');
