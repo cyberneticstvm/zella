@@ -82,7 +82,7 @@ return array (
     'normal' => $fontDir . '/reemkufi_normal_394e2d99e305d1800af19f9a970394b1',
   ),
   'notosans' => array(
-    'normal' => $fontDir . '/notosans_normal_394e2d99e305d1800af19f9a970394b1',
+    'normal' => $fontDir . '/notosans_normal_beb2ff2aa6106ea809144f378c39339c',
   ),
 );
 }; ?>
