@@ -75,7 +75,7 @@
                             <div class="row mt-3">
                                 <div class="col-sm-12 table-responsive">
                                     <h5 class="text-center">Product Details</h5>
-                                    <table style="width:100%; margin:0 auto;" class="table table-bordered tblSales">
+                                    <table id="sTbl" class="table table-bordered tblSales">
                                         <thead><tr><th width="10%">Type</th><th width="25%">Old Product</th><th>Old Price</th><th width="25%">New Product</th><th>Qty</th><th>Price</th><th>Total</th><th class="text-center"><a href="javascript:void(0)"><i class="fa fa-plus text-primary addSalesRow"></i></a></th></tr></thead>
                                         <tbody>
                                         @php $c = 0; $tot = 0;@endphp
