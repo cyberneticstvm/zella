@@ -248,7 +248,7 @@ class ReportsController extends Controller
     }
 
     public function dayBook(){
-        $sales_cash = DB::table('sales_details as sd')->leftJoin('sales AS s', 's.id', '=', 'sd.sales')->selectRaw("CASE WHEN s.cash_collected > 0 THEN sd.toal END AS order_total")->whereIn('s.payment_mode', ['s.cash','s.candc'])->whereDate('s.sold_date', '2023-01-10')->get()->sum('order_total');
+        $sales_cash = DB::table('sales_details as sd')->leftJoin('sales AS s', 's.id', '=', 'sd.sales')->selectRaw("CASE WHEN s.cash_collected > 0 THEN sd.total END AS order_total")->whereIn('s.payment_mode', ['s.cash','s.candc'])->whereDate('s.sold_date', '2023-01-10')->get()->sum('order_total');
         $sales_card = DB::table('sales AS s')->selectRaw("CASE WHEN card_collected > 0 THEN card_collected ELSE order_total END AS order_total")->whereIn('payment_mode', ['card','candc'])->whereDate('s.sold_date', '2023-01-10')->get()->sum('order_total');
         $purchases = DB::table('purchases as p')->whereDate('p.delivery_date', '2023-01-10')->get()->sum(DB::raw("p.purchase_total+p.other_expense"));
         $expenses = DB::table('expenses')->where('head', '!=', 15)->whereDate('date', '2023-01-10')->get()->sum('amount');
