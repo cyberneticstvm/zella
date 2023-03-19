@@ -25,10 +25,13 @@
                                 <td>2</td><td>Card Sales</td><td class="text-end">{{ number_format($sales_card, 2) }}</td>
                             </tr>
                             <tr>
+                                <td>2</td><td>Cash and Card Sales</td><td class="text-end">{{ number_format($sales_candc, 2) }}</td>
+                            </tr>
+                            <tr>
                                 <td>3</td><td>Income from other sources</td><td class="text-end">{{ number_format($incomes, 2) }}</td>
                             </tr>
                             <tr>
-                                <td colspan="2" class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($sales_cash+$sales_card+$incomes, 2) }}</td>
+                                <td colspan="2" class="text-end fw-bold">Total</td><td class="text-end fw-bold">{{ number_format($sales_cash+$sales_card+$sales_candc+$incomes, 2) }}</td>
                             </tr>
                             <tr>
                                 <td>1</td><td>Purchase Total</td><td class="text-end">{{ number_format($purchases, 2) }}</td>
