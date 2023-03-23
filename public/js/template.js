@@ -10,10 +10,10 @@ if (typeof jQuery === "undefined") {
 }
 
 // ALUI version update dynamic
-window.addEventListener("load", () => {
+/*window.addEventListener("load", () => {
     var first = document.getElementById("ALUIversion");
     first.outerHTML = '<span class="badge bg-primary rounded-pill ms-auto">v1.1.2</span>';
-});
+});*/
 
 // 
 $(function() {
